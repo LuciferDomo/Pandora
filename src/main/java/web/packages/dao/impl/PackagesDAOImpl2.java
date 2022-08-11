@@ -21,6 +21,8 @@ public class PackagesDAOImpl implements PackagesDAO{
 
 	private static DataSource ds = null;
 	
+	private static final String GET_ONE_STMT = "SELECT * FROM Packages where Package_No = ?";
+	
 	static {
 		try {
 			Context ctx = new InitialContext();
@@ -104,5 +106,63 @@ public class PackagesDAOImpl implements PackagesDAO{
 	}
 	
 	
+
+	@Override
+	public PackagesVO findByPrimaryKey(Integer packageId) {
+		PackagesVO packagesVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+			pstmt.setInt(1, packageId);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				packagesVO = new PackagesVO();
+				packagesVO.setPackageNo(rs.getInt("Package_No"));
+				packagesVO.setPackageName(rs.getString("Package_Name"));
+				packagesVO.setPackageImages(rs.getBytes("Package_images"));
+				packagesVO.setShipNo(rs.getInt("Ship_No"));
+				packagesVO.setCruiseLineNo(rs.getInt("Cruise_Line_No"));
+				packagesVO.setDuration(rs.getInt("Duration"));
+				packagesVO.setRegistrationStartTime(rs.getDate("Registration_Start_Time").toLocalDate());
+				packagesVO.setRegistrationDeadTime(rs.getDate("Registration_Dead_Time").toLocalDate());
+				packagesVO.setDeparture(rs.getString("Departure"));
+				packagesVO.setDestination(rs.getString("Destination"));
+				packagesVO.setDepartureTime(rs.getTimestamp("Departure_Time").toLocalDateTime());
+				packagesVO.setArrivalTime(rs.getTimestamp("Arrival_Time").toLocalDateTime());
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return packagesVO;
+	}
 
 }

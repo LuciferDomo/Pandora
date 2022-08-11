@@ -13,10 +13,8 @@ public class RoomTypeServiceImpl implements RoomTypeService{
 
 	@Override
 	public List<RoomTypeVO> getAll() {
-		System.out.println("Service In");
 		List<RoomTypeVO> roomTypeVOList = dao.getAll();
 
-		System.out.println(roomTypeVOList.get(0).getRoomType());
 		return roomTypeVOList;
 	}
 

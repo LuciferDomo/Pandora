@@ -29,8 +29,6 @@ public class RoomTypeAndRoomListJoinDAOImpl implements RoomTypeAndRoomListJoinDA
 
 	@Override
 	public RoomTypeAndRoomListVO findByShipNoAndRoomNo(int shipNo, String roomNo) {
-		System.out.println(shipNo);
-		System.out.println(roomNo);
 		RoomTypeAndRoomListVO pickedRoomType = null;
 
 		Connection con = null;

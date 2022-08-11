@@ -2,9 +2,51 @@
 	pageEncoding="UTF-8"%>
 
 <%@ page import="java.util.*"%>
-<%@ page import="web.roomType.service.*"%>
-<%@ page import="web.room.bean.*"%>
+<%@ page import="web.discount.service.impl.*"%>
 <%@ page import="web.roomType.service.impl.*"%>
+<%@ page import="web.member.service.impl.*"%>
+<%@ page import="web.packages.service.impl.*"%>
+<%@ page import="web.discount.bean.*"%>
+<%@ page import="web.room.bean.*"%>
+<%@ page import="web.member.bean.*"%>
+<%@ page import="web.packages.bean.*"%>
+<%@ page import="java.text.*"%>
+<%@ page import="java.time.*"%>
+<%@ page import="java.math.*"%>
+
+<%
+	// 測試用會員
+	MemberServiceImpl memService = new MemberServiceImpl();
+	session.setAttribute("memVO", memService.getOneMember(2));
+	
+	// 測試用行程
+	PackagesServiceImpl packagesService = new PackagesServiceImpl();
+	session.setAttribute("packagesVO", packagesService.getOnePackage(1));
+	
+	// 測試會員的會員等級&折扣
+	DiscountServiceImpl discountService = new DiscountServiceImpl();
+	session.setAttribute("discountVO", discountService.getOneDiscount(memService.getOneMember(2).getDiscountNo()));
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	RoomTypeServiceImpl roomTypeService = new RoomTypeServiceImpl();
+	List<RoomTypeVO> roomTypeVOList = roomTypeService.getAll();
+	
+	DiscountVO discountVO = (DiscountVO)session.getAttribute("discountVO");
+	PackagesVO packagesVO = (PackagesVO)session.getAttribute("packagesVO");
+	MemberVO memVO = (MemberVO)session.getAttribute("memVO");
+	
+	BigDecimal discount = discountVO != null ? discountVO.getDiscount() : BigDecimal.valueOf(1);
+			
+			
+	// 計算行程天數
+	ZoneId defaultZoneId = ZoneId.systemDefault();
+	DateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+	Date startDate = Date.from(packagesVO.getDepartureTime().toLocalDate().atStartOfDay(defaultZoneId).toInstant());
+    Date endDate = Date.from(packagesVO.getArrivalTime().toLocalDate().atStartOfDay(defaultZoneId).toInstant());
+    long startTime = startDate.getTime();
+    long endTime = endDate.getTime();
+    int days = (int) ((endTime - startTime) / (1000 * 60 * 60 * 24));
+%>
 
 <!DOCTYPE html>
 <html>
@@ -57,16 +99,14 @@
 .ARoomMargin {
 	margin-left: 18px !important;
 }
+
+.seat1_num_height {
+	line-height: 60px !important;
+}
 </style>
 <link rel="stylesheet" href="Cart/html/css/roompick.css">
 </head>
 <body>
-
-	<%
-	RoomTypeServiceImpl roomTypeService = new RoomTypeServiceImpl();
-	List<RoomTypeVO> roomTypeVOList = roomTypeService.getAll();
-	%>
-
 	<div id="preloader">
 		<div class="sk-spinner sk-spinner-wave">
 			<div class="sk-rect1"></div>
@@ -313,15 +353,15 @@
 											<tbody>
 												<tr>
 													<td>行程名稱</td>
-													<td id="PackageB" class="text-end"></td>
+													<td id="PackageB" class="text-end"><%=packagesVO.getPackageName() %></td>
 												</tr>
 												<tr>
 													<td>行程天數</td>
-													<td id="Duration" class="text-end"></td>
+													<td id="Duration" class="text-end"><%=days %></td>
 												</tr>
 												<tr>
 													<td>出發日期</td>
-													<td id="Start_Date" class="text-end"></td>
+													<td id="Start_Date" class="text-end"><%=packagesVO.getRegistrationStartTime() %></td>
 												</tr>
 												<tr>
 													<td>預定房型</td>
@@ -866,7 +906,7 @@
 		let b2 = 0;
 		$(".bus2 .seat1").each(function() {
 			b2++;
-			$(this).append("<em class='seat1_num'>" + 'A0' + b2 + "</em>");
+			$(this).append("<em class='seat1_num seat1_num_height'>" + 'A0' + b2 + "</em>");
 		});
 	});
 </script>
@@ -920,7 +960,7 @@ $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.inc.
 
 	// 將roomType key 遍例出來組成 roomTypeOneStr & 計算房間總數量
 	for (let [key, value] of roomTypeAndCountPair) {
-		roomTypeOneStr = roomTypeOneStr + key + "&emsp;" + (parseInt(value)) + '<br>'; // 預定房型內容文字串接
+		roomTypeOneStr = roomTypeOneStr + key + "&nbsp;X&nbsp;" + (parseInt(value)) + '<br>'; // 預定房型內容文字串接
 		roomTotalCount += parseInt(value);  // 房間數量累加 (parseInt 將文字轉成數字)
 
 		// 計算總價
@@ -928,7 +968,7 @@ $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.inc.
 		let roomTypeName = key;
 		for (let [key, value] of roomTypeAndPricePair) {
 			if (roomTypeName === key) {
-				roomTotalPrice += roomTypeCount * value; // 房型數量*房型價格
+				roomTotalPrice += roomTypeCount * <%=days %> * <%=discount %> * value; // 房型數量*房型價格
 			}
 		}
 	}
@@ -938,12 +978,12 @@ $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.inc.
 	roomTypeOne.innerHTML = roomTypeOneStr;
 
 	// 房間數量 : 取得element 並使用innerHTML roomTotalCount 放入html結構
-	let roomQuantity = document.getElementById('Number_of_Rooms');
-	roomQuantity.innerHTML = roomTotalCount;
+	let passengerNumber = document.getElementById('Number_of_Rooms');
+	passengerNumber.innerHTML = roomTotalCount;
 
 	// 總計 : 取得element 並使用innerHTML roomTotalPrice 放入html結構
 	let totalCost = document.getElementById('Total_Cost');
-	totalCost.innerHTML = roomTotalPrice;
+	totalCost.innerHTML = 'TWD' + roomTotalPrice;
 });
 
 $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.dec.button_inc', function (e) {
@@ -978,7 +1018,7 @@ $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.dec.
 
 	// 將roomType key 遍例出來組成 roomTypeOneStr & 計算房間總數量
 	for (let [key, value] of roomTypeAndCountPair) {
-		roomTypeOneStr = roomTypeOneStr + key + "&emsp;" + (parseInt(value)) + '<br>';
+		roomTypeOneStr = roomTypeOneStr + key + "&nbsp;X&nbsp;" + (parseInt(value)) + '<br>';
 		roomTotalCount += parseInt(value); // 房間數量累加 (parseInt 將文字轉成數字)
 
 		// 計算總價
@@ -996,12 +1036,12 @@ $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.dec.
 	roomTypeOne.innerHTML = roomTypeOneStr;
 
 	// 房間數量 : 取得element 並使用innerHTML roomTotalCount 放入html結構
-	let roomQuantity = document.getElementById('Number_of_Rooms');
-	roomQuantity.innerHTML = roomTotalCount;
+	let passengerNumber = document.getElementById('Number_of_Rooms');
+	passengerNumber.innerHTML = roomTotalCount;
 
 	// 總計 : 取得element 並使用innerHTML roomTotalPrice 放入html結構
 	let totalCost = document.getElementById('Total_Cost');
-	totalCost.innerHTML = roomTotalPrice;
+	totalCost.innerHTML = 'TWD' + roomTotalPrice;
 });
 
 $('#confirmRoomType').on('click', function(e) {
@@ -1012,10 +1052,10 @@ $('#confirmRoomType').on('click', function(e) {
 	data.action = "confirmRoomTypeAndShowShip";
 	data.packageNo = "1";
 	
-	<%-- console.log("<%=request.getContextPath()%>/cartHotel.do"); --%>
+	<%-- console.log("<%=request.getContextPath()%>/CartHotelServlet"); --%>
 
 	$.ajax({
-		url : "<%=request.getContextPath()%>/cartHotel.do",
+		url : "<%=request.getContextPath()%>/CartHotelServlet",
 		type : "post",
 		data : data,
 		success : function(result) {
@@ -1031,6 +1071,9 @@ $('#confirmRoomType').on('click', function(e) {
 					doc.firstElementChild.innerHTML='';
 					doc.setAttribute('style', 'pointer-events: none; background-color:#494444')
 					/* console.log(o.bookedRoomNo); */
+					
+					
+					
 				}
 			}
 		}
@@ -1040,12 +1083,8 @@ $('#confirmRoomType').on('click', function(e) {
 
 <script>
 	let currentPickRoomNode = undefined;
-	let pickedRoomNo = "";
-	
-	
 	$('.bus.bus2 a').on('click', function(e) {
 		/* let pickedRoom = document.getElementById('A01').value; */
-		/* console.log(e.target.textContent); */
 		let roomNumber = e.target.textContent;
 		
 		let data = {};
@@ -1053,18 +1092,17 @@ $('#confirmRoomType').on('click', function(e) {
 		data.shipNo = "1";
 		data.roomNo = roomNumber;
 		
-		<%-- console.log("<%=request.getContextPath()%>/cartHotel.do"); --%>
-		
 		$.ajax({
-			url : "<%=request.getContextPath()%>/cartHotel.do",
+			url : "<%=request.getContextPath()%>/CartHotelServlet",
 			type : "post",
 			data : data,
 			success : function(result) {
-				/* console.log(result);  */
+				console.log(result); 
 				let obj = JSON.parse(result);
 				/* console.log(obj.roomListNo);
 				console.log(obj); */
 				
+					
 					// 取得element 並使用innerHTML 將obj.room 放入html結構
 					let roomNo = document.getElementById('PickedRoomNo');
 					roomNo.innerHTML = obj.roomNo;
@@ -1080,16 +1118,15 @@ $('#confirmRoomType').on('click', function(e) {
 					let isPick = currentPickRoomNode.getAttribute('data-pickstatus');
 					if(isPick === 'true'){
 						$('#pickOrNotButton').html('取消選擇');
-						pickedRoomNo = pickedRoomNo + isPick;
 					} else {
 						$('#pickOrNotButton').html('選擇');
 					}
+				
 			}
 		});
 	});
 	
-	console.log(pickedRoomNo);
-	
+	let selectedRoomArray = [];
 	$('#pickOrNotButton').on('click', function(){
 		let isPick = currentPickRoomNode.getAttribute('data-pickstatus');
 		if(isPick === 'true'){
@@ -1097,51 +1134,37 @@ $('#confirmRoomType').on('click', function(e) {
 			$('#pickOrNotButton').html('選擇');
 			let newStyle = currentPickRoomNode.getAttribute('style').replace('; opacity: 1', '');
 			currentPickRoomNode.setAttribute('style', newStyle);
+			selectedRoomArray.splice(selectedRoomArray.indexOf(currentPickRoomNode.textContent), 1);
 			
 		} else {
 			currentPickRoomNode.setAttribute('data-pickstatus', 'true');
 			$('#pickOrNotButton').html('取消選擇');
 			let newStyle = currentPickRoomNode.getAttribute('style') + '; opacity: 1';
 			currentPickRoomNode.setAttribute('style', newStyle);
+			selectedRoomArray.push(currentPickRoomNode.textContent);
 		}
+		
+	});
+	
+	$('#goToPayment').on('click', function(e){
+	
+		let order = {};
+		order.action = 'goToPayment';
+		order.shipNo = <%=packagesVO.getShipNo()%>
+		order.selectedRoomArray = selectedRoomArray;
+		
+		$.ajax({
+		  url: "<%=request.getContextPath()%>/CartHotelServlet",
+		  type : "post",
+		  data: order,
+		  dataType: 'json',
+		  success: function(res){
+		    console.log("SUCCESS");
+		    window.location.href = '/pandora/Payment_Hotel.jsp';
+		  }  
+		}); 
 	});
 
-$('#goToPayment').on('click', function(e){
-	/* console.log(e.target); */
-	
-	let roomTypeOne = document.getElementById('Room_Type1');
-	let roomQuantity = document.getElementById('Number_of_Rooms');
-	let totalCost = document.getElementById('Total_Cost');
-	let roomNo = document.getElementById('PickedRoomNo');
-	
-	
-	/* console.log(roomNo);
-	console.log(roomTypeOne); */
-
-	let order = {};
-	order.action = "goToPayment";
-	
-	order.packageNo = "1";
-	order.duration = "5";
-	order.startDate = "date()";
-	order.roomType = roomTypeOne;
-	order.numberOfRooms = roomQuantity;
-	order.totalCost = totalCost;
-	
-	
-	
-	/* console.log(order.roomType);
-	console.log(order.numberofRooms);
-	console.log(order.totalCost); */
-	
-	/* 
-	$.ajax({
-	  url: "地址",
-	  data: {id: 'xxxx'},
-	  dataType: 'json',
-	  success: function(res){
-	    console.log(res)
-	  }  */
-});
 </script>
+
 </html>

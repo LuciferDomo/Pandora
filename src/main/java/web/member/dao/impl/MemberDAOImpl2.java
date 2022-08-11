@@ -312,7 +312,7 @@ public class MemberDAOImpl implements MemberDAO {
 				memberVO.setMemberEmail(rs.getString("Member_Email"));
 				memberVO.setMemberPassportNo(rs.getString("Member_Passport_No"));
 				memberVO.setAccumulatedConsumption(rs.getInt("Accumulated_Consumption"));
-				memberVO.setLastUpdateDate(rs.getTimestamp("Late_Update_Date").toLocalDateTime());
+				memberVO.setLastUpdateDate(rs.getTimestamp("Last_Update_Date").toLocalDateTime());
 				memberVO.setMemberPassword(rs.getString("Member_Password"));
 				if (rs.getDate("Registration_Time") != null) {
 					memberVO.setRegistrationTime(rs.getTimestamp("Registration_Time").toLocalDateTime());

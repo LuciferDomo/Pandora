@@ -18,9 +18,10 @@ public class PackagesServiceImpl implements PackagesService {
 
 	public List<PackagesVO> getAll(Map<String, String[]> map) {
 		return dao.getAll(map);
-
 	}
-	
-	
 
+	@Override
+	public PackagesVO getOnePackage(Integer packageId) {
+		return dao.findByPrimaryKey(packageId);
+	}
 }

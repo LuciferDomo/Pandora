@@ -13,4 +13,6 @@ public interface MemberService {
 	MemberVO getOneMember(Integer memberId) ;
 	
 	MemberVO updateMember(MemberVO memberVO);
+	
+	void insertMember(MemberVO memberVO);
 }

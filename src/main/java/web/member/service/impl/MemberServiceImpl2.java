@@ -42,4 +42,10 @@ public class MemberServiceImpl implements MemberService{
 
 		return memberVO;
 	}
+
+	@Override
+	public void insertMember(MemberVO memberVO) {
+		dao.insert(memberVO);
+	}
+	
 }
