@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Part;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -39,7 +40,7 @@ import web.emp.service.impl.EmpServiceImpl;
 import web.packages.bean.PackageDetailVO;
 import web.packages.bean.PackagesVO;
 import web.packages.bean.PortsOfCallDateVO;
-import web.packages.bean.TestVO;
+
 import web.packages.service.PackageDetailService;
 import web.packages.service.PackagesService;
 import web.packages.service.PortsOfCallDateService;
@@ -52,10 +53,12 @@ import web.ship.bean.ShipTotalVO;
 import web.ship.bean.ShipsVO;
 import web.ship.dao.impl.ShipsDAOImpl;
 import web.ship.service.impl.ShipService;
+import web.util.packages_CompositeQuery;
 
 @WebServlet("/PackagesBackEndServlet")
 @MultipartConfig
 public class PackagesBackEndServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	private Gson gson = new Gson();
 
 	@Override
@@ -89,17 +92,74 @@ public class PackagesBackEndServlet extends HttpServlet {
 			List<CruiseLineVO> cruiseLineList = cruiseLineServiceImpl.getCruiseLineALL();
 			List<PortsOfCallDateVO> portsOfCallDateList = portsOfCallDateService.getAll();
 
-			String packageName = req.getParameter("packageName");
-			String duration = req.getParameter("duration");
-			String shipNo = req.getParameter("shipNo");
-			String registrationStartTime = req.getParameter("registrationStartTime");
-			String registrationDeadTime = req.getParameter("registrationDeadTime");
-
 			req.setAttribute("shipList", shipList);
 			req.setAttribute("cruiseLineList", cruiseLineList);
 
 			RequestDispatcher successView = req.getRequestDispatcher("/back-end/package/packageADD.jsp");
 			successView.forward(req, resp);
+
+		}
+
+		if ("packageAddDone".equals(action)) {
+
+			PackagesService packagesService = new PackagesServiceImpl();
+			String packageName = req.getParameter("packageName");
+			Part filePackageImages = req.getPart("packageImages");
+			byte[] packageImages = filePackageImages.getInputStream().readAllBytes();
+			Integer shipNo = Integer.valueOf(req.getParameter("ship"));
+			Integer cruiseLine = Integer.valueOf(req.getParameter("cruiseLine"));
+			Integer duration = Integer.valueOf(req.getParameter("duration"));
+			LocalDate registrationStartTime = LocalDate.parse(req.getParameter("registrationStartTime"));
+			LocalDate registrationDeadTime = LocalDate.parse(req.getParameter("registrationDeadTime"));
+			String portOfCallNo[] = req.getParameterValues("portOfCallNo");
+			String startTime[] = req.getParameterValues("startTime");
+
+			for (String s : req.getParameterValues("startTime")) {
+				System.out.println(s);
+			}
+			String endTime[] = req.getParameterValues("endTime");
+
+			System.out.println("安安我在這" + portOfCallNo[0]);
+			System.out.println("安安我在這" + portOfCallNo[portOfCallNo.length - 1]);
+			System.out.println("安安我在這" + cruiseLine);
+			System.out.println("開始在這" + startTime[0]);
+			System.out.println("三小" + packageName);
+			PackagesVO packagesVO = new PackagesVO();
+			packagesVO.setPackageImages(packageImages);
+			packagesVO.setPackageName(packageName);
+			packagesVO.setShipNo(shipNo);
+			packagesVO.setCruiseLineNo(cruiseLine);
+			packagesVO.setDuration(duration);
+			packagesVO.setRegistrationStartTime(registrationStartTime);
+			packagesVO.setRegistrationDeadTime(registrationDeadTime);
+			packagesVO.setDeparture(packagesService.getPortName(Integer.valueOf(portOfCallNo[0])));
+			packagesVO.setDestination(packagesService.getPortName(Integer.valueOf(portOfCallNo[portOfCallNo.length - 1])));
+			packagesVO.setDepartureTime(LocalDateTime.parse(startTime[0]));
+			packagesVO.setArrivalTime(LocalDateTime.parse(endTime[endTime.length - 1]));
+
+			List<PortsOfCallDateVO> portsOfCallDateVOList = new ArrayList<>();
+
+			for (int i = 0; i < startTime.length; i++) {
+				PortsOfCallDateVO portsOfCallDateVO = new PortsOfCallDateVO();
+
+				if (startTime[i] != null && !"".equals(startTime[i].trim())) {
+					portsOfCallDateVO.setDepartureTime(LocalDateTime.parse(startTime[i]));
+				}
+				if (endTime[i] != null && !"".equals(endTime[i].trim())) {
+					portsOfCallDateVO.setArrivalTime(LocalDateTime.parse(endTime[i]));
+				}
+				portsOfCallDateVO.setPortOfCallNo(Integer.valueOf(portOfCallNo[i]));
+				portsOfCallDateVOList.add(portsOfCallDateVO);
+			}
+
+			packagesVO = packagesService.insertPackage(packagesVO, portsOfCallDateVOList);
+
+			req.setAttribute("packagesVO", packagesService.getALLList());
+
+			RequestDispatcher successView = req.getRequestDispatcher("/PackagesBackEndServlet?action=getAllPackage");
+			successView.forward(req, resp);
+
+			return;
 
 		}
 
@@ -120,11 +180,15 @@ public class PackagesBackEndServlet extends HttpServlet {
 
 			List<String> portsOfCallListNoList = portNameList.stream().map(vo -> vo.getPortsOfCallListNo().toString())
 					.collect(Collectors.toList());
-			List<String> cruiseLinesNoList = portNameList.stream().map(vo-> vo.getCruiseLinesNo().toString()).distinct().collect(Collectors.toList());
-			List<String> portOfCallNoList = portNameList.stream().map(vo-> vo.getPortOfCallNo().toString()).collect(Collectors.toList());
-			List<String> portNameNoList = portNameList.stream().map(vo-> vo.getPortName()).collect(Collectors.toList());
-			List<String> portOfCallSequenceList = portNameList.stream().map(vo-> vo.getPortOfCallSequence().toString()).collect(Collectors.toList());
-			
+			List<String> cruiseLinesNoList = portNameList.stream().map(vo -> vo.getCruiseLinesNo().toString())
+					.distinct().collect(Collectors.toList());
+			List<String> portOfCallNoList = portNameList.stream().map(vo -> vo.getPortOfCallNo().toString())
+					.collect(Collectors.toList());
+			List<String> portNameNoList = portNameList.stream().map(vo -> vo.getPortName())
+					.collect(Collectors.toList());
+			List<String> portOfCallSequenceList = portNameList.stream().map(vo -> vo.getPortOfCallSequence().toString())
+					.collect(Collectors.toList());
+
 			System.out.println(portOfCallNoList);
 			System.out.println(portNameNoList);
 			optionMap.put("portsOfCallListNoList", portsOfCallListNoList);
@@ -132,7 +196,7 @@ public class PackagesBackEndServlet extends HttpServlet {
 			optionMap.put("portOfCallNoList", portOfCallNoList);
 			optionMap.put("portNameNoList", portNameNoList);
 			optionMap.put("portOfCallSequenceList", portOfCallSequenceList);
-			
+
 			out.print(gson.toJson(optionMap));
 
 			out.flush();

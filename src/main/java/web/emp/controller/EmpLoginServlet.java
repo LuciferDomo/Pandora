@@ -286,6 +286,8 @@ public class EmpLoginServlet extends HttpServlet {
 
 			String englishFirstName = req.getParameter("englishFirstName");
 			String englishFirstNameReg = "[A-Za-z]{1,50}";
+			
+			System.out.println("測試阿"+englishFirstName);
 			if (englishFirstName == null || englishFirstName.trim().length() == 0) {
 				errorMsgs.add("英文姓名: 請勿空白");
 				errorMsgsMap.put("englishFirstName", "英文姓名: 請勿空白");

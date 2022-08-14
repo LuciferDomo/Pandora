@@ -19,6 +19,8 @@ import javax.servlet.http.Part;
 import web.cruiseline.bean.CruiseLineVO;
 import web.cruiseline.bean.PortNameListVO;
 import web.cruiseline.bean.PortsOfCallListVO;
+import web.cruiseline.dao.CruiseLineDAO;
+import web.cruiseline.dao.impl.CruiseLineDAOImpl;
 import web.cruiseline.service.impl.CruiseLineServiceImpl;
 import web.emp.bean.EmpVO;
 
@@ -46,6 +48,17 @@ public class CruiseLineServlet extends HttpServlet {
 			EmpVO empVO = (EmpVO) (session.getAttribute("loginUser"));
 			out.write(empVO.getEmpPictureId());
 		}
+		if ("getImage".equals(action)) {
+			response.setContentType("image/jpeg");
+			String cruiseLineNo = request.getParameter("cruiseLineNo");
+			System.out.println("cruise = " + cruiseLineNo);
+			CruiseLineDAO dao = new CruiseLineDAOImpl();
+			CruiseLineVO vo = dao.selectNo(Integer.parseInt(cruiseLineNo));
+			ServletOutputStream out = response.getOutputStream();
+			out.write(vo.getCruiseLinePicture());
+			out.close();
+		}
+		
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
