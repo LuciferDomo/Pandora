@@ -32,7 +32,7 @@ public class ForumDAOImpl implements ForumDAO {
 	private static final String INSERT_STMT = 
 			"INSERT INTO Forum (Member_ID,Post_Title,Post_Content,Post_Time,Clicks,Status,Post_Pic) VALUES (?, ?, ?, ?, ?, ? ,?)";
 		private static final String GET_ALL_STMT = 
-			"SELECT * FROM forum";
+			"SELECT * FROM forum ORDER BY Post_Time desc";
 		private static final String GET_ONE_STMT = 
 			"SELECT Post_Id,Member_ID,Post_Title,Post_Content,Post_Time,Clicks,Status,Post_Pic FROM forum where Post_Id = ?";
 		private static final String DELETE = 

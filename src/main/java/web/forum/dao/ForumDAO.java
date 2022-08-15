@@ -2,7 +2,7 @@ package web.forum.dao;
 
 import java.util.List;
 
-import web.emp.bean.EmpVO;
+
 import web.forum.bean.ForumVO;
 
 

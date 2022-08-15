@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import web.cruiseline.bean.CruiseLineVO;
 import web.cruiseline.service.impl.CruiseLineServiceImpl;
-import web.emp.bean.EmpVO;
+//import web.emp.bean.EmpVO;
 import web.forum.bean.ForumVO;
 import web.forum.service.impl.ForumServiceImpl;
 @WebServlet("/GetPic")
@@ -42,14 +42,14 @@ public class GetPic extends HttpServlet{
 			out.write(forumVO.getPostPic());
 		}
 
-		if ("usesrImage".equals(action)) {
-			response.setContentType("image/jpeg");
-			ServletOutputStream out;
-			out = response.getOutputStream();
-			HttpSession session = request.getSession();
-			EmpVO empVO = (EmpVO) (session.getAttribute("loginUser"));
-			out.write(empVO.getEmpPictureId());
-		}
+//		if ("usesrImage".equals(action)) {
+//			response.setContentType("image/jpeg");
+//			ServletOutputStream out;
+//			out = response.getOutputStream();
+//			HttpSession session = request.getSession();
+//			EmpVO empVO = (EmpVO) (session.getAttribute("loginUser"));
+//			out.write(empVO.getEmpPictureId());
+//		}
 	}
 
 }

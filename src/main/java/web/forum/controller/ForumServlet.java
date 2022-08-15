@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -148,7 +149,7 @@ public class ForumServlet extends HttpServlet {
 						
 						/***************************2.開始查詢資料*****************************************/
 						ForumServiceImpl forumSvc = new ForumServiceImpl();
-						ForumVO forumVO = forumSvc.findByPrimaryKey(postId);
+						Map<String, Object> dataMap = forumSvc.findByPrimaryKey(postId);
 						
 //						MemBlogArtService mbaSvc = new MemBlogArtService();
 //						MemBlogArtVO memBlogArtVO = mbaSvc.findByPrimaryKey(artid); 改成上兩行
@@ -157,7 +158,7 @@ public class ForumServlet extends HttpServlet {
 //						List<MemReplyVO> memReplyVO = mrSvc.getAllByArtId(reArtId); 還沒改出來
 						
 						
-						if (forumVO == null) {
+						if (dataMap.size() == 0) {
 							errorMsgs.add("查無資料");
 						}
 						
@@ -170,14 +171,15 @@ public class ForumServlet extends HttpServlet {
 						// Send the use back to the form, if there were errors
 						if (!errorMsgs.isEmpty()) {
 							RequestDispatcher failureView = request
-									.getRequestDispatcher("/nest-frontend/blog_category-big2.jsp");
+									.getRequestDispatcher("/front-end/forum/fullPost.jsp");
 							failureView.forward(request, response);
 							return;//程式中斷
 						}
 						
 						/***************************3.查詢完成,準備轉交(Send the Success view)*************/
-						request.setAttribute("forumVO", forumVO); // 資料庫取出的empVO物件,存入req
-						String url = "/nest-frontend/blog-post-fullwidth2.jsp";
+						request.setAttribute("dataMap", dataMap); // 資料庫取出的empVO物件,存入req
+//						String url = "/front-end/forum/fullPost.jsp";
+						String url = "/front-end/forum/_test.jsp";
 						RequestDispatcher successView = request.getRequestDispatcher(url); // 成功轉交 blog-post-fullwidth2.jsp
 						successView.forward(request, response);
 
@@ -185,12 +187,12 @@ public class ForumServlet extends HttpServlet {
 					} catch (Exception e) {
 						errorMsgs.add("無法取得資料:" + e.getMessage());
 						RequestDispatcher failureView = request
-								.getRequestDispatcher("/nest-frontend/blog_category-big2.jsp");
+								.getRequestDispatcher("/front-end/forum/forumAllList.jsp");
 						failureView.forward(request, response);
 					}
 				}		
 			
-if ("insert".equals(action)) { // 來自addEmp.jsp的請求  
+				if ("insert".equals(action)) { // 來自addEmp.jsp的請求  
 					
 					List<String> errorMsgs = new LinkedList<String>();
 					// Store this set in the request scope, in case we need to

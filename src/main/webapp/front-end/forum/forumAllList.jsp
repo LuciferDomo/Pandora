@@ -259,7 +259,7 @@
                             <div class="col-xl-3">
                                 <h1 class="mb-15">討論區</h1>
                                 <div class="breadcrumb">
-                                    <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>發表文章</a>
+                                    <a href="forumAdd.jsp" rel="nofollow"><i class="fi-rs-home mr-5"></i>發表文章</a>
                                     <span></span> 
                                 </div>
                             </div>
@@ -345,8 +345,8 @@
                                     <article class="first-post mb-30 hover-up animated" style="visibility: visible">
                                         <div class="position-relative overflow-hidden">
                                             <div class="post-thumb border-radius-15">
-                                                 <a href="<%=request.getContextPath()%>/ForumServlet?action=getOne_For_Display&postId=${forumVO.postPic}">            
-                                                 <img class="border-radius-15" src="<%= request.getContextPath() %>/GetPic?action=forumVOUpdate&postId=${forumVO.postId}" alt="" />
+                                                 <a href="<%=request.getContextPath()%>/ForumServlet?action=getOne_For_Display&postId=${forumVO.postId}">            
+                                                 	<img class="border-radius-15" src="<%= request.getContextPath() %>/GetPic?action=forumVOUpdate&postId=${forumVO.postId}" alt="" />
 <%--                                                 	<c:forEach var="forumVO" items="${list2}"> --%>
 <%--                    										 <c:if test="${forumVO.postId==forumVO.postPic}"> --%>
 <%--                <img class="border-radius-15" src="<%= request.getContextPath() %>/GetPic?postId=${forumVO.postId}" alt="" /> --%>
