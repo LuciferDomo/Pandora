@@ -199,7 +199,7 @@
             
         <div class="card-header" style="background-color: rgb(112, 150, 189) ;">
           <h4 class="card-title" style="color:white">
-            南方澳洲探險家之旅
+            ${packagesVO.packageName}
           </h4>
          </div> 
 	 
@@ -228,21 +228,21 @@
                 抵達時間
               </div>
             </div>
-           <c:forEach var="packagesDetailVO" items="${packagesDetailList}" varStatus="packageStatus"> 
+           <c:forEach var="portsOfCallDateVO" items="${portsOfCallDateVOList}" varStatus="packageStatus"> 
             <div class="row" style="border: 1px solid #ddd;margin: 0; padding: 0;">
               <div class="col-2"
                 style="border: 1px solid #ddd;text-align:center;margin: 0; padding: 0;min-height:27px ;">
                第 ${packageStatus.count}個停靠港口
               </div>
               <div class="col-4" style="border: 1px solid #ddd;margin: 0; padding: 0;">
-               ${packagesDetailVO.portName}
+               ${packagesService.getPortName(portsOfCallDateVO.portOfCallNo)}
               </div>
               <div class="col-3" style="border: 1px solid #ddd;margin: 0; padding: 0;min-height:25px">
-                ${packagesDetailVO.departureTime.format(dateTimeFormat)}
+                ${portsOfCallDateVO.departureTime.format(dateTimeFormat)}
               </div>
               <div class="col-3"
                 style="border: 1px solid #ddd;text-align:center;margin: 0; padding: 0;min-height:27px ;">
-                ${packagesDetailVO.arrivalTime.format(dateTimeFormat)}
+                ${portsOfCallDateVO.arrivalTime.format(dateTimeFormat)}
               </div>
             </div>
           </c:forEach>

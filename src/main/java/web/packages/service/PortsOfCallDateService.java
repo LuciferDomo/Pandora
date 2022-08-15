@@ -10,6 +10,6 @@ public interface PortsOfCallDateService {
 	
 	PortsOfCallDateVO insertPortsOfCallDate(PortsOfCallDateVO portsOfCallDateVO);	
 	
-	
+	List<PortsOfCallDateVO> getByPackageNo(Integer packageNo);
 
 }

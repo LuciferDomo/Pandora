@@ -334,7 +334,7 @@
                                                     </h1>
                                                     <hr />
                                                 </div>
-                                                </br>
+                                               
 
                                                 <form action="<%=request.getContextPath()%>/EmpLoginServlet"
                                                     method="Post" enctype="multipart/form-data">
@@ -492,6 +492,7 @@
                                                             <div class="form-group">
                                                                 <button class="btn btn-primary" type="submit"
                                                                     name="action" value="EMPAdd">確認註冊</button>
+                                                                <input type="hidden" name="loginUser" value="${loginUser}">    
                                                             </div>
                                                         </div>
                                                     </div>

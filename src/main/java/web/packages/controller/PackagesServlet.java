@@ -33,11 +33,14 @@ import web.emp.service.EmpService;
 import web.emp.service.impl.EmpServiceImpl;
 import web.packages.bean.PackageDetailVO;
 import web.packages.bean.PackagesVO;
+import web.packages.bean.PortsOfCallDateVO;
 import web.packages.service.PackageDetailService;
 import web.packages.service.PackagesService;
+import web.packages.service.PortsOfCallDateService;
 import web.packages.service.PortsOfCallListService;
 import web.packages.service.impl.PackageDetailServiceImpl;
 import web.packages.service.impl.PackagesServiceImpl;
+import web.packages.service.impl.PortsOfCallDateServiceImpl;
 import web.packages.service.impl.PortsOfCallListServiceImpl;
 
 @WebServlet("/PackagesServlet")
@@ -230,10 +233,28 @@ public class PackagesServlet extends HttpServlet {
 			System.out.println("hi傻逼我在:getOnePackageDetail");
 			Integer packageNo = Integer.valueOf(req.getParameter("packageNo"));
 			System.out.println(packageNo);
+			PackagesService packagesService = new PackagesServiceImpl();
+			
 			PackageDetailService packageDetailService = new PackageDetailServiceImpl();
 			List<PackageDetailVO> packagesDetailList= packageDetailService.getOnePackageDetail(packageNo);
+			PackagesVO packagesVO = packagesService.getOnePackage(packageNo);
+			
+			PortsOfCallDateService portsOfCallDateService = new PortsOfCallDateServiceImpl();
+			List<PortsOfCallDateVO> portsOfCallDateVOList = portsOfCallDateService.getByPackageNo(packageNo);
+			
+			
+		
+			req.setAttribute("portsOfCallDateVOList", portsOfCallDateVOList);
+			req.setAttribute("packagesService",packagesService);
+			
+			req.setAttribute("packagesVO", packagesVO);			
+			System.out.println("我真是個天才:"+packagesVO.getPackageName());
 			req.setAttribute("packagesDetailList", packagesDetailList);
+						
 			req.setAttribute("dateTimeFormat",DateTimeFormatter.ofPattern("yyyy年MM月dd日HH點mm分"));
+			
+			
+			
 			RequestDispatcher successView = req.getRequestDispatcher("/front-end/package/packageDetail.jsp"); 
 			successView.forward(req, resp);	
 			

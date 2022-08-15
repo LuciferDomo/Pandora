@@ -1,9 +1,22 @@
+<%@ page import="web.packages.dao.impl.PackagesDAOImpl" %>
+<%@ page import="web.packages.service.impl.PackagesServiceImpl"%>
+<%@ page import="web.packages.service.PackagesService"%>
+<%@ page import="web.packages.bean.PackagesVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page  import="java.time.format.DateTimeFormatter" %>   
+<%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page import="java.util.*"%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<%	
+	PackagesDAOImpl packagesDAO = new PackagesDAOImpl();
+	List<PackagesVO> packagesList = packagesDAO.getALLList();
+	pageContext.setAttribute("packagesList", packagesList);
+	request.setAttribute("dateTimeFormat", DateTimeFormatter.ofPattern("yyyy年MM月dd日HH點mm分"));
+%>
 
 
 

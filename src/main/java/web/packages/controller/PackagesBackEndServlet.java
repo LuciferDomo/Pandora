@@ -151,11 +151,12 @@ public class PackagesBackEndServlet extends HttpServlet {
 				portsOfCallDateVO.setPortOfCallNo(Integer.valueOf(portOfCallNo[i]));
 				portsOfCallDateVOList.add(portsOfCallDateVO);
 			}
-
+			
 			packagesVO = packagesService.insertPackage(packagesVO, portsOfCallDateVOList);
 
 			req.setAttribute("packagesVO", packagesService.getALLList());
-
+			
+			
 			RequestDispatcher successView = req.getRequestDispatcher("/PackagesBackEndServlet?action=getAllPackage");
 			successView.forward(req, resp);
 

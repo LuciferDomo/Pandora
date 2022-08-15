@@ -1,9 +1,18 @@
+<%@page import="web.emp.dao.impl.EmpDAOImpl"%>
 <%@page import="web.emp.service.impl.EmpServiceImpl"%>
 <%@page import="web.emp.service.EmpService"%>
+<%@page import="web.emp.bean.EmpVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*"%>
+<%
+	EmpDAOImpl empDao = new EmpDAOImpl();
+	List<EmpVO> empAllList = empDao .getAll();
+	pageContext.setAttribute("empAllList", empAllList);
 
+ %>
 
 
 <!DOCTYPE html>
@@ -367,9 +376,9 @@
                                         </thead>
                               
                                         <tbody>
-                                     
-                                        
-                                          <c:forEach var="empVOView" items="${empAllList}" >
+                     <%@ include file="page1.file" %>  
+     
+                                          <c:forEach var="empVOView" items="${empAllList}"  begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" >
                                             <tr>				
                                              	<td>${empVOView.employeeId}</td>
                                                 <td>${empVOView.jobLevels}</td>
@@ -386,34 +395,36 @@
                                                  <input type="submit" value="編輯"  style="width:100%;height:100%;color:#fff;background-color:#007bff;border-color:#fff">
                                                  <input type="hidden" name="employeeId" value="${empVOView.employeeId}">
 			    				 				 <input type="hidden" name="action"	value="EMPGetOneForUpdate">
+			    				 				 <input type="hidden" name="loginUser" value="${loginUser}">
                                                
                                                </form>    
                                                </td>                                        
-                                            </tr>  
+                                            </tr> 
                                           </c:forEach>     
                                                                                                            
                                         </tbody>
                                         
                                                                       
                                     </table>
-                                   <a href="<%=request.getContextPath()%>/back-end/emp]/EMP_Register.jsp"> 
+                                   <a href="<%=request.getContextPath()%>/back-end/emp/EMP_Register.jsp"> 
                                     <input type="button" value="新增員工" text-align=center 
                                      style="margin-right: 0%;width:250px;float: right;">
                                    </a>
 
                                 </tfoot>
-                               
+                              
 
                             </div>
- 							<center>
-                                <div style="width:100%;text-align:center">
-                                    <input style="display:inline-block;width:150px" type="button"
-                                        onclick="history.go(-1)" value="上一頁"></input>
-                                    <input style="display:inline-block;width:150px" type="button"
-                                        onclick="history.forward()" value="下一頁">
-                                </div>
-							</center>
+<%--  							<center> --%>
+<!--                                 <div style="width:100%;text-align:center"> -->
+<!--                                     <input style="display:inline-block;width:150px" type="button" -->
+<!--                                         onclick="history.go(-1)" value="上一頁"></input> -->
+<!--                                     <input style="display:inline-block;width:150px" type="button" -->
+<!--                                         onclick="history.forward()" value="下一頁"> -->
+<!--                                 </div> -->
+<%-- 							</center> --%>
                         </div>
+                    <%@ include file="page2.file" %>   
                         <!-- /.card -->
                     </div>
                     <!--/.col (left) -->

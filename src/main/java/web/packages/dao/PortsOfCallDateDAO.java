@@ -10,4 +10,7 @@ public interface PortsOfCallDateDAO {
 	List<PortsOfCallDateVO> getAll();
 	
 	void insertPortsOfCallDate(PortsOfCallDateVO portsOfCallDateVO);
+	
+	List<PortsOfCallDateVO> getByPackageNo(Integer packageNo);
+	
 }

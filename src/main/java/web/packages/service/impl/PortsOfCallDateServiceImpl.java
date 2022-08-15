@@ -23,6 +23,12 @@ public class  PortsOfCallDateServiceImpl implements PortsOfCallDateService{
 		dao.insertPortsOfCallDate(portsOfCallDateVO);
 		return portsOfCallDateVO;
 	}
+
+	@Override
+	public List<PortsOfCallDateVO> getByPackageNo(Integer packageNo) {
+		
+		return dao.getByPackageNo(packageNo);
+	}
 	
 
 	
