@@ -419,12 +419,5 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script>
-      axios
-        .get("http://localhost:8080/pandora/CruiseLineServlet", {
-          action: "selectCruiseNo",
-        })
-        .then((response) => console.log(response));
-    </script>
   </body>
 </html>
