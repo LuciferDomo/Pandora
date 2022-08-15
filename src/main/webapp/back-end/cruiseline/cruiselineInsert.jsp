@@ -19,7 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/adminlte.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>back-end/cruiseline/css/adminlte.css" />
     <style>
         .container {
             width: 1024px;
@@ -156,11 +156,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-wrapper -->
     </div>
     <!-- jQuery -->
-    <script src="<%=request.getContextPath()%>/plugins/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/cruiseline/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
-    <script src="<%=request.getContextPath()%>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/cruiseline/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="<%=request.getContextPath()%>/js/adminlte.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/cruiseline/js/adminlte.js"></script>
     <script>
         //exporte les données sélectionnées
         var $table = $('#table');
@@ -182,8 +182,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"></script>
 <link   rel="stylesheet" type="text/css" href="datetimepicker/jquery.datetimepicker.css" />
-<script src="datetimepicker/jquery.js"></script>
-<script src="datetimepicker/jquery.datetimepicker.full.js"></script>
+<script src="<%=request.getContextPath()%>/back-end/cruiseline/datetimepicker/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/back-end/cruiseline/datetimepicker/jquery.datetimepicker.full.js"></script>
 <script>
         $.datetimepicker.setLocale('zh'); // kr ko ja en
         $('#f_date1').datetimepicker({
@@ -197,9 +197,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script>
             window.addEventListener("load", function (e) {
                 var preview_el = document.getElementById("preview");
-                console.log(preview_el);
                 var p_file_el = document.getElementById("p_file");
-                console.log(p_file_el);
               //讀取預覽圖
           var preview_img = function (file) {
             // file是資料位置
@@ -208,7 +206,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             // 讀取檔案
             reader.readAsDataURL(file);
             reader.addEventListener("load", function (){
-                console.log(reader.result);
               let img_str =
                 //設定檔案數據
                 '<img src="' + reader.result + '" class="preview_img">';

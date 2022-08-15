@@ -34,7 +34,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/adminlte.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/back-end/ship/css/adminlte.css" />
     <style>
         .content{
             width: 100%;
@@ -240,11 +240,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-wrapper -->
     </div>
     <!-- jQuery -->
-    <script src="<%=request.getContextPath()%>/plugins/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/ship/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
-    <script src="<%=request.getContextPath()%>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/ship/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="<%=request.getContextPath()%>/js/adminlte.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/ship/js/adminlte.js"></script>
     <script>
         //exporte les données sélectionnées
         var $table = $('#table');
@@ -265,8 +265,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"></script>
-        <link   rel="stylesheet" type="text/css" href="datetimepicker/jquery.datetimepicker.css" />
-        <script src="datetimepicker/jquery.datetimepicker.full.js"></script>
+        <link   rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back-end/ship/datetimepicker/jquery.datetimepicker.css" />
+        <script src="<%=request.getContextPath()%>/back-end/ship/datetimepicker/jquery.datetimepicker.full.js"></script>
         <script>
 $.datetimepicker.setLocale('zh'); // kr ko ja en
 $(function(){

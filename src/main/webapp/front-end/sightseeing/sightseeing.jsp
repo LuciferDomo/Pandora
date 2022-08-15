@@ -13,29 +13,29 @@
     <title>CITY TOURS - City tours and travel site template by Ansonika</title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href="<%=request.getContextPath()%>/Cart/html/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/front-end/sightseeing/img/favicon.ico" type="image/x-icon" />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
-      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-57x57-precomposed.png"
+      href="<%=request.getContextPath()%>/front-end/sightseeing/img/apple-touch-icon-57x57-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="72x72"
-      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-72x72-precomposed.png"
+      href="<%=request.getContextPath()%>/front-end/sightseeing/img/apple-touch-icon-72x72-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="114x114"
-      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-114x114-precomposed.png"
+      href="<%=request.getContextPath()%>/front-end/sightseeing/img/apple-touch-icon-114x114-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="144x144"
-      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-144x144-precomposed.png"
+      href="<%=request.getContextPath()%>/front-end/sightseeing/img/apple-touch-icon-144x144-precomposed.png"
     />
     <!-- GOOGLE WEB FONT -->
     <link
@@ -43,7 +43,7 @@
       rel="stylesheet"
     />
     <!-- COMMON CSS -->
-    <link href="<%=request.getContextPath()%>/Cart/html/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/front-end/sightseeing/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<%=request.getContextPath()%>/front-end/sightseeing/css/style.css" rel="stylesheet" />
     <link href="<%=request.getContextPath()%>/front-end/sightseeing/css/vendors.css" rel="stylesheet" />
     <!-- CUSTOM CSS -->
@@ -135,7 +135,7 @@
             <div class="main-menu">
               <div id="header_menu">
                 <img
-                  src="<%=request.getContextPath()%>/Cart/html/img/logo_sticky.png"
+                  src="<%=request.getContextPath()%>/front-end/sightseeing/img/logo_sticky.png"
                   width="160"
                   height="34"
                   alt="City tours"
@@ -218,21 +218,21 @@
                   <ul class="dropdown-menu" id="cart_items">
                     <li>
                       <div class="image">
-                        <img src="<%=request.getContextPath()%>/Cart/html/img/thumb_cart_1.jpg" alt="image" />
+                        <img src="<%=request.getContextPath()%>/front-end/sightseeing/img/thumb_cart_1.jpg" alt="image" />
                       </div>
                       <strong><a href="#">Louvre museum</a>1x $36.00 </strong>
                       <a href="#" class="action"><i class="icon-trash"></i></a>
                     </li>
                     <li>
                       <div class="image">
-                        <img src="<%=request.getContextPath()%>/Cart/html/img/thumb_cart_2.jpg" alt="image" />
+                        <img src="<%=request.getContextPath()%>/front-end/sightseeing/img/thumb_cart_2.jpg" alt="image" />
                       </div>
                       <strong><a href="#">Versailles tour</a>2x $36.00 </strong>
                       <a href="#" class="action"><i class="icon-trash"></i></a>
                     </li>
                     <li>
                       <div class="image">
-                        <img src="<%=request.getContextPath()%>/Cart/html/img/thumb_cart_3.jpg" alt="image" />
+                        <img src="<%=request.getContextPath()%>/front-end/sightseeing/img/thumb_cart_3.jpg" alt="image" />
                       </div>
                       <strong><a href="#">Versailles tour</a>1x $36.00 </strong>
                       <a href="#" class="action"><i class="icon-trash"></i></a>
@@ -406,13 +406,13 @@
     <!-- /Sign In Popup -->
     <footer class="revealed"></footer>
     <!-- Common scripts -->
-    <script src="<%=request.getContextPath()%>/Cart/html/js/jquery-3.6.0.min.js"></script>
-    <script src="<%=request.getContextPath()%>/Cart/html/js/common_scripts_min.js"></script>
-    <script src="<%=request.getContextPath()%>/Cart/html/js/functions.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/sightseeing/js/jquery-3.6.0.min.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/sightseeing/js/common_scripts_min.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/sightseeing/js/functions.js"></script>
     <!-- Map -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaLnCT5X3SOIuBBlEMSlXuFLIh4qLyXxQ&libraries=places"></script>
     <script src="<%=request.getContextPath()%>/front-end/sightseeing/js/map_full_page.js"></script>
-    <script src="<%=request.getContextPath()%>/Cart/html/js/infobox.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/sightseeing/js/infobox.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
       integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="

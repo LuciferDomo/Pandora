@@ -31,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/adminlte.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/back-end/ship/css/adminlte.css" />
     <style>
         .content{
             width: 100%;

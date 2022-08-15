@@ -27,7 +27,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/adminlte.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/back-end/cruiseline/css/adminlte.css" />
     <style>
         .container {
             width: 1024px;
@@ -192,11 +192,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-wrapper -->
     </div>
     <!-- jQuery -->
-    <script src="<%=request.getContextPath()%>/plugins/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/cruiseline/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
-    <script src="<%=request.getContextPath()%>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/cruiseline/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="<%=request.getContextPath()%>/js/adminlte.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/cruiseline/js/adminlte.js"></script>
     <script>
         //exporte les données sélectionnées
         var $table = $('#table');

@@ -29,7 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/adminlte.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>back-end/cruiseline/css/adminlte.css" />
     <style>
         .container {
             width: 1024px;
@@ -168,11 +168,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-wrapper -->
     </div>
     <!-- jQuery -->
-    <script src="<%=request.getContextPath()%>/plugins/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/cruiseline/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
-    <script src="<%=request.getContextPath()%>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/cruiseline/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="<%=request.getContextPath()%>/js/adminlte.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/cruiseline/js/adminlte.js"></script>
     <script>
         //exporte les données sélectionnées
         var $table = $('#table');
@@ -193,37 +193,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"></script>
-        <script>
-            window.addEventListener("load", function (e) {
-                var preview_el = document.getElementById("preview");
-                console.log(preview_el);
-                var p_file_el = document.getElementById("p_file");
-                console.log(p_file_el);
-              //讀取預覽圖
-          var preview_img = function (file) {
-            // file是資料位置
-            // 用來讀取檔案
-            var reader = new FileReader();
-            // 讀取檔案
-            reader.readAsDataURL(file);
-            reader.addEventListener("load", function (){
-                console.log(reader.result);
-              let img_str =
-                //設定檔案數據
-                '<img src="' + reader.result + '" class="preview_img">';
-              //新增檔案數據
-              preview_el.innerHTML = img_str;
-            });
-          };
-          p_file_el.addEventListener("change", function (e) {
-            if (this.files.length > 0) {
-              preview_img(this.files[0]);
-            } else {
-              preview_el.innerHTML = '<span class="text">預覽圖</span>';
-            }
-          });
-            });
-          </script>
 </body>
 
 </html>

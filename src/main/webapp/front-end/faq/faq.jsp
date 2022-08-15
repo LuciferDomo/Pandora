@@ -18,31 +18,31 @@
     <!-- Favicons-->
     <link
       rel="shortcut icon"
-      href="/pandora/Cart/html/img/favicon.ico"
+      href="/pandora/front-end/faq/img/favicon.ico"
       type="image/x-icon"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
-      href="/pandora/Cart/html/img/apple-touch-icon-57x57-precomposed.png"
+      href="/pandora/front-end/faq/img/apple-touch-icon-57x57-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="72x72"
-      href="/pandora/Cart/html/img/apple-touch-icon-72x72-precomposed.png"
+      href="/pandora/front-end/faq/img/apple-touch-icon-72x72-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="114x114"
-      href="/pandora/Cart/html/img/apple-touch-icon-114x114-precomposed.png"
+      href="/pandora/front-end/faq/img/apple-touch-icon-114x114-precomposed.png"
     />
     <link
       rel="appl e-touch-icon"
       type="image/x-icon"
       sizes="144x144"
-      href="/pandora/Cart/html/img/apple-touch-icon-144x144-precomposed.png"
+      href="/pandora/front-end/faq/img/apple-touch-icon-144x144-precomposed.png"
     />
 
     <!-- GOOGLE WEB FONT -->
@@ -52,12 +52,12 @@
     />
 
     <!-- COMMON CSS -->
-    <link href="/pandora/Cart/html/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/pandora/Cart/html/css/style.css" rel="stylesheet" />
-    <link href="/pandora/Cart/html/css/vendors.css" rel="stylesheet" />
+    <link href="/pandora/front-end/faq/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/pandora/front-end/faq/css/style.css" rel="stylesheet" />
+    <link href="/pandora/front-end/faq/css/vendors.css" rel="stylesheet" />
 
     <!-- CUSTOM CSS -->
-    <link href="/pandora/Cart/html/css/custom.css" rel="stylesheet" />
+    <link href="/pandora/front-end/faq/css/custom.css" rel="stylesheet" />
     <style>
       #wishlist_link::before {
         content: "\e97a";
@@ -121,7 +121,7 @@
             <div class="main-menu">
               <div id="header_menu">
                 <img
-                  src="/pandora/Cart/html/img/logo.png"
+                  src="/pandora/front-end/faq/img/logo.png"
                   width="160"
                   height="34"
                   alt="City tours"
@@ -207,7 +207,7 @@
                     <li>
                       <div class="image">
                         <img
-                          src="/pandora/Cart/html/img/thumb_cart_1.jpg"
+                          src="/pandora/front-end/faq/img/thumb_cart_1.jpg"
                           alt="image"
                         />
                       </div>
@@ -217,7 +217,7 @@
                     <li>
                       <div class="image">
                         <img
-                          src="/pandora/Cart/html/img/thumb_cart_2.jpg"
+                          src="/pandora/front-end/faq/img/thumb_cart_2.jpg"
                           alt="image"
                         />
                       </div>
@@ -227,7 +227,7 @@
                     <li>
                       <div class="image">
                         <img
-                          src="/pandora/Cart/html/img/thumb_cart_3.jpg"
+                          src="/pandora/front-end/faq/img/thumb_cart_3.jpg"
                           alt="image"
                         />
                       </div>
@@ -331,6 +331,7 @@
                 <a href="tel://0800123456" class="phone">0800-123-456</a>
                 <small>星期一 到 星期五 09:00-12:30 / 13:30-17:30</small><br />
                 <small>info@carnival-tw.com</small>
+                <br>
                 <button
                   type="submit"
                   style="
@@ -1380,13 +1381,13 @@
     <!-- /Sign In Popup -->
 
     <!-- Common scripts -->
-    <script src="/pandora/Cart/html/js/jquery-3.6.0.min.js"></script>
-    <script src="/pandora/Cart/html/js/common_scripts_min.js"></script>
-    <script src="/pandora/Cart/html/js/functions.js"></script>
+    <script src="/pandora/front-end/faq/js/jquery-3.6.0.min.js"></script>
+    <script src="/pandora/front-end/faq/js/common_scripts_min.js"></script>
+    <script src="/pandora/front-end/faq/js/functions.js"></script>
 
     <!-- Specific scripts -->
     <!-- Fixed sidebar -->
-    <script src="/pandora/Cart/html/js/theia-sticky-sidebar.js"></script>
+    <script src="/pandora/front-end/faq/js/theia-sticky-sidebar.js"></script>
     <script>
       jQuery("#sidebar").theiaStickySidebar({
         additionalMarginTop: 80,
