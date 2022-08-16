@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import web.cruiseline.bean.CruiseLineVO;
 import web.packages.bean.PackagesVO;
+import web.packages.service.PackagesService;
+import web.packages.service.impl.PackagesServiceImpl;
 
 @WebServlet("/PackageImageServlet")
 public class PackageImageServlet extends HttpServlet{
@@ -25,9 +27,10 @@ public class PackageImageServlet extends HttpServlet{
 			resp.setContentType("image/jpeg");
 			ServletOutputStream out;
 			out = resp.getOutputStream();
-			
-			PackagesVO packagesVO = (PackagesVO) (req.getAttribute("packageImage"));
-			out.write(packagesVO.getPackageImages());
+			Integer packageNo = Integer.valueOf(req.getParameter("packageNo"));
+			PackagesService packagesService = new PackagesServiceImpl();
+			PackagesVO packagesVOPicture =packagesService.getOnePackage(packageNo);
+			out.write(packagesVOPicture.getPackageImages());
 		}
 		
 		if ("cruiseImages".equals(action)) {

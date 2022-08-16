@@ -14,21 +14,18 @@ import javax.servlet.http.HttpSession;
 
 import web.emp.bean.EmpVO;
 
-
-
-
-@WebFilter( urlPatterns = {"/back-end/emp/EMP_GetOneEdiotrByManger.jsp","/back-end/emp/EMP_HomePage.jsp","/back-end/emp/EMP_InfoAll.jsp","/back-end/emp/EMP_Register.jsp","/EmpLoginServlet/*","/PackagesBackEndServlet/*"})
-public class EmployeeFilter implements Filter {
+@WebFilter(urlPatterns = { "/back-end/emp/EMP_Register.jsp"})
+public class EmployeeJobLevelFilter implements Filter {
 
 	public void destroy() {
-	} 
+	}
 
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		
+
 //		String[] urls = { "/front-end/css/", "/js/", "/img/", "/member/", "/seller/", "/login", "/loginSeller", "/register-member",
 //				"/register-seller", "/forget", "/checkVerification", "/changePassword", "/index", "/logout" };
 //
@@ -40,23 +37,22 @@ public class EmployeeFilter implements Filter {
 //				return;
 //			}
 //		}
-		
+
 		// 【取得 session】
 		HttpSession session = req.getSession();
 		// 【從 session 判斷此user是否登入過】
 		Object user = session.getAttribute("loginUser");
-		System.out.println("user "+user);
-//		EmpVO userEmpVO = (EmpVO) user;
-//		String empStatus = userEmpVO.getStatus();
-		
+	
+		System.out.println("user " + user);
 		if (user != null) {
 			// 放行
-//		EmpVO userEmpVO = (EmpVO) user;
-//		String jobLevel=userEmpVO.getJobLevels();
-//		if("EMPAdd".equals(req.getParameter("action"))&&!"Manger".equals(jobLevel)) {
-//			res.sendRedirect(req.getContextPath() + "/back-end/emp/EMP_HomePage.jsp");
-//			return;
-//		}				
+			EmpVO userEmpVO = (EmpVO) user;
+			String jobLevel = userEmpVO.getJobLevels();
+			if (!"Manger".equals(jobLevel)) {
+				res.sendRedirect(req.getContextPath() + "/back-end/emp/EMP_HomePageLowerLevel.jsp");
+				return;
+			}
+
 			chain.doFilter(request, response);
 		} else {
 			req.getSession().invalidate();
@@ -66,7 +62,6 @@ public class EmployeeFilter implements Filter {
 		}
 	}
 
-	
 	public void init(FilterConfig fConfig) throws ServletException {
 	}
 

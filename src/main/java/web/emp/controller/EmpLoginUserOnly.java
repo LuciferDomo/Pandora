@@ -57,18 +57,26 @@ public class EmpLoginUserOnly extends HttpServlet {
 			EmpService empService = new EmpServiceImpl();
 			EmpVO empVO = empService.selectByEmailAndPassword(slectEmpVO);
 			req.getSession().setAttribute("loginUser", empVO);
-
+			
 			if (empVO != null) {
+				String empStatus = empVO.getStatus();
 				String url = "back-end/emp/EMP_HomePage.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, resp);
-				return;
-			} else {
+				if ("1".equals(empStatus)) {
+					RequestDispatcher successView = req.getRequestDispatcher(url);
+					successView.forward(req, resp);
+					return;
+				}else if("0".equals(empStatus)) {
+					req.setAttribute("errorMsg", "帳號以停權");
+				}
+
+			}else {
 				req.setAttribute("errorMsg", "帳號密碼錯誤");
-				RequestDispatcher failView = req.getRequestDispatcher("back-end/emp/EMP_login.jsp");
-				failView.forward(req, resp);
-				return;
 			}
+				
+			
+			RequestDispatcher failView = req.getRequestDispatcher("back-end/emp/EMP_login.jsp");
+			failView.forward(req, resp);
+			return;
 		}
 	}
 }

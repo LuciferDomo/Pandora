@@ -179,7 +179,7 @@
     <!-- container -->
   </header>
   <!-- End Header -->
- <form action="<%=request.getContextPath()%>/PackagesServlet" method="Post">
+ <form action="<%=request.getContextPath()%>/PackagesServlet" method="GET">
   <section id="search_container" style="background: url('https://picsum.photos/1903/800?random=5')">
     
    

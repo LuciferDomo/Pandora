@@ -95,13 +95,13 @@
                             </a>
                            <ul class="nav nav-treeview">
                                 <li class="nav-item">    
-                                    <a href="<%=request.getContextPath()%>/EmpLoginServlet?action=EMPAllList" class="nav-link" >
+                                    <a href="<%=request.getContextPath()%>/back-end/emp/EMP_InfoAll.jsp" class="nav-link" >
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>員工資料表</p>
                                     </a>
                                 </li>
                                  <li class="nav-item">
-                                    <a href="<%=request.getContextPath()%>/PackagesBackEndServlet?action=getAllPackage"  class="nav-link">
+                                    <a href="<%=request.getContextPath()%>/back-end/emp/EMP_Register.jsp"  class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>新增員工</p>
                                     </a>

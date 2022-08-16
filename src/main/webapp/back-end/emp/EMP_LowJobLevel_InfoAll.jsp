@@ -371,7 +371,7 @@
                                                     data-sortable="true">到職日</th>
                                                 <th data-field="Status" data-filter-control="select"
                                                     data-sortable="true">狀態</th>
-                                                <th></th>
+                                                
                                            </tr>                                           
                                         </thead>
                               
@@ -389,16 +389,7 @@
                                                 <td>${empVOView.passportNo}</td>
                                                 <td>${empVOView.email}</td>
                                                 <td>${empVOView.startDate}</td>                                         
-                                                <td>${empStatusMap[empVOView.status]}</td>
-                                                <td>
-                                                <form method="Post" action="<%=request.getContextPath()%>/EmpLoginServlet">	
-                                                 <input type="submit" value="編輯"  style="width:100%;height:100%;color:#fff;background-color:#007bff;border-color:#fff">
-                                                 <input type="hidden" name="employeeId" value="${empVOView.employeeId}">
-			    				 				 <input type="hidden" name="action"	value="EMPGetOneForUpdate">
-			    				 				 <input type="hidden" name="loginUser" value="${loginUser}">
-                                               
-                                               </form>    
-                                               </td>                                        
+                                                <td>${empStatusMap[empVOView.status]}</td>                                                                                
                                             </tr> 
                                           </c:forEach>     
                                                                                                            

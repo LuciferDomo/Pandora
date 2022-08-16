@@ -8,13 +8,13 @@
 <%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%	
 	PackagesDAOImpl packagesDAO = new PackagesDAOImpl();
-	List<PackagesVO> packagesList = packagesDAO.getALLList();
-	pageContext.setAttribute("packagesList", packagesList);
+	Map<String, String[]> map = request.getParameterMap();
+	List<PackagesVO> packagesListA = packagesDAO.getAll(map);
+	pageContext.setAttribute("packagesListA", packagesListA);
 	request.setAttribute("dateTimeFormat", DateTimeFormatter.ofPattern("yyyy年MM月dd日HH點mm分"));
 %>
 
@@ -195,7 +195,7 @@
     <!-- container -->
   </header>
   <!-- End Header -->
-<form action="<%=request.getContextPath()%>/PackagesServlet" method="Post">
+<form action="<%=request.getContextPath()%>/PackagesServlet" method="GET">
   <section id="search_container" style="background: url('https://picsum.photos/1903/800?random=5')">
     <div id="search">
       <ul class="nav nav-tabs">
@@ -297,14 +297,14 @@
             我們致力規劃您的美好旅程，每次的旅遊，不僅帶來回憶，更是身心靈的滿足。
           </p>
         </div>
-
-        <c:forEach var="packageItem" items="${packagesList}" >
+	<%@ include file="page1.file" %>   
+        <c:forEach var="packageItem" items="${packagesListA}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
         <div class="row">
           <div class="col-lg-12 col-md-6 wow zoomIn" data-wow-delay="0.1s">
             <div class="tour_container">
               <div class="img_container">
                 <a href="single_tour.html">
-                  <img src="https://picsum.photos/1296/533?random=1" class="img-fluid" alt="Image" />
+                  <img src="<%=request.getContextPath()%>/PackageImageServlet?action=packageImages&packageNo=${packageItem.packageNo}" class="img-fluid" alt="Image" style="width:100%;height:600px" />
                   <div class="short_info">
                     <i class="icon_set_1_icon-8"></i>共計:${packageItem.duration} 天 &ensp;&ensp;啟航時間:${packageItem.departureTime} &ensp;&ensp;結束時間:${packageItem.arrivalTime}<span class="price"><sup>
 				
@@ -338,17 +338,11 @@
               </div>
             </div>
           </c:forEach>  
+         <%@ include file="page2.file" %>   
             <!-- End col -->
 
                     <!-- End row -->
-                    <div class="col-lg-12 col-md-6 wow zoomIn" data-wow-delay="0.4s">
-                      <p class="text-center nopadding">
-                        <a href="#" class="btn_1 medium"><i class="icon-eye-7"></i>上一頁(10)
-                        </a>
-                        <a href="#" class="btn_1 medium"><i class="icon-eye-7"></i>下一頁(10)
-                        </a>
-                      </p>
-                    </div>
+                
 
                   </div>
                   <!-- End container -->

@@ -22,6 +22,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.servlet.jsp.PageContext;
 
+import com.mysql.cj.Session;
+
 import web.emp.bean.EmpVO;
 import web.emp.service.EmpService;
 import web.emp.service.impl.EmpServiceImpl;
@@ -83,11 +85,21 @@ public class EmpLoginServlet extends HttpServlet {
 
 			EmpService empSerive = new EmpServiceImpl();
 			List<EmpVO> empAllList = empSerive.getAll();
+			EmpVO empVOLoginUser =(EmpVO)req.getSession().getAttribute("loginUser");
+			String jobLevel = empVOLoginUser.getJobLevels();
 			req.setAttribute("empAllList", empAllList);
-			RequestDispatcher successView = req.getRequestDispatcher("back-end/emp/EMP_InfoAll.jsp");
-			successView.forward(req, resp);
-			return;
+			
+			if("Manger".equals(jobLevel)) {
+				RequestDispatcher successView = req.getRequestDispatcher("back-end/emp/EMP_InfoAll.jsp");
+				successView.forward(req, resp);
+				return;
+			}else {
+				RequestDispatcher successView = req.getRequestDispatcher("back-end/emp/EMP_InfoAll.jsp");
+				successView.forward(req, resp);
+			}
+			
 		}
+		
 		if ("LoginUserForUpdate".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -199,13 +211,6 @@ public class EmpLoginServlet extends HttpServlet {
 				errorMsgs.add("Email: 格式輸入錯誤");
 				errorMsgsMap.put("email", "Email: 格式輸入錯誤");
 			}
-//			try {
-//				if (empSvc.isExistEmail(email)) {
-//					errorMsgsMap.put("email", "帳號已存在");
-//				}
-//			} catch (Exception e) {
-//				errorMsgsMap.put("email", "帳號已存在");
-//			}
 
 			LocalDate startDate = null;
 			String startDateString = req.getParameter("startDate");
@@ -237,9 +242,11 @@ public class EmpLoginServlet extends HttpServlet {
 			String empCellphoneNo = req.getParameter("empCellphoneNo");
 			String empCellphoneNoReg = "^[0-9]{10}$";
 			if (empCellphoneNo == null || empCellphoneNo.trim().length() == 0) {
-				errorMsgs.add("地址:請勿空白");
+				errorMsgs.add("手機:請勿空白");
+				errorMsgsMap.put("empCellphoneNo", "手機:請勿空白");
 			} else if (!empCellphoneNo.trim().matches(empCellphoneNoReg)) {
 				errorMsgs.add("手機號碼:請輸入10碼的數字 ");
+				errorMsgsMap.put("empCellphoneNo", "手機號碼:請輸入10碼的數字");
 			}
 			LocalDateTime lastModificationDate = LocalDateTime.now();
 			LocalDateTime loginTime = null;
@@ -269,11 +276,22 @@ public class EmpLoginServlet extends HttpServlet {
 				failureView.forward(req, resp);
 				return;
 			}
-
-			empVO = empService.updateEmp(empVO);
+			HttpSession loginUserSession = req.getSession();	
+			
+//			System.out.println("登入者:"+loginUser.getEmail());
+			EmpVO updateEmpVO=empService.updateEmp(empVO, loginUserSession);
+			
+			System.out.println("被修改者:"+empVO.getEmail());
+			
+			
+//			if(loginUser.getEmail()==empVO.getEmail()) {
+//				req.getSession().setAttribute("loginUser", empVO);
+//			}
+			
 			req.setAttribute("empAllList", empService.getAll());
+			
 			String url = "back-end/emp/EMP_InfoAll.jsp";
-			RequestDispatcher successView = req.getRequestDispatcher(url);// 編輯成功重載 EMP_GetOneEdiotrByManger.jsp
+			RequestDispatcher successView = req.getRequestDispatcher("/EmpLoginServlet?action=EMPAllList");// 編輯成功重載 EMP_GetOneEdiotrByManger.jsp
 			successView.forward(req, resp);
 
 		}

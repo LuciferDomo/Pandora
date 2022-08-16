@@ -11,17 +11,16 @@ public class packages_CompositeQuery {
 		String aCondition = null;
 
 		if ("Departure".equals(columnName) || "Destination".equals(columnName)) {// 用於varchar
-			
-				aCondition = columnName + " like '%" + value + "%'";
-			
+
+			aCondition = columnName + " like '%" + value + "%'";
 
 		} else if ("Duration".equals(columnName)) {
 			System.out.println(value);
-			if (value.equals("1~5天")||value.equals("5")) {
+			if (value.equals("1~5天") || value.equals("5")) {
 				aCondition = "Duration" + "<=" + "5";
-			} else if (value.equals("6~9天")||value.equals("10")) {
+			} else if (value.equals("6~9天") || value.equals("10")) {
 				aCondition = "Duration" + ">" + "5" + "&&" + "Duration" + "<" + "10";
-			}else if (value.equals("10天以上")||value.equals("20")) {
+			} else if (value.equals("10天以上") || value.equals("20")) {
 				aCondition = "Duration" + ">" + "10";
 			}
 
@@ -32,6 +31,8 @@ public class packages_CompositeQuery {
 			}
 
 			aCondition = "Departure_Time" + " like '%" + value + "%'";
+		} else if ("whichPage".equals(columnName)) {
+			return "";
 		}
 
 		// aCondition = columnName + "=" + "'" + value + "'";
@@ -55,7 +56,7 @@ public class packages_CompositeQuery {
 				if (count == 1) {
 					whereCondition.append(" where " + aCondition);
 				} else {
-					if (aCondition !="") {
+					if (aCondition != "") {
 						whereCondition.append(" and " + aCondition);
 					}
 

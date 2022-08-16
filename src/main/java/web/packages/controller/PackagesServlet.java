@@ -156,14 +156,14 @@ public class PackagesServlet extends HttpServlet {
 			System.out.println(departureDistinct);
 			System.out.println(departureTimeDistinct);
 			System.out.println(duration);
-			req.setAttribute("portsOfCallListMap", portsOfCallListMap);
-			req.setAttribute("departureDistinct", departureDistinct);
-			req.setAttribute("destinationDistinct", destinationDistinct);
-			req.setAttribute("departureTimeDistinct", departureTimeDistinct);
-			req.setAttribute("packagesList", packagesList);
-			req.setAttribute("Duration", duration);
+			req.getSession().setAttribute("portsOfCallListMap", portsOfCallListMap);
+			req.getSession().setAttribute("departureDistinct", departureDistinct);
+			req.getSession().setAttribute("destinationDistinct", destinationDistinct);
+			req.getSession().setAttribute("departureTimeDistinct", departureTimeDistinct);
+			req.getSession().setAttribute("packagesList", packagesList);
+			req.getSession().setAttribute("Duration", duration);
 			req.setAttribute("cruiseLineNoList", cruiseLineNoList);
-			req.setAttribute("count", count);
+			req.getSession().setAttribute("count", count);
 //			req.setAttribute("listPackagesByCompositeQuery",packagesService);
 
 //			System.out.println(count);
@@ -234,6 +234,7 @@ public class PackagesServlet extends HttpServlet {
 			Integer packageNo = Integer.valueOf(req.getParameter("packageNo"));
 			System.out.println(packageNo);
 			PackagesService packagesService = new PackagesServiceImpl();
+			CruiseLineServiceImpl cruiseLineService = new CruiseLineServiceImpl();
 			
 			PackageDetailService packageDetailService = new PackageDetailServiceImpl();
 			List<PackageDetailVO> packagesDetailList= packageDetailService.getOnePackageDetail(packageNo);
@@ -241,16 +242,15 @@ public class PackagesServlet extends HttpServlet {
 			
 			PortsOfCallDateService portsOfCallDateService = new PortsOfCallDateServiceImpl();
 			List<PortsOfCallDateVO> portsOfCallDateVOList = portsOfCallDateService.getByPackageNo(packageNo);
-			
+			CruiseLineVO cruiseLineVO = cruiseLineService.selectCruiseNo(packagesVO.getCruiseLineNo());
 			
 		
 			req.setAttribute("portsOfCallDateVOList", portsOfCallDateVOList);
+			req.setAttribute("cruiseLineVO", cruiseLineVO);
 			req.setAttribute("packagesService",packagesService);
-			
 			req.setAttribute("packagesVO", packagesVO);			
 			System.out.println("我真是個天才:"+packagesVO.getPackageName());
-			req.setAttribute("packagesDetailList", packagesDetailList);
-						
+			req.setAttribute("packagesDetailList", packagesDetailList);					
 			req.setAttribute("dateTimeFormat",DateTimeFormatter.ofPattern("yyyy年MM月dd日HH點mm分"));
 			
 			

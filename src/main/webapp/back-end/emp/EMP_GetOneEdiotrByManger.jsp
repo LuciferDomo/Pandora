@@ -94,7 +94,7 @@
                                         </a>
                                         <ul class="nav nav-treeview">
                                             <li class="nav-item menu-open">
-                                                <a href="<%=request.getContextPath()%>/EmpLoginServlet?action=EMPAllList"
+                                                <a href="<%=request.getContextPath()%>/back-end/emp/EMP_InfoAll.jsp
                                                     class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
                                                     <p>員工資料表</p>
@@ -367,7 +367,7 @@
                                                                     name="englishFirstName"
                                                                     value="${empVOupdate.englishFirstName}" />
                                                                 <font class="text-danger">
-                                                                    ${errorMsgsMap["englishLastName"]}</font>
+                                                                    ${errorMsgsMap["englishFirstName"]}</font>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
@@ -376,7 +376,7 @@
                                                                 <input type="text" class="form-control"
                                                                     name="englishLastName"
                                                                     value="${empVOupdate.englishLastName}" />
-                                                                <font class="text-danger">${errorMsgsMap["passportNo"]}
+                                                                <font class="text-danger">${errorMsgsMap["englishLastName"]}
                                                                 </font>
                                                             </div>
                                                         </div>
@@ -405,7 +405,7 @@
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <label>電子信箱＊</label>
-                                                                <input type="email" id="Email" class="form-control"
+                                                                <input readonly="readonly" type="email" id="Email" class="form-control"
                                                                     name="email" value="${empVOupdate.email}" />
                                                                 <font class="text-danger">${errorMsgsMap["email"]}
                                                                 </font>
@@ -428,9 +428,10 @@
                                                                 <label>職等</label>
                                                                 </br>
                                                                 <div class="form-group">
-                                                                    <option value="none" selected disabled hidden>
-                                                                        ${empVOupdate.jobLevels}</option>
+                                                                   
                                                                     <select style="width:100%" name="jobLevels">
+                                                                     <option value="${empVOupdate.jobLevels}"  >
+                                                                        ${empVOupdate.jobLevels}</option>
                                                                         <option value="Manger">Manger</option>
                                                                         <option value="Supervisor">Supervisor</option>
                                                                         <option value="Staff">Staff</option>

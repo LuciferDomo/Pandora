@@ -205,8 +205,8 @@
 	 
          <div class="row" style="border: 1px solid #ddd;margin: 0; padding: 0;">
           <div class="col-4" style="border: 1px solid #ddd;">
-            <img class="img-fluid" style="display:block; margin:auto;max-width:100%; min-height: 100%;;"
-              src="https://picsum.photos/1296/533?random=2" alt="圖片遺失">
+            <img class="img-fluid"  style="display:block; margin:auto;max-width:100%; min-height: 100%;;"
+              src="<%=request.getContextPath()%>/CruiseLineServlet?action=getImage&cruiseLineNo=${cruiseLineVO.cruiseLineNo}" alt="圖片遺失">
           </div>
           
        

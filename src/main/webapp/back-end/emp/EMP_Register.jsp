@@ -93,7 +93,7 @@
                                         </a>
                                         <ul class="nav nav-treeview">
                                             <li class="nav-item">
-                                                <a href="<%=request.getContextPath()%>/EmpLoginServlet?action=EMPAllList"
+                                                <a href="<%=request.getContextPath()%>/back-end/emp/EMP_InfoAll.jsp"
                                                     class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
                                                     <p>員工資料表</p>
