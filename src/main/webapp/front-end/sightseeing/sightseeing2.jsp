@@ -1,7 +1,7 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core"%> <%@ taglib prefix="fmt"
-uri="http://java.sun.com/jsp/jstl/fmt" %>
+pageEncoding="UTF-8"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -190,8 +190,23 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
             </div>
             <div class="col-6">
               <ul id="top_links">
-                <li><a href="#sign-in-dialog" id="access_link">登入</a></li>
-                <li>
+              <li>
+              	<c:if test="${loginMember != null}">
+                	<font>${loginMember.memberEnglishLastName}&nbsp${loginMember.memberEnglishFirstName}</font>  
+                </c:if>
+              </li>
+                <li><c:choose>
+              	<c:when test="${loginMember != null}">
+	              	<a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberSignOut">
+	              		登出<i class="icon-logout-1" id="logout"></i>
+	              	</a>
+              	</c:when>
+              	<c:otherwise>
+              		<a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberLogin">
+	              		登入<i class="icon-logout-1" id="logout"></i>
+	              	</a>
+              	</c:otherwise>
+              </c:choose></li>
                   <a href="wishlist.html" id="wishlist_link">連絡我們</a>
                 </li>
               </ul>
@@ -234,7 +249,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
               <ul>
                 <li class="submenu">
                   <a
-                    href="javascript:void(0);"
+                    href="javascript:window.location.href='/pandora/PackagesServlet?action=homePage'"
                     class="show-submenu"
                     style="width: 100px"
                     >行程管理
@@ -242,7 +257,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                 </li>
                 <li class="submenu">
                   <a
-                    href="javascript:void(0);"
+                    href="javascript:window.location.href='/pandora/front-end/cruiseIntroduction/cruiseIntroduction.jsp'"
                     class="show-submenu"
                     style="width: 100px"
                     >郵輪介紹
@@ -250,7 +265,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                 </li>
                 <li class="submenu">
                   <a
-                    href="javascript:void(0);"
+                    href="javascript:window.location.href='/pandora/front-end/information/information.jsp'"
                     class="show-submenu"
                     style="width: 100px"
                     >活動新訊
@@ -258,7 +273,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                 </li>
                 <li class="megamenu submenu">
                   <a
-                    href="javascript:void(0);"
+                    href="javascript:window.location.href='/pandora/front-end/sightseeing/sightseeing2.jsp'"
                     class="show-submenu-mega"
                     style="width: 100px"
                     >旅遊資訊</a
@@ -272,79 +287,32 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                   ></a>
                   <ul>
                     <li>
-                      <a href="all_restaurants_list.html">會員資訊</a>
+                      <a href="javascript:window.location.href='/pandora/front-end/Member/Member_Info.jsp'">會員資訊</a>
                     </li>
                     <li>
-                      <a href="all_restaurants_grid.html">會員資料修改</a>
+                      <a href="javascript:window.location.href='/pandora/front-end/Member/Member_InfoAlter.jsp'">會員資料修改</a>
                     </li>
                     <li>
-                      <a href="all_restaurants_grid_masonry.html">密碼更改</a>
+                      <a href="javascript:window.location.href='/pandora/front-end/Member/MemberPasswordChange.jsp'">密碼更改</a>
                     </li>
                     <li>
-                      <a href="all_restaurants_map_listing.html"
+                      <a href="javascript:window.location.href='/pandora/front-end/Member/OrderRecord.jsp'"
                         >訂單查詢修改</a
                       >
                     </li>
                     <li>
-                      <a href="single_restaurant.html">聊天室</a>
+                      <a href="javascript:window.location.href='/pandora/front-end/chatroom/chatroom.jsp'">聊天室</a>
                     </li>
                     <li>
-                      <a href="payment_restaurant.html">討論區</a>
+                      <a href="javascript:window.location.href='/pandora/front-end/forum/forumAllList.jsp'">討論區</a>
                     </li>
                   </ul>
                 </li>
               </ul>
             </div>
             <!-- End main-menu -->
-            <ul id="top_tools">
-              <li>
-                <div class="dropdown dropdown-cart">
-                  <a href="#" data-bs-toggle="dropdown" class="cart_bt"
-                    ><i class="icon_bag_alt"></i><strong>3</strong></a
-                  >
-                  <ul class="dropdown-menu" id="cart_items">
-                    <li>
-                      <div class="image">
-                        <img
-                          src="<%=request.getContextPath()%>/front-end/sightseeing/img/thumb_cart_1.jpg"
-                          alt="image"
-                        />
-                      </div>
-                      <strong><a href="#">Louvre museum</a>1x $36.00 </strong>
-                      <a href="#" class="action"><i class="icon-trash"></i></a>
-                    </li>
-                    <li>
-                      <div class="image">
-                        <img
-                          src="<%=request.getContextPath()%>/front-end/sightseeing/img/thumb_cart_2.jpg"
-                          alt="image"
-                        />
-                      </div>
-                      <strong><a href="#">Versailles tour</a>2x $36.00 </strong>
-                      <a href="#" class="action"><i class="icon-trash"></i></a>
-                    </li>
-                    <li>
-                      <div class="image">
-                        <img
-                          src="<%=request.getContextPath()%>/front-end/sightseeing/img/thumb_cart_3.jpg"
-                          alt="image"
-                        />
-                      </div>
-                      <strong><a href="#">Versailles tour</a>1x $36.00 </strong>
-                      <a href="#" class="action"><i class="icon-trash"></i></a>
-                    </li>
-                    <li>
-                      <div>Total: <span>$120.00</span></div>
-                      <a href="cart.html" class="button_drop">Go to cart</a>
-                      <a href="payment.html" class="button_drop outline"
-                        >Check out</a
-                      >
-                    </li>
-                  </ul>
-                </div>
-                <!-- End dropdown-cart-->
-              </li>
-            </ul>
+            
+              
           </nav>
         </div>
       </div>
