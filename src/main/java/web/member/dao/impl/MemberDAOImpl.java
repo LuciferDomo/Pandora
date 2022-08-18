@@ -57,7 +57,7 @@ public class MemberDAOImpl implements MemberDAO {
 	
 	private static final String UPDATE_WithOutPictureSE = "UPDATE Member set Member_ID=?                    ,Discount_No=?,Chinese_Name=?,English_First_Name=?,English_Last_Name=?,"
 
-			+ "Gender=?,Member_Birthday=?,Member_ID_No=?,Member_PhoneNumber=?,Member_Address=?,Member_Email=?,Member_Passport_No=?,Accumulated=?,"
+			+ "Gender=?,Member_Birthday=?,Member_ID_No=?,Member_PhoneNumber=?,Member_Address=?,Member_Email=?,Member_Passport_No=?,Accumulated_Consumption=?,"
 			+ "Last_Update_Date=?,Member_Password=?,Registration_Time=? where Member_ID = ?";
 	private static final String GET_ID_PW = "SELECT Member_ID, Member_Password FROM Member WHERE Member_ID =?";
 	private static final String UPDATEPASSWORD = "UPDATE MEMBER SET Member_Password=? WHERE Member_ID=?";
