@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ include file="/front-end/header.jsp" %>
 	
 <%@ page import="java.util.*"%>
 <%@ page import="web.discount.service.impl.*"%>
@@ -97,7 +98,7 @@
 	<!-- Mobile menu overlay mask -->
 
 	<!-- Header================================================== -->
-	<header>
+<%-- 	<header>
 		<div id="top_line">
 			<div class="container">
 				<div class="row">
@@ -190,7 +191,7 @@
 			</div>
 		</div>
 		<!-- container -->
-	</header>
+	</header> --%>
 	<!-- End Header -->
 
 	<section id="hero_2" class="background-image"

@@ -15,6 +15,7 @@
 <%@ page import="java.text.*"%>
 <%@ page import="java.time.*"%>
 <%@ page import="java.math.*"%>
+<%@ include file="/front-end/header.jsp" %>
 
 <%	
 	// 測試用行程
@@ -87,6 +88,7 @@
 
 
 <style>
+
 #Package {
 	margin: 0 60px;
 }
@@ -121,7 +123,7 @@
 	<!-- Mobile menu overlay mask -->
 
 	<!-- Header================================================== -->
-	<header>
+	<%-- <header>
 		<div id="top_line">
 			<div class="container">
 				<div class="row">
@@ -214,7 +216,7 @@
 			</div>
 		</div>
 		<!-- container -->
-	</header>
+	</header> --%>
 	<!-- End Header -->
 
 	<section id="hero_2" class="background-image" style="background: url('https://picsum.photos/1903/800?random=5')">

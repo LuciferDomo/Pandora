@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/front-end/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,6 +58,7 @@
     <!-- CUSTOM CSS -->
     <link href="/Cart/html/css/custom.css" rel="stylesheet" />
     <style>
+   
       header{
       background-color: #000000bd;
       }
@@ -82,7 +84,7 @@
     <!-- Mobile menu overlay mask -->
 
     <!-- Header================================================== -->
-    <header>
+   <%--  <header>
     <div id="top_line">
       <div class="container">
         <div class="row">
@@ -204,7 +206,7 @@
       </div>
     </div>
     <!-- container -->
-  </header>
+  </header> --%>
   <!-- End Header -->
 
     <main>
