@@ -88,7 +88,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                     href="javascript:window.location.href='/pandora/PackagesServlet?action=homePage'"
                     class="show-submenu"
                     style="width: 100px"
-                    >行程管理
+                    >預定行程
                   </a>
                 </li>
                 <li class="submenu">
@@ -143,7 +143,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                     <li>
                       <a
                         href="javascript:window.location.href='/pandora/front-end/Member/OrderRecord.jsp'"
-                        >訂單查詢修改</a
+                        >訂單查詢</a
                       >
                     </li>
                     <li>
