@@ -83,7 +83,7 @@
 	              	</a>
               	</c:when>
               	<c:otherwise>
-              		<a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberLogin">
+              		<a href="<%=request.getContextPath()%>/front-end/Member/MemberLogin.jsp">
 	              		登入<i class="icon-logout-1" id="logout"></i>
 	              	</a>
               	</c:otherwise>
@@ -145,10 +145,10 @@
                     <a href="<%=request.getContextPath()%>/front-end/Member/Member_InfoAlter.jsp">會員資料修改</a>
                   </li>
                   <li>
-                    <a href="all_restaurants_grid_masonry.html">密碼更改</a>
+                    <a href="<%=request.getContextPath()%>/front-end/Member/MemberPasswordChange.jsp">密碼更改</a>
                   </li>
                   <li>
-                    <a href="all_restaurants_map_listing.html">訂單查詢修改</a>
+                    <a href="<%=request.getContextPath()%>/front-end/Member/OrderRecord.jsp">訂單查詢修改</a>
                   </li>
                   <li>
                     <a href="single_restaurant.html">聊天室</a>

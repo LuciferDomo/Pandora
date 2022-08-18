@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import="web.member.bean.DiscountVO"%>
 <%@ page import="web.member.bean.MemberVO"%>
+<%@page import="com.mysql.cj.protocol.x.ReusableOutputStream"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 DiscountVO discountVO=new DiscountVO();
 %>
@@ -150,7 +152,18 @@ DiscountVO discountVO=new DiscountVO();
             </div>
             <div class="col-6">
               <ul id="top_links">
-                <li><a href="#sign-in-dialog" id="access_link">登入</a></li>
+                <li><c:choose>
+              	<c:when test="${loginMember != null}">
+	              	<a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberSignOut">
+	              		登出<i class="icon-logout-1" id="logout"></i>
+	              	</a>
+              	</c:when>
+              	<c:otherwise>
+              		<a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberLogin">
+	              		登入<i class="icon-logout-1" id="logout"></i>
+	              	</a>
+              	</c:otherwise>
+              </c:choose></li>
                 <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
               </ul>
             </div>
@@ -322,14 +335,21 @@ DiscountVO discountVO=new DiscountVO();
                     width="160"
                     height="34"
                   />
-                  <br />
-                  <img
-                    src="<%=request.getContextPath()%>/front-end/Member/img/headshot.png"
-                    alt="Image"
-                    width="160"
-                    height="160"
-                  />
                   <h3>會員資訊</h3>
+                  
+                  <c:if test="${loginMember.memberPictureId != null}">
+                  	<div class="image">
+                       <img src="<%=request.getContextPath()%>/MemberImageServlet?action=memberImage"  name="action" class="img-circle elevation-2" alt="User Image" />
+                    </div>
+                  </c:if>
+                  <c:if test="${loginMember.memberPictureId == null}">
+	                  <img
+	                    src="<%=request.getContextPath()%>/front-end/Member/img/headshot.png"
+	                    alt="Image"
+	                    width="160"
+	                    height="160"
+	                  />
+                  </c:if>
                   <!-- 登入白框上方LOGO -->
                 </div>
                 <hr />
@@ -412,7 +432,7 @@ DiscountVO discountVO=new DiscountVO();
                         <div class="memberInfoLeftText">會員等級</div>
                       </div>
                       <div class="memberInfoRight">
-                        <div class="memberInfoRightText">${loginMember.discountNo}</div>
+                        <div class="memberInfoRightText">${loginMember.memberLevel}</div>
 <%--                         <div>${loginMember.discountVO.memberLevel}</div>  --%>
                       </div>
                     </div>
@@ -420,7 +440,7 @@ DiscountVO discountVO=new DiscountVO();
                       <div class="memberInfoLeft">
                         <div class="memberInfoLeftText">累積消費金額</div>
                       </div>
-                      <div class="memberInfoRight">
+                      <div class="memberInfoRight" id="money">
                         <div class="memberInfoRightText">${loginMember.accumulatedConsumption}</div>
                       </div>
                     </div>
@@ -545,5 +565,8 @@ DiscountVO discountVO=new DiscountVO();
     <script src="<%=request.getContextPath()%>/front-end/Member/js/jquery-3.6.0.min.js"></script>
     <script src="<%=request.getContextPath()%>/front-end/Member/js/common_scripts_min.js"></script>
     <script src="<%=request.getContextPath()%>/front-end/Member/js/functions.js"></script>
+    <script>
+      
+    </script>
   </body>
 </html>

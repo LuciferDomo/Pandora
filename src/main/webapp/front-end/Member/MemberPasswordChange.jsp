@@ -10,7 +10,7 @@
       content="Citytours - Premium site template for city tours agencies, transfers and tickets."
     />
     <meta name="author" content="Ansonika" />
-    <title>登入</title>
+    <title>密碼更改</title>
 
     <!-- Favicons-->
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
@@ -91,9 +91,7 @@
           </div>
           <div class="col-6">
             <ul id="top_links">
-              <a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberLogin">
-	              		登入<i class="icon-logout-1" id="logout"></i>
-	              	</a>
+              <li><a href="#sign-in-dialog" id="access_link">登入</a></li>
               <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
             </ul>
           </div>
@@ -227,27 +225,27 @@
                     width="160"
                     height="34"
                   />
-                  <h3>會員登入</h3>
+                  <h3>密碼更改</h3>
                 </div>
                 <hr />
-                <form action="<%=request.getContextPath()%>/MemberLoginServlet" method="Post">
+                <form action="<%=request.getContextPath()%>/MemberPasswordChange" method="Post">
+                <input type="hidden" name="memberId" value="${loginMember.memberId}"></input>
                   <div class="form-group">
-                    <label>帳號 (E-MAIL)</label>&emsp;<font class="text-danger" size="2">${errorMsgsMap["email"]}</font>
-                    <input name="email" type="email" class="form-control" placeholder="請輸入電子信箱"/>
+                    <label>目前密碼</label>&emsp;<font class="text-danger" size="2">${memberPWErrMsg}</font>
+                    <input name="password" type="password" class="form-control" placeholder="請輸目前密碼"/>
                   </div>
                   <div class="form-group">
-                    <label>密碼</label>&emsp;<font class="text-danger" size="2">${errorMsgsMap["password"]}</font>
-                    <input name="password" type="password" class="form-control" placeholder="請輸入密碼"/>
+                    <label>新密碼</label>
+                    <input name="NewPassword" type="password" class="form-control" placeholder="請輸新密碼"/>
                   </div>
-                  <div class="row text-danger"  >
-                           <div class="text-left" id="idpsErr"> ${errorMsg}</div>                                         
+                  <div class="form-group">
+                    <label>確認密碼</label>&emsp;<font class="text-danger" size="2">${warningMemberPWDismatchMsg}</font>
+                    <input name="NewPasswordRp" type="password" class="form-control" placeholder="請再次輸入新密碼"/>
                   </div>
-                  <p class="small">
-                    <a href="<%=request.getContextPath()%>/front-end/Member/ForgetPW.jsp"">忘記密碼?</a>
-                  </p>
                   
-                  <button  name="action" value="MemberLogin" type="submit" class="btn_full">登入</button>
-                  <a href="<%=request.getContextPath()%>/front-end/Member/MemberRegister.jsp" class="btn_full_outline">註冊</a>
+                  <button  name="action" value="updatePW" type="submit" class="btn_full">送出</button>
+                  &emsp;<font class="text-danger" size="2">${warningMemberPWMsg}</font>
+                  &emsp;<font class="text-danger" size="2">${MemberPWupdateMsg}</font>
                 </form>
               </div>
             </div>
