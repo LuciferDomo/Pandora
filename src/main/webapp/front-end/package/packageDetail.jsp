@@ -174,7 +174,7 @@
   <!-- End hero -->
   </br>
   <div class="container margin_15"style="text-align:right;margin: top 1px" >
-			<form method="POST" id="reservationnow1" action="<%=request.getContextPath()%>/Cart_Hotel.jsp">
+			<form method="POST" id="reservationnow1" action="<%=request.getContextPath()%>/front-end/cart/Cart_Hotel.jsp">
                     <input name="packageNoOrder" type="hidden" value="${packagesVO.packageNo}">
                     <button class="btn btn-primary btn-sm" type="submit" 
                     	 style="width:300px;height:40px;background-color: #d8691e;border:white">立即預定</button>

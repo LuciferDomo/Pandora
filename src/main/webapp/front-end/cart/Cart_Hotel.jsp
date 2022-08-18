@@ -1,3 +1,4 @@
+<%@page import="web.emp.bean.EmpVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -18,7 +19,9 @@
 <%	
 	// 測試用行程
 	PackagesServiceImpl packagesService = new PackagesServiceImpl();
-	session.setAttribute("packagesVO", packagesService.getOnePackage(1));
+	PackagesVO packagesVOaa= (PackagesVO) request.getSession().getAttribute("packagesVO");
+	PackagesVO packagesVO = packagesService.getOnePackage(packagesVOaa.getPackageNo());
+
 	
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +32,7 @@
 	List<RoomTypeVO> roomTypeVOList = roomTypeService.getAll();
 	
 	DiscountVO discountVO = (DiscountVO)session.getAttribute("discountVO");
-	PackagesVO packagesVO = (PackagesVO)session.getAttribute("packagesVO");
+// 	PackagesVO packagesVO = (PackagesVO)session.getAttribute("packagesVO");
 	
 	BigDecimal discount = discountVO != null ? discountVO.getDiscount() : BigDecimal.valueOf(1);
 			
