@@ -85,20 +85,19 @@ public class ForgetPWMailService {
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart(messageBody);
 
-////          second part (the image) 可根據自己需要決定是否要加這段
-//			File file = new File("picture/20211214151834.jpg");
-//			MimeBodyPart messageImgBody = new MimeBodyPart();
-//			DataSource fds = new FileDataSource(file);
+//          second part (the image) 可根據自己需要決定是否要加這段
+			File file = new File("/Users/namu0423/Pandora2/src/main/webapp/Cart/html/img/logo_sticky.png");
+			MimeBodyPart messageImgBody = new MimeBodyPart();
+			DataSource fds = new FileDataSource(file);
 
-//			messageImgBody.setDataHandler(new DataHandler(fds));
-//			messageImgBody.setHeader("Content-ID", "<image>");
-//			messageImgBody.setFileName(file.getName());
+			messageImgBody.setDataHandler(new DataHandler(fds));
+			messageImgBody.setHeader("Content-ID", "<image>");
+			messageImgBody.setFileName(file.getName());
 
 //          add image to the multipart
-//			multipart.addBodyPart(messageImgBody);
+			multipart.addBodyPart(messageImgBody);
 
 			message.setContent(multipart);
-
 //   		寄出email
 			Transport transport = session.getTransport("smtp");
 			try {

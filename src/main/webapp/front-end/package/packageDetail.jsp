@@ -11,7 +11,7 @@
   <meta name="description"
     content="Citytours - Premium site template for city tours agencies, transfers and tickets." />
   <meta name="author" content="Ansonika" />
-  <title>CITY TOURS - City tours and travel site template by Ansonika</title>
+  <title>Welcome to Royal Pandora_Packages_Detail</title>
 
   <!-- Favicons-->
   <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
@@ -54,117 +54,7 @@
   <!-- Mobile menu overlay mask -->
 
   <!-- Header================================================== -->
-  <header>
-    <div id="top_line">
-      <div class="container">
-        <div class="row">
-          <div class="col-6">
-            <i class="icon-phone"></i><strong>02 23456789</strong>
-          </div>
-          <div class="col-6">
-            <ul id="top_links">
-               <li>
-               <c:if test="${loginMember != null}">
-                 <font>${loginMember.memberEnglishLastName}&nbsp${loginMember.memberEnglishFirstName}</font>  
-                </c:if>
-              </li>
-              <li>
-              <c:choose>
-               <c:when test="${loginMember != null}">
-                <a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberSignOut">
-                 登出<i class="icon-logout-1" id="logout"></i>
-                </a>
-               </c:when>
-               <c:otherwise>
-                <a href="<%=request.getContextPath()%>/front-end/Member/MemberLogin.jsp">
-                 登入<i class="icon-logout-1" id="logout"></i>
-                </a>
-               </c:otherwise>
-              </c:choose>
-              </li>
-              <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
-            </ul>
-          </div>
-        </div>
-        <!-- End row -->
-      </div>
-      <!-- End container-->
-    </div>
-    <!-- End top line-->
-
-    <div class="container">
-      <div class="row">
-        <div class="col-3">
-          <div id="logo_home">
-            <h1>
-              <a href="index7.html" title="Welcome to royal Pandora">Welcome to royal Pandora</a>
-            </h1>
-          </div>
-        </div>
-        <nav class="col-9">
-          <a class="cmn-toggle-switch cmn-toggle-switch__htx open_close" href="javascript:void(0);"><span>選單</span></a>
-          <div class="main-menu">
-            <div id="header_menu">
-              <img src="./img/logo.png" width="160" height="34" alt="City tours" />
-            </div>
-            <a href="#" class="open_close" id="close_in"><i class="icon_set_1_icon-77"></i></a>
-            <ul>
-              <li class="submenu" style="margin: 0 0 0 75px;">
-                <a href="javascript:void(0);" class="show-submenu " style="width: 100px;">行程管理
-                </a>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);" class="show-submenu" style="width: 100px;">郵輪介紹
-                </a>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);" class="show-submenu" style="width: 100px;">活動新訊
-                </a>
-              </li>
-              <li class="megamenu submenu">
-                <a href="javascript:void(0);" class="show-submenu-mega" style="width: 100px;">旅遊資訊</a>
-
-                <!-- End row -->
-
-                <!-- End menu-wrapper -->
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);" class="show-submenu">會員中心<i class="icon-down-open-mini"></i></a>
-                <ul>
-                  <li>
-                    <a href="all_restaurants_list.html">會員資訊</a>
-                  </li>
-                  <li>
-                    <a href="all_restaurants_grid.html">會員資料修改</a>
-                  </li>
-                  <li>
-                    <a href="all_restaurants_grid_masonry.html">密碼更改</a>
-                  </li>
-                  <li>
-                    <a href="all_restaurants_map_listing.html">訂單查詢修改</a>
-                  </li>
-                  <li>
-                    <a href="single_restaurant.html">聊天室</a>
-                  </li>
-                  <li>
-                    <a href="payment_restaurant.html">討論區</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <!-- End main-menu -->
-          <ul id="top_tools">
-            <li>
-             
-              <!-- End dropdown-cart-->
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-    <!-- container -->
-  </header>
+   <%@ include file="/front-end/header.jsp" %> 
   <!-- End Header -->
 
   <section id="search_container" style="background: url('https://picsum.photos/1903/800?random=5')">

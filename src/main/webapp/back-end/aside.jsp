@@ -17,15 +17,13 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img
-          src="<%=request.getContextPath()%>/images/girlimg.jpg"
-          class="img-circle elevation-2"
-          alt="User Image"
-        />
-      </div>
-      <div class="info">
-        <a href="#" class="d-block">Lucifer Morningstar</a>
-      </div>
+                        <img src="<%=request.getContextPath()%>/EMPImageServlet?action=usesrImage"  name="action"  class="img-circle elevation-2" alt="User Image" />
+                    </div>
+                    <div class="info">
+                          <input name="Userlogin" type="hidden">
+                         <a href="#" class="d-block">${loginUser.englishFirstName}&nbsp${loginUser.englishLastName}</a>
+                      
+                    </div>
     </div>
 
     <!-- Sidebar Menu -->
@@ -48,13 +46,13 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="<%=request.getContextPath()%>/back-end/emp/EMP_InfoAll.jsp" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>員工資料表</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="<%=request.getContextPath()%>/PackagesBackEndServlet?action=packageADD" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>新增員工</p>
               </a>
@@ -62,7 +60,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="" class="nav-link">
             <i class="fa-solid fa-address-card"></i>
             <p>
               會員管理
@@ -71,7 +69,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="<%=request.getContextPath()%>/back-end/member/MemberAllList.jsp" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>會員資料管理</p>
               </a>
@@ -86,7 +84,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="<%=request.getContextPath()%>/PackagesBackEndServlet?action=getAllPackage" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>行程資訊管理</p>
               </a>
@@ -112,27 +110,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fa-solid fa-house-chimney-user"></i>
-            <p>房間管理<i class="right fas fa-angle-left"></i></p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>房間狀態查詢</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>房間資訊管理</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a  class="nav-link">
             <i class="fa-solid fa-comments"></i>
             <p>
               聊天室管理
@@ -141,10 +119,10 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="<%=request.getContextPath()%>/back-end/customerService/customerService.jsp" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>
-                  客服聊天室<span class="right badge badge-danger">New</span>
+                  客服聊天室
                 </p>
               </a>
             </li>
@@ -157,61 +135,9 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>文章管理</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>留言管理</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="<%=request.getContextPath()%>/back-end/forum/forumReason.jsp" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>檢舉管理</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fa-solid fa-chart-pie"></i>
-            <p>
-              分析系統
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>收益分析</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>年齡分析</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fa-solid fa-image"></i>
-            <p>
-              網頁圖文管理
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>圖文管理</p>
               </a>
             </li>
           </ul>

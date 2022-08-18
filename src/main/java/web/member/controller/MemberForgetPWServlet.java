@@ -57,7 +57,7 @@ public class MemberForgetPWServlet extends HttpServlet {
 					 *****************************************/
 					String to = email;
 					String subject = "【Pandora】密碼通知";
-					String ch_name = "親愛的【Pandora】用戶您好~";
+					String ch_name = "親愛的【Pandora】用戶您好";
 					String passRandom = randompassword;
 					String messageText = "Hello! " + ch_name + "<br/>"+ "<br/>"+"&emsp;&emsp;"+" 請使用此密碼 :【 " + passRandom + "】"
 							+ " 登入，提醒您盡快登入後更改個人密碼，謝謝";
