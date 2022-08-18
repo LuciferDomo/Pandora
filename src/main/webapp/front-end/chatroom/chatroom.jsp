@@ -15,36 +15,36 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       content="Citytours - Premium site template for city tours agencies, transfers and tickets."
     />
     <meta name="author" content="Ansonika" />
-    <title>CITY TOURS - City tours and travel site template by Ansonika</title>
+    <title>ROYAL CLASS PANDORA</title>
 
     <!-- Favicons-->
     <link
       rel="shortcut icon"
-      href="/pandora/Cart/html/img/favicon.ico"
+      href="<%=request.getContextPath() %>/front-end/chatroom/img/favicon.ico"
       type="image/x-icon"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
-      href="/pandora/Cart/html/img/apple-touch-icon-57x57-precomposed.png"
+      href="<%=request.getContextPath() %>/front-end/chatroom/img/apple-touch-icon-57x57-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="72x72"
-      href="/pandora/Cart/html/img/apple-touch-icon-72x72-precomposed.png"
+      href="<%=request.getContextPath() %>/front-end/chatroom/img/apple-touch-icon-72x72-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="114x114"
-      href="/pandora/Cart/html/img/apple-touch-icon-114x114-precomposed.png"
+      href="<%=request.getContextPath() %>/front-end/chatroom/img/apple-touch-icon-114x114-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="144x144"
-      href="/pandora/Cart/html/img/apple-touch-icon-144x144-precomposed.png"
+      href="<%=request.getContextPath() %>/front-end/chatroom/img/apple-touch-icon-144x144-precomposed.png"
     />
 
     <!-- GOOGLE WEB FONT -->
@@ -54,12 +54,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
     />
 
     <!-- COMMON CSS -->
-    <link href="/pandora/Cart/html/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/pandora/Cart/html/css/style.css" rel="stylesheet" />
-    <link href="/pandora/Cart/html/css/vendors.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath() %>/front-end/chatroom/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath() %>/front-end/chatroom/css/style.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath() %>/front-end/chatroom/css/vendors.css" rel="stylesheet" />
 
     <!-- CUSTOM CSS -->
-    <link href="/pandora/Cart/html/css/custom.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath() %>/front-end/chatroom/css/custom.css" rel="stylesheet" />
     <style>
       #wishlist_link::before {
         content: "\e97a";
@@ -187,7 +187,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
             <div class="main-menu">
               <div id="header_menu">
                 <img
-                  src="/pandora/Cart/html/img/logo.png"
+                  src="<%=request.getContextPath() %>/front-end/chatroom/img/logo.png"
                   width="160"
                   height="34"
                   alt="City tours"
@@ -273,7 +273,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                     <li>
                       <div class="image">
                         <img
-                          src="/pandora/Cart/html/img/thumb_cart_1.jpg"
+                          src="<%=request.getContextPath() %>/front-end/chatroom/img/thumb_cart_1.jpg"
                           alt="image"
                         />
                       </div>
@@ -283,7 +283,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                     <li>
                       <div class="image">
                         <img
-                          src="/pandora/Cart/html/img/thumb_cart_2.jpg"
+                          src="<%=request.getContextPath() %>/front-end/chatroom/img/thumb_cart_2.jpg"
                           alt="image"
                         />
                       </div>
@@ -293,7 +293,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                     <li>
                       <div class="image">
                         <img
-                          src="/pandora/Cart/html/img/thumb_cart_3.jpg"
+                          src="<%=request.getContextPath() %>/front-end/chatroom/img/thumb_cart_3.jpg"
                           alt="image"
                         />
                       </div>
@@ -354,24 +354,24 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
               style="height: 350px"
             ></textarea>
             <div class="panel input-area">
-              <!--               <input -->
-              <!--                 id="userName" -->
-              <!--                 class="text-field" -->
-              <!--                 type="hidden" -->
-              <!--                 placeholder="User name" -->
-              <%-- value="<%= session.getAttribute("loginMember") %>" --%>
-              <!--               /> -->
-              <input
-                id="userName"
-                class="text-field"
-                type="text"
-                placeholder="使用者名稱"
-              />
+                            <input
+                              id="userName"
+                              class="text-field"
+                              type="text"
+                              placeholder="會員名稱" disabled="disabled" style=color:white;“
+              value="${loginMember.chineseName}"
+                            />
+<!--               <input -->
+<!--                 id="userName" -->
+<!--                 class="text-field" -->
+<!--                 type="text" -->
+<!--                 placeholder="使用者名稱" -->
+<!--               /> -->
               <input
                 id="message"
                 class="text-field"
                 type="text"
-                placeholder="請填入訊息"
+                placeholder="請輸入訊息..."
                 onkeydown="if (event.keyCode == 13) sendMessage();"
               />
               <input
@@ -392,7 +392,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                 type="button"
                 id="disconnect"
                 class="button"
-                value="斷線"
+                value="離線"
                 onclick="disconnect();"
               />
             </div>
@@ -503,9 +503,10 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
     <!-- /Sign In Popup -->
 
     <!-- Common scripts -->
-    <script src="/pandora/Cart/html/js/jquery-3.6.0.min.js"></script>
-    <script src="/pandora/Cart/html/js/common_scripts_min.js"></script>
-    <script src="/pandora/Cart/html/js/functions.js"></script>
+    <script src="<%=request.getContextPath() %>/front-end/chatroom/js/jquery-3.6.0.min.js"></script>
+    <script src="<%=request.getContextPath() %>/front-end/chatroom/js/common_scripts_min.js"></script>
+    <script src="<%=request.getContextPath() %>/front-end/chatroom/js/functions.js"></script>
+    <script src="<%=request.getContextPath() %>/front-end/chatroom/js/moment.min.js"></script>
     <script>
       var MyPoint = "/TogetherWS/james";
       var host = window.location.host;
@@ -546,21 +547,20 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       function sendMessage() {
         var userName = inputUserName.value.trim();
         if (userName === "") {
-          alert("Input a user name");
+          alert("請輸入名稱");
           inputUserName.focus();
           return;
         }
 
         var inputMessage = document.getElementById("message");
         var message = inputMessage.value.trim();
-
         if (message === "") {
-          alert("Input a message");
+          alert("請輸入訊息...");
           inputMessage.focus();
         } else {
           var jsonObj = {
             userName: userName,
-            message: message,
+            message: message + " " + moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
           };
           webSocket.send(JSON.stringify(jsonObj));
           inputMessage.value = "";
