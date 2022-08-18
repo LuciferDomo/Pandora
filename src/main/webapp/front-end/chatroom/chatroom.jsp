@@ -147,7 +147,176 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
     <!-- Mobile menu overlay mask -->
 
     <!-- Header================================================== -->
-<%@ include file="/front-end/header.jsp" %>
+    <header>
+      <div id="top_line">
+        <div class="container">
+          <div class="row">
+            <div class="col-6">
+              <i class="icon-phone"></i><strong>02 23456789</strong>
+            </div>
+            <div class="col-6">
+              <ul id="top_links">
+                <li><a href="#sign-in-dialog" id="access_link">登入</a></li>
+                <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- End row -->
+        </div>
+        <!-- End container-->
+      </div>
+      <!-- End top line-->
+
+      <div class="container">
+        <div class="row">
+          <div class="col-3">
+            <div id="logo_home">
+              <h1>
+                <a href="index7.html" title="Welcome to royal Pandora"
+                  >Welcome to royal Pandora</a
+                >
+              </h1>
+            </div>
+          </div>
+          <nav class="col-9">
+            <a
+              class="cmn-toggle-switch cmn-toggle-switch__htx open_close"
+              href="javascript:void(0);"
+              ><span>選單</span></a
+            >
+            <div class="main-menu">
+              <div id="header_menu">
+                <img
+                  src="<%=request.getContextPath() %>/front-end/chatroom/img/logo.png"
+                  width="160"
+                  height="34"
+                  alt="City tours"
+                />
+              </div>
+              <a href="#" class="open_close" id="close_in"
+                ><i class="icon_set_1_icon-77"></i
+              ></a>
+              <ul>
+                <li class="submenu" style="margin: 0 0 0 75px">
+                  <a
+                    href="javascript:void(0);"
+                    class="show-submenu"
+                    style="width: 100px"
+                    >行程管理
+                  </a>
+                </li>
+                <li class="submenu">
+                  <a
+                    href="javascript:void(0);"
+                    class="show-submenu"
+                    style="width: 100px"
+                    >郵輪介紹
+                  </a>
+                </li>
+                <li class="submenu">
+                  <a
+                    href="javascript:void(0);"
+                    class="show-submenu"
+                    style="width: 100px"
+                    >活動新訊
+                  </a>
+                </li>
+                <li class="megamenu submenu">
+                  <a
+                    href="javascript:void(0);"
+                    class="show-submenu-mega"
+                    style="width: 100px"
+                    >旅遊資訊</a
+                  >
+
+                  <!-- End row -->
+
+                  <!-- End menu-wrapper -->
+                </li>
+                <li class="submenu">
+                  <a href="javascript:void(0);" class="show-submenu"
+                    >會員中心<i class="icon-down-open-mini"></i
+                  ></a>
+                  <ul>
+                    <li>
+                      <a href="all_restaurants_list.html">會員資訊</a>
+                    </li>
+                    <li>
+                      <a href="all_restaurants_grid.html">會員資料修改</a>
+                    </li>
+                    <li>
+                      <a href="all_restaurants_grid_masonry.html">密碼更改</a>
+                    </li>
+                    <li>
+                      <a href="all_restaurants_map_listing.html"
+                        >訂單查詢修改</a
+                      >
+                    </li>
+                    <li>
+                      <a href="single_restaurant.html">聊天室</a>
+                    </li>
+                    <li>
+                      <a href="payment_restaurant.html">討論區</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <!-- End main-menu -->
+            <ul id="top_tools">
+              <li>
+                <div class="dropdown dropdown-cart">
+                  <a href="#" data-bs-toggle="dropdown" class="cart_bt"
+                    ><i class="icon_bag_alt"></i><strong>8</strong></a
+                  >
+                  <ul class="dropdown-menu" id="cart_items">
+                    <li>
+                      <div class="image">
+                        <img
+                          src="<%=request.getContextPath() %>/front-end/chatroom/img/thumb_cart_1.jpg"
+                          alt="image"
+                        />
+                      </div>
+                      <strong><a href="#">Louvre museum</a>1x $36.00 </strong>
+                      <a href="#" class="action"><i class="icon-trash"></i></a>
+                    </li>
+                    <li>
+                      <div class="image">
+                        <img
+                          src="<%=request.getContextPath() %>/front-end/chatroom/img/thumb_cart_2.jpg"
+                          alt="image"
+                        />
+                      </div>
+                      <strong><a href="#">Versailles tour</a>2x $36.00 </strong>
+                      <a href="#" class="action"><i class="icon-trash"></i></a>
+                    </li>
+                    <li>
+                      <div class="image">
+                        <img
+                          src="<%=request.getContextPath() %>/front-end/chatroom/img/thumb_cart_3.jpg"
+                          alt="image"
+                        />
+                      </div>
+                      <strong><a href="#">Versailles tour</a>1x $36.00 </strong>
+                      <a href="#" class="action"><i class="icon-trash"></i></a>
+                    </li>
+                    <li>
+                      <div>合計: <span>$120.00</span></div>
+                      <a href="cart.html" class="button_drop">前往購物車</a>
+                      <a href="payment.html" class="button_drop outline"
+                        >退出</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <!-- End dropdown-cart-->
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <!-- container -->
+    </header>
     <!-- End Header -->
 
     <section
