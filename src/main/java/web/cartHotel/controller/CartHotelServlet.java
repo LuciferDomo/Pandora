@@ -37,7 +37,6 @@ public class CartHotelServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 
 		HttpSession session = req.getSession();
-//		Vector<BOOK> buylist = (Vector<BOOK>) session.getAttribute("shoppingcart");
 
 		String action = req.getParameter("action");
 		System.out.println(action);

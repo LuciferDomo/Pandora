@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ page import="java.util.*"%>
 <%@ page import="web.discount.service.impl.DiscountServiceImpl"%>
@@ -15,26 +15,21 @@
 <%@ page import="java.time.*"%>
 <%@ page import="java.math.*"%>
 
-<%
-	// 測試用會員
-	MemberServiceImpl memService = new MemberServiceImpl();
-	session.setAttribute("memVO", memService.getOneMember(2));
-	
+<%	
 	// 測試用行程
 	PackagesServiceImpl packagesService = new PackagesServiceImpl();
 	session.setAttribute("packagesVO", packagesService.getOnePackage(1));
 	
-	// 測試會員的會員等級&折扣
-	DiscountServiceImpl discountService = new DiscountServiceImpl();
-	session.setAttribute("discountVO", discountService.getOneDiscount(memService.getOneMember(2).getDiscountNo()));
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+	MemberVO memVO = (MemberVO)session.getAttribute("loginMember");
+	DiscountServiceImpl discountService = new DiscountServiceImpl();
+	session.setAttribute("discountVO", discountService.getOneDiscount(memVO.getDiscountNo()));
 	RoomTypeServiceImpl roomTypeService = new RoomTypeServiceImpl();
 	List<RoomTypeVO> roomTypeVOList = roomTypeService.getAll();
 	
 	DiscountVO discountVO = (DiscountVO)session.getAttribute("discountVO");
 	PackagesVO packagesVO = (PackagesVO)session.getAttribute("packagesVO");
-	MemberVO memVO = (MemberVO)session.getAttribute("memVO");
 	
 	BigDecimal discount = discountVO != null ? discountVO.getDiscount() : BigDecimal.valueOf(1);
 			
@@ -63,16 +58,16 @@
 	Ansonika</title>
 
 <!-- Favicons-->
-<link rel="shortcut icon" href="Cart/html/img/favicon.ico"
+<link rel="shortcut icon" href="<%=request.getContextPath()%>/<%=request.getContextPath()%>/Cart/html/img/favicon.ico"
 	type="image/x-icon">
 <link rel="apple-touch-icon" type="image/x-icon"
-	href="Cart/html/img/apple-touch-icon-57x57-precomposed.png">
+	href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-57x57-precomposed.png">
 <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72"
-	href="Cart/html/img/apple-touch-icon-72x72-precomposed.png">
+	href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-72x72-precomposed.png">
 <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114"
-	href="Cart/html/img/apple-touch-icon-114x114-precomposed.png">
+	href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-114x114-precomposed.png">
 <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
-	href="Cart/html/img/apple-touch-icon-144x144-precomposed.png">
+	href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-144x144-precomposed.png">
 
 <!-- GOOGLE WEB FONT -->
 <link
@@ -80,12 +75,12 @@
 	rel="stylesheet">
 
 <!-- COMMON CSS -->
-<link href="Cart/html/css/bootstrap.min.css" rel="stylesheet">
-<link href="Cart/html/css/style.css" rel="stylesheet">
-<link href="Cart/html/css/vendors.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/Cart/html/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/Cart/html/css/style.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/Cart/html/css/vendors.css" rel="stylesheet">
 
 <!-- CUSTOM CSS -->
-<link href="Cart/html/css/custom.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/Cart/html/css/custom.css" rel="stylesheet">
 
 
 <style>
@@ -105,7 +100,7 @@
 	line-height: 60px !important;
 }
 </style>
-<link rel="stylesheet" href="Cart/html/css/roompick.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/Cart/html/css/roompick.css">
 </head>
 <body>
 	<div id="preloader">
@@ -132,8 +127,26 @@
 					</div>
 					<div class="col-6">
 						<ul id="top_links">
-							<li><a href="#sign-in-dialog" id="access_link">登入</a></li>
-							<li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
+							<li>
+							  <c:if test="${loginMember != null}">
+								  <font>${loginMember.memberEnglishLastName}&nbsp${loginMember.memberEnglishFirstName}</font>
+							  </c:if>
+							</li>
+							<li>
+							<c:choose>
+							  <c:when test="${loginMember != null}">
+										<a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberSignOut">
+											登出<i class="icon-logout-1" id="logout"></i>
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberLogin">
+											登入<i class="icon-logout-1" id="logout"></i>
+										</a>
+									</c:otherwise>
+								   </c:choose>
+								   </li>
+								   <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
 						</ul>
 					</div>
 				</div>
@@ -147,10 +160,10 @@
 			<div class="row">
 				<div class="col-3">
 					<div id="logo">
-						<a href="index_7.html"><img src="Cart/html/img/logo.png"
+						<a href="index_7.html"><img src="<%=request.getContextPath()%>/Cart/html/img/logo.png"
 							width="160" height="34" alt="City tours" class="logo_normal"></a>
 						<a href="index_7.html"><img
-							src="Cart/html/img/logo_sticky.png" width="160" height="34"
+							src="<%=request.getContextPath()%>/Cart/html/img/logo_sticky.png" width="160" height="34"
 							alt="City tours" class="logo_sticky"></a>
 					</div>
 				</div>
@@ -193,38 +206,6 @@
 					<ul id="top_tools">
 						<li><a href="javascript:void(0);"
 							class="search-overlay-menu-btn"><i class="icon_search"></i></a></li>
-						<li>
-							<div class="dropdown dropdown-cart">
-								<a href="#" data-bs-toggle="dropdown" class="cart_bt"><i
-									class="icon_bag_alt"></i><strong>3</strong></a>
-								<ul class="dropdown-menu" id="cart_items">
-									<li>
-										<div class="image">
-											<img src="img/thumb_cart_1.jpg" alt="image">
-										</div> <strong><a href="#">Louvre museum</a>1x $36.00 </strong> <a
-										href="#" class="action"><i class="icon-trash"></i></a>
-									</li>
-									<li>
-										<div class="image">
-											<img src="img/thumb_cart_2.jpg" alt="image">
-										</div> <strong><a href="#">Versailles tour</a>2x $36.00 </strong> <a
-										href="#" class="action"><i class="icon-trash"></i></a>
-									</li>
-									<li>
-										<div class="image">
-											<img src="img/thumb_cart_3.jpg" alt="image">
-										</div> <strong><a href="#">Versailles tour</a>1x $36.00 </strong> <a
-										href="#" class="action"><i class="icon-trash"></i></a>
-									</li>
-									<li>
-										<div>
-											Total: <span>$120.00</span>
-										</div> <a href="cart.html" class="button_drop">Go to cart</a> <a
-										href="payment.html" class="button_drop outline">Check out</a>
-									</li>
-								</ul>
-							</div> <!-- End dropdown-cart-->
-						</li>
 					</ul>
 				</nav>
 			</div>
@@ -233,8 +214,7 @@
 	</header>
 	<!-- End Header -->
 
-	<section id="hero_2" class="background-image"
-		data-background="url(img/slide_hero_2.jpg)">
+	<section id="hero_2" class="background-image" style="background: url('https://picsum.photos/1903/800?random=5')">
 		<div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
 			<div class="intro_title">
 				<h1>規劃您的行程</h1>
@@ -304,7 +284,7 @@
 											String name = null;
 											int price = 0;
 											int capacity = 0;
-
+											String[] roomInfo = {"#modal_single_room", "#modal_luxury_room", "#modal_family_room", "#modal_royal_pandora_suite"};
 											for (int i = 0; i < roomTypeVOList.size(); i++) {
 												RoomTypeVO order = roomTypeVOList.get(i);
 												name = order.getRoomType();
@@ -314,12 +294,12 @@
 											<tr>
 												<td>
 													<div class="thumb_cart">
-														<a href="#" data-bs-toggle="modal"
-															data-bs-target="#modal_single_room"><img
-															src="Cart/html/img/thumb_cart_1.jpg" alt="Image"> </a>
-													</div> <span class="item_cart"><a href="#"
-														data-bs-toggle="modal" data-bs-target="#modal_single_room"
-														data-roomName="<%=name%>" data-roomPrice="<%=price%>"><%=name%></a></span>
+														<a href="#" data-bs-toggle="modal" data-bs-target="<%=roomInfo[i] %>">
+														<img src="<%=request.getContextPath()%>/front-end/cart/img/img<%=i %>.jpeg" alt="Image" style="width: 100%; height: 100%;"> </a>
+													</div> 
+													<span class="item_cart">
+														<a href="#" data-bs-toggle="modal" data-bs-target="<%=roomInfo[i] %>" data-roomName="<%=name%>" data-roomPrice="<%=price%>"><%=name%></a>
+													</span>
 												</td>
 
 
@@ -341,7 +321,7 @@
 										<small>* 精緻/豪華客房及潘朵拉套房每間可容納2人，家庭客房可容納4人</small>
 									</div>
 									<div class="add_bottom_15">
-										<small>* 總計 = 行程天數 * 房型價格</small>
+										<small>* 總計 = 行程天數 * 房型價格 * 會員折扣</small>
 									</div>
 
 								</div>
@@ -380,7 +360,7 @@
 											</tbody>
 										</table>
 										<a id="confirmRoomType" class="btn_full">前往房間劃位</a> <a
-											class="btn_full_outline" href="index_7.html">返回行程搜尋</a>
+											class="btn_full_outline" href="<%=request.getContextPath()%>/front-end/package/homePage.jsp">返回行程搜尋</a>
 									</div>
 
 								</aside>
@@ -645,28 +625,28 @@
 										<div
 											class="owl-carousel owl-theme carousel-thumbs magnific-gallery">
 											<div class="item">
-												<a href="img/carousel/1.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/1.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img0.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img0.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/2.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/2.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img1.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img1.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/3.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/3.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img2.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img2.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img3.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img3.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img4.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img4.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img5.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img5.jpeg" alt="Image"> </a>
 											</div>
 										</div>
 										<!-- End photo carousel  -->
@@ -711,28 +691,28 @@
 										<div
 											class="owl-carousel owl-theme carousel-thumbs magnific-gallery">
 											<div class="item">
-												<a href="img/carousel/1.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/1.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img0.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img0.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/2.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/2.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img1.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img1.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/3.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/3.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img2.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img2.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img3.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img3.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img4.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img4.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img5.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img5.jpeg" alt="Image"> </a>
 											</div>
 										</div>
 										<!-- End photo carousel  -->
@@ -777,28 +757,28 @@
 										<div
 											class="owl-carousel owl-theme carousel-thumbs magnific-gallery">
 											<div class="item">
-												<a href="img/carousel/1.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/1.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img0.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img0.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/2.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/2.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img1.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img1.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/3.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/3.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img2.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img2.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img3.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img3.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img4.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img4.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img5.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img5.jpeg" alt="Image"> </a>
 											</div>
 										</div>
 										<!-- End photo carousel  -->
@@ -843,28 +823,28 @@
 										<div
 											class="owl-carousel owl-theme carousel-thumbs magnific-gallery">
 											<div class="item">
-												<a href="img/carousel/1.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/1.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img0.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img0.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/2.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/2.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img1.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img1.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/3.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/3.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img2.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img2.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img3.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img3.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img4.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img4.jpeg" alt="Image"> </a>
 											</div>
 											<div class="item">
-												<a href="img/carousel/4.jpg" data-effect="mfp-zoom-in"><img
-													src="Cart/html/img/carousel/4.jpg" alt="Image"> </a>
+												<a href="<%=request.getContextPath()%>/front-end/cart/img/img5.jpeg" data-effect="mfp-zoom-in"><img
+													src="<%=request.getContextPath()%>/front-end/cart/img/img5.jpeg" alt="Image"> </a>
 											</div>
 										</div>
 										<!-- End photo carousel  -->
@@ -874,10 +854,11 @@
 						</div>
 </body>
 <!-- Jquery -->
-<script src="Cart/html/js/jquery-3.6.0.min.js"></script>
-<script src="Cart/html/js/common_scripts_min.js"></script>
-<script src="Cart/html/js/functions.js"></script>
-<script src="Cart/html/js/yang.js"></script>
+<script src="<%=request.getContextPath()%>/Cart/html/js/jquery-3.6.0.min.js"></script>
+<script src="<%=request.getContextPath()%>/Cart/html/js/common_scripts_min.js"></script>
+<script src="<%=request.getContextPath()%>/Cart/html/js/functions.js"></script>
+<script src="<%=request.getContextPath()%>/Cart/html/js/yang.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
 		$('.carousel-thumbs').owlCarousel({
@@ -944,9 +925,17 @@
 
 
 <script>
-//創建 房型對應數量 & 房型對應價格 map
+// 房型對應英文開頭
+let roomChiNameAndEng = new Map();
+roomChiNameAndEng.set('B', '精緻客房');
+roomChiNameAndEng.set('D', '豪華客房');
+roomChiNameAndEng.set('C', '家庭客房');
+roomChiNameAndEng.set('A', '潘多拉套房');
+
+// 創建 房型對應數量 & 房型對應價格 map
 let roomTypeAndCountPair = new Map();
 let roomTypeAndPricePair = new Map();
+
 $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.inc.button_inc', function (e) {
 	let roomName = e.target.parentNode.parentNode.parentNode.firstElementChild.lastElementChild.firstElementChild.getAttribute('data-roomname');
 	let roomPrice = e.target.parentNode.parentNode.parentNode.firstElementChild.lastElementChild.firstElementChild.getAttribute('data-roomprice');
@@ -969,10 +958,12 @@ $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.inc.
 		let roomTypeName = key;
 		for (let [key, value] of roomTypeAndPricePair) {
 			if (roomTypeName === key) {
-				roomTotalPrice += roomTypeCount * <%=days %> * <%=discount %> * value; // 房型數量*房型價格
+				roomTotalPrice += roomTypeCount * <%=days %> * value; // 房型數量*房型價格
 			}
 		}
 	}
+	roomTotalPrice = roomTotalPrice * <%=discount %>;
+	roomTotalPrice = roomTotalPrice.toFixed(0);
 
 	// 預定房型 : 取得element 並使用innerHTML 將roomTypeOneStr 放入html結構
 	let roomTypeOne = document.getElementById('Room_Type1');
@@ -991,21 +982,6 @@ $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.dec.
 	let roomName = e.target.parentNode.parentNode.parentNode.firstElementChild.lastElementChild.firstElementChild.getAttribute('data-roomname');
 	let roomPrice = e.target.parentNode.parentNode.parentNode.firstElementChild.lastElementChild.firstElementChild.getAttribute('data-roomprice');
 	let roomCount = e.target.parentNode.parentNode.firstElementChild.firstElementChild.value;
-
-	 /* if(!roomTypeArray.includes(roomName)){
-    roomTypeArray.push(roomName);
-    };
-    
-    let roomTypeArrayString = "";
-    
-    for(let i = 0; i < roomTypeArray.length; i++){
-		console.log(roomTypeArray[i]);
-		roomTypeArrayString += roomTypeArray[i] + "<br>";
-    };
-    
-    let para = document.getElementById("Room_Type1"); 
-    para.innerHTML="<strong>" + roomTypeArrayString + "</strong>";
-    */
 	
 	if (roomCount > 0) {
 		roomTypeAndCountPair.set(roomName, roomCount); // 若count > 0 更新數量
@@ -1027,10 +1003,12 @@ $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.dec.
 		let roomTypeName = key;
 		for (let [key, value] of roomTypeAndPricePair) {
 			if (roomTypeName === key) {
-				roomTotalPrice += roomTypeCount * value; // 房型數量*房型價格
+				roomTotalPrice += roomTypeCount * <%=days %> * value; // 房型數量*房型價格
 			}
 		}
 	}
+	roomTotalPrice = roomTotalPrice * <%=discount %>;
+	roomTotalPrice = roomTotalPrice.toFixed(0);
 
 	// 取得element 並使用innerHTML 將roomTypeOneStr 放入html結構
 	let roomTypeOne = document.getElementById('Room_Type1');
@@ -1046,51 +1024,43 @@ $('.table.table-striped.cart-list.add_bottom_30').find('div').on('click', '.dec.
 });
 
 $('#confirmRoomType').on('click', function(e) {
+	if(roomTypeAndCountPair.size === 0){
+		swal("請選擇房型", "請至少選擇一間", "error");
+	} else {
+		let data = {};
+		data.action = "confirmRoomTypeAndShowShip";
+		data.packageNo = <%=packagesVO.getPackageNo() %>;
 	
-	/* console.log(e.target); */
-	
-	let data = {};
-	data.action = "confirmRoomTypeAndShowShip";
-	data.packageNo = "1";
-	
-	<%-- console.log("<%=request.getContextPath()%>/CartHotelServlet"); --%>
-
-	$.ajax({
-		url : "<%=request.getContextPath()%>/CartHotelServlet",
-		type : "post",
-		data : data,
-		success : function(result) {
-			/* console.log(result); */
-			
-			let obj = JSON.parse(result);
-			/* console.log(obj.length); */
-			
-			if(obj.length < 28){
-				document.getElementById('ship').removeAttribute('style');
-				for(let o of obj){
-					let doc = document.getElementById(o.bookedRoomNo);
-					doc.firstElementChild.innerHTML='';
-					doc.setAttribute('style', 'pointer-events: none; background-color:#494444')
-					/* console.log(o.bookedRoomNo); */
-					
-					
-					
+		$.ajax({
+			url : "<%=request.getContextPath()%>/CartHotelServlet",
+			type : "post",
+			data : data,
+			success : function(result) {
+				let obj = JSON.parse(result);
+				
+				if(obj.length < 28){
+					document.getElementById('ship').removeAttribute('style');
+					for(let o of obj){
+						let doc = document.getElementById(o.bookedRoomNo);
+						doc.firstElementChild.innerHTML='';
+						doc.setAttribute('style', 'pointer-events: none; background-color:#494444')
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 });
 </script>
 
 <script>
 	let currentPickRoomNode = undefined;
 	$('.bus.bus2 a').on('click', function(e) {
-		/* let pickedRoom = document.getElementById('A01').value; */
+		console.log("ship room click!");
 		let roomNumber = e.target.textContent;
 		
 		let data = {};
 		data.action = "getRoomPickInfo";
-		data.shipNo = "1";
+		data.shipNo = <%=packagesVO.getShipNo() %>;
 		data.roomNo = roomNumber;
 		
 		$.ajax({
@@ -1098,11 +1068,7 @@ $('#confirmRoomType').on('click', function(e) {
 			type : "post",
 			data : data,
 			success : function(result) {
-				console.log(result); 
 				let obj = JSON.parse(result);
-				/* console.log(obj.roomListNo);
-				console.log(obj); */
-				
 					
 					// 取得element 並使用innerHTML 將obj.room 放入html結構
 					let roomNo = document.getElementById('PickedRoomNo');
@@ -1122,29 +1088,40 @@ $('#confirmRoomType').on('click', function(e) {
 					} else {
 						$('#pickOrNotButton').html('選擇');
 					}
-				
 			}
 		});
 	});
 	
 	let selectedRoomArray = [];
+	let checkMap = new Map();
 	$('#pickOrNotButton').on('click', function(){
 		let isPick = currentPickRoomNode.getAttribute('data-pickstatus');
+		let currentRoomTypeFirstWord = currentPickRoomNode.id.substring(0, 1);
 		if(isPick === 'true'){
 			currentPickRoomNode.setAttribute('data-pickstatus', 'false');
 			$('#pickOrNotButton').html('選擇');
 			let newStyle = currentPickRoomNode.getAttribute('style').replace('; opacity: 1', '');
 			currentPickRoomNode.setAttribute('style', newStyle);
 			selectedRoomArray.splice(selectedRoomArray.indexOf(currentPickRoomNode.textContent), 1);
-			
+			checkMap.set(currentRoomTypeFirstWord, checkMap.get(currentRoomTypeFirstWord) - 1);
 		} else {
-			currentPickRoomNode.setAttribute('data-pickstatus', 'true');
-			$('#pickOrNotButton').html('取消選擇');
-			let newStyle = currentPickRoomNode.getAttribute('style') + '; opacity: 1';
-			currentPickRoomNode.setAttribute('style', newStyle);
-			selectedRoomArray.push(currentPickRoomNode.textContent);
+			if(roomTypeAndCountPair.has(roomChiNameAndEng.get(currentRoomTypeFirstWord))){
+				let maxCount = roomTypeAndCountPair.get(roomChiNameAndEng.get(currentRoomTypeFirstWord));
+				let currentCount = checkMap.get(currentRoomTypeFirstWord) + 1;
+				if(currentCount > maxCount){
+					swal(roomChiNameAndEng.get(currentRoomTypeFirstWord) + '劃位數量已達上限', "", "error");
+				} else {
+					currentPickRoomNode.setAttribute('data-pickstatus', 'true');
+					$('#pickOrNotButton').html('取消選擇');
+					let newStyle = currentPickRoomNode.getAttribute('style') + '; opacity: 1';
+					currentPickRoomNode.setAttribute('style', newStyle);
+					selectedRoomArray.push(currentPickRoomNode.textContent);
+					checkMap.set(currentRoomTypeFirstWord, checkMap.has(currentRoomTypeFirstWord) ? checkMap.get(currentRoomTypeFirstWord) + 1 : 1);
+				}
+			} else {
+				swal(roomChiNameAndEng.get(currentRoomTypeFirstWord) + '為非預定房型', "", "error");
+			}
 		}
-		
 	});
 	
 	$('#goToPayment').on('click', function(e){
@@ -1160,8 +1137,8 @@ $('#confirmRoomType').on('click', function(e) {
 		  data: order,
 		  dataType: 'json',
 		  success: function(res){
-		    console.log("SUCCESS");
-		    window.location.href = '/pandora/Payment_Hotel.jsp';
+		    console.log("ajax : goToPayment return sucess");
+		    window.location.href = '/pandora/front-end/cart/Payment_Hotel.jsp';
 		  }  
 		}); 
 	});
