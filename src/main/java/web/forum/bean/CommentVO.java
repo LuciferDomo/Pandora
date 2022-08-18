@@ -10,14 +10,16 @@ public class CommentVO implements Serializable {
 	private Integer memberId;
 	private String commentContent;
 	private LocalDateTime commentTime;
-	private String status;
+	private Integer status;
+	private String reason;
+	
 	private String englishFirstName;
 
 	public CommentVO() {
 	}
 
 	public CommentVO(Integer commentNo, Integer postId, Integer memberId, String commentContent,
-			LocalDateTime commentTime, String status) {
+			LocalDateTime commentTime, Integer status, String reason) {
 		super();
 		this.commentNo = commentNo;
 		this.postId = postId;
@@ -25,6 +27,7 @@ public class CommentVO implements Serializable {
 		this.commentContent = commentContent;
 		this.commentTime = commentTime;
 		this.status = status;
+		this.reason = reason;
 	}
 
 	public Integer getCommentNo() {
@@ -67,12 +70,20 @@ public class CommentVO implements Serializable {
 		this.commentTime = commentTime;
 	}
 
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
 	public String getEnglishFirstName() {

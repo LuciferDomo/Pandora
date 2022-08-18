@@ -1,427 +1,786 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="web.forum.service.impl.ForumServiceImpl"%>
+<%@page import="web.forum.service.impl.CommentServiceImpl"%>
 
 <%@page import="web.forum.bean.ForumVO"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="web.forum.bean.CommentVO"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%
-  ForumVO forumVO = (ForumVO) request.getAttribute("forumVO"); //ForumServlet.java (Concroller) 存入req的forumVO物件 (包括幫忙取出的forumVO, 也包括輸入資料錯誤時的forumVO物件)
+    ForumServiceImpl forumSvc = new ForumServiceImpl();
+    List<ForumVO> list = forumSvc.getAll();
+    pageContext.setAttribute("list",list);
+    
+    CommentServiceImpl comSvc = new CommentServiceImpl();
+    List<CommentVO> list2 = comSvc.getAll();
+    pageContext.setAttribute("list2", list2);
 %>
-<%= forumVO==null %>--${forumVO.postId}--
+
+
+
 
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ROYAL CLASS PANDORA_後台系統</title>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Citytours - Premium site template for city tours agencies, transfers and tickets."
+    />
+    <meta name="author" content="Ansonika" />
+    <title>CITY TOURS - City tours and travel site template by Ansonika</title>
 
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+    <link
+      rel="apple-touch-icon"
+      type="image/x-icon"
+      href="img/apple-touch-icon-57x57-precomposed.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image/x-icon"
+      sizes="72x72"
+      href="img/apple-touch-icon-72x72-precomposed.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image/x-icon"
+      sizes="114x114"
+      href="img/apple-touch-icon-114x114-precomposed.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image/x-icon"
+      sizes="144x144"
+      href="img/apple-touch-icon-144x144-precomposed.png"
+    />
 
-<!-- Google Font: Source Sans Pro -->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
-<!-- Font Awesome Icons -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-	integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- Theme style -->
-<link rel="stylesheet" href="css/adminlte.css" />
-<style>
-.container {
-	width: 1024px;
-	padding: 2em;
-}
+    <!-- GOOGLE WEB FONT -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-.bold-blue {
-	font-weight: bold;
-	color: #0277BD;
-}
-</style>
-</head>
-<body class="hold-transition sidebar-mini">
-	<!-- 主要開發區塊 -->
-	<div class="wrapper">
-		<!-- Navbar header區塊-->
-		<nav id="navbar-header"
-			class="main-header navbar navbar-expand navbar-white navbar-light">
-			<!-- Left navbar links -->
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" data-widget="pushmenu"
-					href="#" role="button"><i class="fas fa-bars"></i></a></li>
+    <!-- COMMON CSS -->
+    <link href="<%=request.getContextPath()%>/front-end/forum/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/front-end/forum/css/style.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/front-end/forum/css/vendors.css" rel="stylesheet" />
 
-			</ul>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/forum/css/adminlte.css" />
+    <!-- 引用後台css -->
 
-			<!-- Right navbar links -->
-			<ul class="navbar-nav ml-auto">
+    <!-- CUSTOM CSS -->
+    <link href="<%=request.getContextPath()%>/front-end/forum/css/custom.css" rel="stylesheet" />
+    <style>
+      #wishlist_link::before {
+        content: "\e97a";
+      }
+    </style>
+  </head>
+  <body>
+    <div id="preloader">
+      <div class="sk-spinner sk-spinner-wave">
+        <div class="sk-rect1"></div>
+        <div class="sk-rect2"></div>
+        <div class="sk-rect3"></div>
+        <div class="sk-rect4"></div>
+        <div class="sk-rect5"></div>
+      </div>
+    </div>
+    <!-- End Preload -->
 
-				<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+    <div class="layer"></div>
+    <!-- Mobile menu overlay mask -->
 
-				</div>
-				<li class="nav-item"><a class="nav-link"
-					data-widget="login-out" href="#" role="button"> <i
-						class="fas fa-arrow-right-from-bracket"></i>
-				</a></li>
-			</ul>
-		</nav>
-		<!-- /.navbar -->
-		<!-- Main Sidebar Container 主側邊欄-->
-		<aside id="sidebar"
-			class="main-sidebar sidebar-dark-primary elevation-4">
-			<!-- Brand Logo -->
-			<a href="#" class="brand-link"> <img src="images/LOGo.png"
-				alt="PANDORA Logo" class="brand-image img-circle elevation-3"
-				style="opacity: 0.8" /> <pre></pre>
-			</a>
+    <!-- Header================================================== -->
+    <header id="plan">
+      <div id="top_line">
+        <div class="container">
+          <div class="row">
+            <div class="col-6">
+              <i class="icon-phone"></i><strong>02 23456789</strong>
+            </div>
+            <div class="col-6">
+              <ul id="top_links">
+                <li><a href="#sign-in-dialog" id="access_link">登入</a></li>
+                <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- End row -->
+        </div>
+        <!-- End container-->
+      </div>
+      <!-- End top line-->
 
-			<!-- Sidebar -->
-			<div class="sidebar">
-				<!-- Sidebar user panel (optional) -->
-				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-					<div class="image">
-						<img src="./images/girlimg.jpg" class="img-circle elevation-2"
-							alt="User Image" />
-					</div>
-					<div class="info">
-						<a href="#" class="d-block">Lucifer Morningstar</a>
-					</div>
-				</div>
-
-				<!-- Sidebar Menu -->
-				<nav class="mt-2">
-					<ul class="nav nav-pills nav-sidebar flex-column"
-						data-widget="treeview" role="menu" data-accordion="false">
-						<!-- Add icons to the links using the .nav-icon class
-                 with font-awesome or any other icon font library -->
-						<li class="nav-item"><a href="#" class="nav-link "> <i
-								class="fa-solid fa-briefcase"></i>
-								<p type="">
-									員工資料 <i class="right fas fa-angle-left"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>員工資料表</p>
-								</a></li>
-							</ul></li>
-						<li class="nav-item"><a href="#" class="nav-link"> <i
-								class="fa-solid fa-address-card"></i>
-								<p>
-									會員管理 <i class="right fas fa-angle-left"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>會員資料管理</p>
-								</a></li>
-							</ul></li>
-
-						<li class="nav-item"><a href="#" class="nav-link"> <i
-								class="fa-solid fa-ship"></i>
-								<p>
-
-
-									行程管理<i class="right fas fa-angle-left"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>行程資訊管理</p>
-								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>郵輪管理</p>
-								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>航線管理</p>
-								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>停靠點管理</p>
-								</a></li>
-
-
-							</ul></li>
-						<li class="nav-item"><a href="#" class="nav-link"> <i
-								class="fa-solid fa-house-chimney-user"></i>
-								<p>
-									房間管理<i class="right fas fa-angle-left"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>房間狀態查詢</p>
-								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>房間資訊管理</p>
-								</a></li>
-
-							</ul></li>
-						<li class="nav-item"><a href="#" class="nav-link"> <i
-								class="fa-solid fa-comments"></i>
-								<p>
-									聊天室管理 <i class="right fas fa-angle-left"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>
-											客服聊天室<span class="right badge badge-danger">New</span>
-										</p>
-								</a></li>
-
-
-							</ul></li>
-						<li class="nav-item menu-open"><a href="#" class="nav-link">
-								<i class="fa-solid fa-list"></i>
-								<p>
-									討論區管理<i class="right fas fa-angle-left"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>文章管理</p>
-								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>留言管理</p>
-								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>檢舉管理</p>
-								</a></li>
-							</ul></li>
-						<li class="nav-item"><a href="#" class="nav-link"> <i
-								class="fa-solid fa-chart-pie"></i>
-								<p>
-									分析系統 <i class="right fas fa-angle-left"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>收益分析</p>
-								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>年齡分析</p>
-								</a></li>
-
-							</ul></li>
-						<li class="nav-item"><a href="#" class="nav-link"> <i
-								class="fa-solid fa-image"></i>
-								<p>
-									網頁圖文管理 <i class="right fas fa-angle-left"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-circle nav-icon"></i>
-										<p>圖文管理</p>
-								</a></li>
-
-
-							</ul></li>
-
-
-					</ul>
-				</nav>
-				<!-- /.sidebar-menu -->
-			</div>
-			<!-- /.sidebar -->
-		</aside>
-		<!-- Content Wrapper. Contains page content 主頁面欄位-->
-		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<div class="content-header">
-				<div class="container-fluid">
-					<div class="row mb-2">
-						<div class="col-sm-6">
-							<h1 class="m-0">PANDORA後台系統</h1>
-						</div>
-						<!-- /.col -->
-						<div class="col-sm-6">
-							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="#">討論區管理</a></li>
-								<li class="breadcrumb-item active">EMP Page</li>
-							</ol>
-						</div>
-						<!-- /.col -->
-					</div>
-					<!-- /.row -->
-				</div>
-				<!-- /.container-fluid -->
-			</div>
-			<!-- /.content-header -->
-
-			<!-- Main content -->
-			<div class="content">
-				<div class="container-fluid">
-					<div class="row">
-						<!-- left column -->
-						<div class="col-md-12">
-							<!-- jquery validation -->
-							<div class="card card-primary">
-								<div class="card-header">
-									<h3 class="card-title">文章管理</h3>
-								</div>
-								<!-- /.card-header -->
-								<!-- form start -->
-								<div class="container">
-
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font style="color:red">請修正以下錯誤:</font>
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color:red">${message}</li>
-		</c:forEach>
-	</ul>
-</c:if>
-
-<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/ForumServlet" >
-<table>
-	<tr>
-		<td>文章編號:<font color=red></font></td>
-		<td><input type="hidden" name="postId" size="45" value="<%=forumVO.getPostId()%>" /><%=forumVO.getPostId()%></td>
-	</tr>
-	<tr>
-		<td>作者:</td>
-		<td><input type="TEXT" name="memberId" size="45" value="<%=forumVO.getMemberId()%>" /></td>
-	</tr>
-	<tr>
-		<td>標題:</td>
-		<td><input type="TEXT" name="postTitle" size="45"	value="<%=forumVO.getPostTitle()%>" /></td>
-	</tr>
-	<tr>
-		<td>內容:</td>
-		<td><input type="TEXT" name="postContent" size="45"	value="<%=forumVO.getPostContent()%>" /></td>
-	</tr>
-	<tr>
-		<td>時間:</td>
-		<td><input type="TEXT" name="postTime" size="45"	value="<%=forumVO.getPostTime()%>" /></td>
-	</tr>
-	<tr>
-		<td>次數:</td>
-		<td><input type="TEXT" name="clicks" size="45"	value="<%=forumVO.getClicks()%>" /></td>
-	</tr>
-	<tr>
-		<td>狀態:</td>
-		<td><input type="TEXT" name="status" size="45"	value="<%=forumVO.getStatus()%>" /></td>
-	</tr>
-	
-
-<!-- 	<tr> -->
-<!-- 		<td>部門:<font color=red><b>*</b></font></td> -->
-<!-- 		<td><select size="1" name="postId"> -->
-<!-- 		</select></td> -->
-<!-- 	</tr> -->
-
-</table>
-<br>
-<input type="hidden" name="action" value="update">
-<input type="hidden" name="postid" value="<%=forumVO.getPostId()%>">
-<input type="submit" value="送出修改"></FORM>
-
-
-</div>
-
-								</tfoot>
-								<div style="width: 100%; text-align: center">
-									<input style="display: inline-block; width: 150px"
-										type="button" onclick="history.go(-1)" value="上一頁"></input> <input
-										style="display: inline-block; width: 150px" type="button"
-										onclick="history.forward()" value="下一頁">
-								</div>
-
-
-							</div>
-
-						</div>
-						<!-- /.card -->
-					</div>
-					<!--/.col (left) -->
-					<!-- right column -->
-					<div class="col-md-6"></div>
-					<!--/.col (right) -->
-				</div>
-				<!-- /.row -->
-			</div>
-			<!-- /.container-fluid -->
-		</div>
-		<!-- /.content -->
-	</div>
-	<!-- ============ Footer段落 ============ -->
-	<footer class="main-footer">
-		<!-- To the right -->
-		<div class="float-right d-none d-sm-inline">Tibame_TGA102 第五組</div>
-		<!-- Default to the left -->
-		<!-- <strong
-                    >Copyright &copy; 2014-2021
-                    <a href="https://adminlte.io">AdminLTE.io</a>.</strong
+      <div class="container">
+        <div class="row">
+          <div class="col-3">
+            <div id="logo_home">
+              <h1>
+                <a href="index7.html" title="Welcome to royal Pandora"
+                  >Welcome to royal Pandora</a
                 >
-                All rights reserved. -->
-	</footer>
-	<!-- Control Sidebar -->
-	<aside class="control-sidebar control-sidebar-dark">
-		<!-- Control sidebar content goes here -->
-	</aside>
-	<!-- /.control-sidebar -->
-	<!-- ============ Footer段落 ============ -->
-	<!-- /.content-wrapper -->
-	</div>
-	<!-- jQuery -->
-	<script src="plugins/jquery/jquery.min.js"></script>
-	<!-- Bootstrap 4 -->
-	<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- AdminLTE App -->
-	<script src="js/adminlte.js"></script>
-	<script>
-		//exporte les données sélectionnées
-		var $table = $('#table');
+              </h1>
+            </div>
+          </div>
+          <nav class="col-9">
+            <a
+              class="cmn-toggle-switch cmn-toggle-switch__htx open_close"
+              href="javascript:void(0);"
+              ><span>選單</span></a
+            >
+            <div class="main-menu">
+              <div id="header_menu">
+                <img
+                  src="./img/logo.png"
+                  width="160"
+                  height="34"
+                  alt="City tours"
+                />
+              </div>
+              <a href="#" class="open_close" id="close_in"
+                ><i class="icon_set_1_icon-77"></i
+              ></a>
+              <ul>
+                <li class="submenu">
+                  <a href="javascript:void(0);" class="show-submenu"
+                    >行程管理
+                  </a>
+                </li>
+                <li class="submenu">
+                  <a href="javascript:void(0);" class="show-submenu"
+                    >郵輪介紹
+                  </a>
+                </li>
+                <li class="submenu">
+                  <a href="javascript:void(0);" class="show-submenu"
+                    >活動新訊
+                  </a>
+                </li>
+                <li class="megamenu submenu">
+                  <a href="javascript:void(0);" class="show-submenu-mega"
+                    >旅遊資訊</a
+                  >
 
-		var trBoldBlue = $(" table");
-		$(trBoldBlue).on("click", "tr", function() {
-			$(this).toggleClass("bold-blue");
-		});
-	</script>
+                  <!-- End row -->
 
-	<!-- 上下頁 -->
+                  <!-- End menu-wrapper -->
+                </li>
+                <li class="submenu">
+                  <a href="javascript:void(0);" class="show-submenu"
+                    >會員中心<i class="icon-down-open-mini"></i
+                  ></a>
+                  <ul>
+                    <li>
+                      <a href="all_restaurants_list.html">會員資訊</a>
+                    </li>
+                    <li>
+                      <a href="all_restaurants_grid.html">會員資料修改</a>
+                    </li>
+                    <li>
+                      <a href="all_restaurants_grid_masonry.html">密碼更改</a>
+                    </li>
+                    <li>
+                      <a href="all_restaurants_map_listing.html"
+                        >訂單查詢修改</a
+                      >
+                    </li>
+                    <li>
+                      <a href="single_restaurant.html">聊天室</a>
+                    </li>
+                    <li>
+                      <a href="payment_restaurant.html">討論區</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <!-- End main-menu -->
+            <ul id="top_tools">
+              <li>
+                <div class="dropdown dropdown-cart">
+                  <a href="#" data-bs-toggle="dropdown" class="cart_bt"
+                    ><i class="icon_bag_alt"></i><strong>8</strong></a
+                  >
+                  <ul class="dropdown-menu" id="cart_items">
+                    <li>
+                      <div class="image">
+                        <img src="img/thumb_cart_1.jpg" alt="image" />
+                      </div>
+                      <strong><a href="#">Louvre museum</a>1x $36.00 </strong>
+                      <a href="#" class="action"><i class="icon-trash"></i></a>
+                    </li>
+                    <li>
+                      <div class="image">
+                        <img src="img/thumb_cart_2.jpg" alt="image" />
+                      </div>
+                      <strong><a href="#">Versailles tour</a>2x $36.00 </strong>
+                      <a href="#" class="action"><i class="icon-trash"></i></a>
+                    </li>
+                    <li>
+                      <div class="image">
+                        <img src="img/thumb_cart_3.jpg" alt="image" />
+                      </div>
+                      <strong><a href="#">Versailles tour</a>1x $36.00 </strong>
+                      <a href="#" class="action"><i class="icon-trash"></i></a>
+                    </li>
+                    <li>
+                      <div>合計: <span>$120.00</span></div>
+                      <a href="cart.html" class="button_drop">前往購物車</a>
+                      <a href="payment.html" class="button_drop outline"
+                        >退出</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <!-- End dropdown-cart-->
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <!-- container -->
+    </header>
+    <!-- End Header -->
+
+    <!-- End hero -->
+
+    <main>
+    <br>
+    <br>
+    <br>
+    
+    
+<%--         <jsp:include page="/views/userMainPage-header.jsp" /> --%>
+            <div class="page-header mt-30 mb-75">
+                <div class="container">
+                    <div class="archive-header">
+                        <div class="row align-items-center">
+                            <div class="col-xl-3">
+                                <h1 class="mb-15">討論區</h1>
+                                <div class="breadcrumb">
+                                    <a href="forumAdd.jsp" rel="nofollow"><i class="fi-rs-home mr-5"></i>發表文章</a>
+                                    <span></span> 
+                                </div>
+                            </div>
+<!--                             <div class="col-xl-9 text-end d-none d-xl-block"> -->
+<!--                                 <ul class="tags-list"> -->
+<!--                                     <li class="hover-up"> -->
+<!--                                         <a href="#"><i class="fi-rs-cross mr-10"></i>貓貓</a> -->
+<!--                                     </li> -->
+<!--                                     <li class="hover-up active"> -->
+<!--                                         <a href="#"><i class="fi-rs-cross mr-10"></i>寵物知識</a> -->
+<!--                                     </li> -->
+<!--                                     <li class="hover-up"> -->
+<!--                                         <a href="#"><i class="fi-rs-cross mr-10"></i>米克斯</a> -->
+<!--                                     </li> -->
+<!--                                     <li class="hover-up"> -->
+<!--                                         <a href="#"><i class="fi-rs-cross mr-10"></i>天竺鼠車車</a> -->
+<!--                                     </li> -->
+<!--                                     <li class="hover-up mr-0"> -->
+<!--                                         <a href="#"><i class="fi-rs-cross mr-10"></i>木木梟</a> -->
+<!--                                     </li> -->
+<!--                                 </ul> -->
+<!--                             </div> -->
+                        </div>
+                    </div>
+                </div>
+    
+    <div class="page-content mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 m-auto">
+                        <div class="single-page pt-50 pr-30">
+                            <div class="single-header style-2">
+                                <div class="row">
+                                    <div class="col-xl-10 col-lg-12 m-auto">
+<!--                                         <h6 class="mb-10"><a href="#">Recipes</a></h6> -->
+                                        <h2 class="mb-10">${forumVO.postTitle}</h2>
+                                        <div class="single-header-meta">
+                                            <div class="entry-meta meta-1 font-xs mt-15 mb-15">
+                                                <a class="author-avatar" href="<%=request.getContextPath()%>/ForumServlet?action=getMem_For_Display&memberId=${forumVO.memberId}">
+                                                    <img class="img-circle" src="assets/imgs/blog/author-1.png" alt="">
+                                                </a>
+<%--                                                 <span class="post-by">By <a href="<%=request.getContextPath()%>/MemBlogArtServlet?action=getMem_For_Display&memberId=${memBlogArtVO.memberId}"><%=membersVOinfo.getName()%></a></span> --%>
+                                                <span class="post-on has-dot">${forumVO.postTime}</span>
+                                            </div>
+                                            <div class="social-icons single-share">
+                                                <ul class="text-grey-5 d-inline-block">
+                                                    <li class="mr-5"><img class="bookmark" src="assets/imgs/theme/icons/icon-bookmark.svg" alt=""><a class="saved" href="#" >收藏此文章</a></li>
+                                                    <li class="he-5"><img src="assets/imgs/theme/icons/icon-heart-2.svg" alt=""><a class="liked" href="#" >按讚</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <figure class="single-thumbnail">
+                                <img src="<%= request.getContextPath() %>/GetPic?postPic=${forumVO.postId}" alt="">
+                            </figure>
+                            <div class="single-content">
+                                <div class="row">
+                                    <div class="col-xl-10 col-lg-12 m-auto">
+                                    
+                                    <p style="white-space: pre-wrap;">${forumVO.postContent}</p>
+                             
+<!--                                         <p class="single-excerpt">Helping everyone live happier, healthier lives at home through their kitchen. Kitchn is a daily food magazine on the Web celebrating life in the kitchen through home cooking and kitchen intelligence.</p> -->
+<!--                                         <p>We've reviewed and ranked all of the best smartwatches on the market right now, and we've made a definitive list of the top 10 devices you can buy today. One of the 10 picks below may just be your perfect next smartwatch.</p> -->
+<!--                                         <p>Those top-end wearables span from the Apple Watch to Fitbits, Garmin watches to Tizen-sporting Samsung watches. There's also Wear OS which is Google's own wearable operating system in the vein of Apple's watchOS - you’ll see it show up in a lot of these devices.</p> -->
+<!--                                         <h5 class="mt-50">Lorem ipsum dolor sit amet cons</h5> -->
+<!--                                         <p>Throughout our review process, we look at the design, features, battery life, spec, price and more for each smartwatch, rank it against the competition and enter it into the list you'll find below.</p> -->
+<!--                                         <img class="mb-30" src="assets/imgs/blog/blog-21.png" alt=""> -->
+<!--                                         <p>Tortor, lobortis semper viverra ac, molestie tortor laoreet amet euismod et diam quis aliquam consequat porttitor integer a nisl, in faucibus nunc et aenean turpis dui dignissim nec scelerisque ullamcorper eu neque, augue quam quis lacus pretium eros est amet turpis nunc in turpis massa et eget facilisis ante molestie penatibus dolor volutpat, porta pellentesque scelerisque at ornare dui tincidunt cras feugiat tempor lectus</p> -->
+<!--                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet id enim, libero sit. Est donec lobortis cursus amet, cras elementum libero convallis feugiat. Nulla faucibus facilisi tincidunt a arcu, sem donec sed sed. Tincidunt morbi scelerisque lectus non. At leo mauris, vel augue. Facilisi diam consequat amet, commodo lorem nisl, odio malesuada cras. Tempus lectus sed libero viverra ut. Facilisi rhoncus elit sit sit.</p> -->
+                                        <!--Entry bottom-->
+                                        <div class="entry-bottom mt-50 mb-30">
+                                            <div class="tags w-50 w-sm-100">
+<!--                                                 <a href="blog-category-big.html" rel="tag" class="hover-up btn btn-sm btn-rounded mr-10">deer</a> -->
+<!--                                                 <a href="blog-category-big.html" rel="tag" class="hover-up btn btn-sm btn-rounded mr-10">nature</a> -->
+<!--                                                 <a href="blog-category-big.html" rel="tag" class="hover-up btn btn-sm btn-rounded mr-10">conserve</a> -->
+                                            </div>
+<!--                                             <div class="social-icons single-share"> -->
+<!--                                                 <ul class="text-grey-5 d-inline-block"> -->
+<!--                                                     <li><strong class="mr-10">Share this:</strong></li> -->
+<!--                                                     <li class="social-facebook"><a href="#"><img src="assets/imgs/theme/icons/icon-facebook.svg" alt=""></a></li> -->
+<!--                                                     <li class="social-twitter"> <a href="#"><img src="assets/imgs/theme/icons/icon-twitter.svg" alt=""></a></li> -->
+<!--                                                     <li class="social-instagram"><a href="#"><img src="assets/imgs/theme/icons/icon-instagram.svg" alt=""></a></li> -->
+<!--                                                     <li class="social-linkedin"><a href="#"><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt=""></a></li> -->
+<!--                                                 </ul> -->
+<!--                                             </div> -->
+                                        </div>
+                                        <!--Author box-->
+                                        <div class="author-bio p-30 mt-50 border-radius-15 bg-white">
+                                            <div class="author-image mb-30">
+                                            
+                                            ${dataMap.forum.postTitle}
+                                            
+                                            <br>
+                                            
+                                            <img src="/pandora/GetPic?action=forumVOUpdate&postId=${dataMap.forum.postId}">
+                                            
+                                            <br>
+                                            
+                                            ${dataMap.forum.postContent}
+                                            
+<!--                                             <div class="breadcrumb"> -->
+<!--                                     <a href="forumAdd.jsp" rel="nofollow"><i class="fi-rs-home mr-5"></i>發表文章</a> -->
+<!--                                     <span></span>  -->
+<!--                                 </div> -->
+                                            
+                                                <a href="<%=request.getContextPath()%>//ForumServlet?action=getMem_For_Display&memberId=${forumVO.memberId}"><img src="assets/imgs/blog/author-1.png" alt="" class="avatar"></a>
+                                                <div class="author-infor">
+<%--                                                     <h5 class="mb-5"><%=membersVOinfo.getName()%></h5> --%>
+                                                    <p class="mb-0 text-muted font-xs">
+                                                        <span class="mr-10">306 posts</span>
+                                                        <span class="has-dot">Since 2012</span>
+                                                    </p>
+                                                    
+                                                    
+                                    
+                                                    
+                                                </div>
+                                                
+                                                
+                                                
+                                            </div>
+                                            
+                                            <div class="breadcrumb">
+                                            <FORM METHOD="post"
+																ACTION="<%=request.getContextPath()%>/ForumServlet"
+																style="margin-bottom: 0px;">
+																<input type="submit" value="檢舉"> <input
+																	type="hidden" name="postID" value="${dataMap.forum.postId}">
+																<input type="hidden" name="action" value="reportForumBefore">
+															</FORM>
+                                    <span></span> 
+                                </div>
+                                            
+                                            <div class="author-des">
+<%--                                                 <p><%=membersVOinfo.getIntro()%></p> --%>
+                                            </div>
+                                        </div>
+                                        <!--Comment form-->
+                                        <div class="comment-form">
+                                            
+<!--                                                 <input type="hidden" name="action" value="insert"> -->
+                                        
+                                            <h3 class="mb-15 text-center mb-30">留言內容</h3>
+                                            <div class="row">
+                                                <div class="col-lg-9 col-md-12  m-auto">
+                                                    <form class="form-contact comment_form mb-50" action="<%=request.getContextPath() %>/ForumServlet" id="postId" method="post">                                          
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+<%--                                                                     <input type="hidden" name="commentNo" value="<%=forumVO.getPostId%>"> --%>
+<%--                                                                     <input type="hidden" name="reMemberId" value="<%=membersVO.getMemberid()%>"> --%>
+                                                                    <input type="hidden" name="action" value="insert2">
+                                                                    <input type="hidden" name="memberId" value="2">
+                                                                    <input type="hidden" name="postId" value="${dataMap.forum.postId}">
+                                                                    <input type="hidden" name="title" value="${dataMap.forum.postTitle}">
+<%--                                                                     <input type="hidden" name="content" value="${dataMap.forum.postContent}"> --%>
+                                                                    <textarea class="form-control w-100" name="content" id="content" cols="30" rows="9" placeholder="請輸入留言內容"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group">
+                                                            <button type="submit" class="button button-contactForm">送出留言</button>
+                                                        </div>
+                                                    </form>
+<%-- 							                        ${dataMap.forum.postId} --%>
+<%-- 													${dataMap.forum.memberId} --%>
+<%-- 													${dataMap.forum.postTitle} --%>
+<%-- 													${dataMap.forum.postContent} --%>
+<%-- 													${dataMap.forum.postTime} --%>
+<%-- 													${dataMap.forum.clicks} --%>
+<%-- 													${dataMap.forum.status} --%>
+<%-- 													<img alt="" src="${dataMap.forum.postPic}"> --%>
+<%-- 													<img src="/pandora/GetPic?action=forumVOUpdate&postId=${dataMap.forum.postId}"> --%>
+<%--                                                     ${dataMap.forum} --%>
+
+                                                    <div class="comments-area">
+                                                        <h3 class="mb-30">留言：</h3>
+<%--                                                         ${dataMap.comment.commentContent} --%>
+                                                        
+<%--                                                         ${dataMap.comment.englishFirstName} --%>
+                                                        <c:forEach var="commentVO" items="${list2}">
+                                                        <c:if test="${commentVO.postId ==  dataMap.comment.postId}">
+                                                        <div class="comment-list   m-auto">
+                                                        
+<%--                                                         <img src="/pandora/GetPic?action=forumVOUpdate&postId=${dataMap.forum.postId}"> --%>
+                                                        
+                                                            <div class=" single-comment justify-content-between d-flex mb-30">
+                                                            <div class="user justify-content-between d-flex">
+<!--                                                                 <div class="thumb" style="width:150px;"> -->
+<!--                                                                     <img src="assets/imgs/blog/author-2.png" alt=""> -->
+<!--                                                                     TODO:member名稱要用id進資料庫找出來 -->
+<!--                                                                 </div> -->
+<!--                                                                 <div class="desc"> -->
+<!--                                                                     <div class="justify-content-between mb-10"> -->
+                                                                        
+<!--                                                                         <div class="d-flex align-items-center"> -->
+<!--                                                                         <div style="display:block;"> -->
+<%--                                                                         <p class="mb-10">${memReplyVO.re}</p> --%>
+<!--                                                                         </div> -->
+<%-- <%--                                                                         <fmt:formatDate value="${memReplyVO.time}" var="formattedDate" type="date" pattern="yyyy/MM/dd HH:mm:ss"/> --%> 
+<%--                                                                             <span class="font-xs text-muted">${memReplyVO.time}</span> --%>
+                                                                        
+<!--                                                                         </div> -->
+                                                                        
+                                                                        
+<!--                                                                     </div> -->
+                                                                    
+<!--                                                                 </div> -->
+                                                                    <div class="desc">
+                                                                    <div class="d-flex justify-content-between mb-10">
+                                                                        <div class="d-flex ">
+<%--                                                                             <span class="font-xs text-muted">${commentVO.commentTime} </span> --%>
+                                                                            <span class="font-xs ">${commentVO.commentContent}  ${dataMap.comment.englishFirstName}</span>
+                                                                        </div>
+                                                                        <div class="d-inline-block">
+                                                                            
+                                                                        </div>
+                                                                    </div>
+<%--                                                                     <p class="mb-10"> ${commentTime.commentContent}</p> --%>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                        </c:if>
+                                                        </c:forEach>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    
+    
+<!--     <br> -->
+<!--     <br> -->
+<!--     <br> -->
+<!--     <br> -->
+<!--     <br> -->
+<!--     <br> -->
+<!--     <br> -->
+<!--       <div class="content"> -->
+<!--                 <div class="container-fluid"> -->
+<!--                     <div class="row"> -->
+<!--                         left column -->
+<!--                         <div class="col-md-12"> -->
+<!--                             jquery validation -->
+<!--                             <div class="card card-primary"> -->
+<!--                                 <div class="card-header"> -->
+<!--                                     <h3 class="card-title"> -->
+<!--                                         討論區 -->
+
+<!--                                     </h3> -->
+<!--                                 </div> -->
+<!--                                 /.card-header -->
+<!--                                 form start                                 -->
+<!--                                 <div class="container"> -->
+                                
+<!--                                 <table id="table" data-toggle="table" data-search="true" -->
+<!-- 										data-filter-control="true" data-show-export="true" -->
+<!-- 										data-click-to-select="true" data-toolbar="#toolbar"> -->
+<!-- 										<thead> -->
+<!-- 											<tr> -->
+
+<!-- 												<th>文章編號</th> -->
+<!-- 												<th>作者</th> -->
+<!-- 												<th>標題</th> -->
+<!-- 												<th>內容</th> -->
+<!-- 												<th>發表時間</th> -->
+<!-- 												<th>次數</th> -->
+<!-- 												<th>狀態</th> -->
+<!-- 												<th>修改</th> -->
+<!-- 												<th>刪除</th> -->
 
 
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script
-		src="https://github.com/kayalshri/tableExport.jquery.plugin/blob/master/jquery.base64.js"></script>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet"
-		href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">
-
-	<!-- Latest compiled and minified JavaScript -->
-	<script
-		src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>
-	<!-- Latest compiled and minified Locales -->
-	<script
-		src="https://unpkg.com/bootstrap-table@1.20.2/dist/locale/bootstrap-table-zh-CN.min.js"></script>
-	<link
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-		rel="stylesheet"
-		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-		crossorigin="anonymous">
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-		crossorigin="anonymous"></script>
-</body>
 
 
+<!-- 											</tr> -->
+<!-- 										</thead> -->
+<!-- 										<tbody> -->
+<%-- 											<c:forEach items="${list}" var="forumVO"> --%>
 
+<!-- 												<tr> -->
+<%-- 													<td>${forumVO.postId }</td> --%>
+<%-- 													<td>${forumVO.memberId }</td> --%>
+<%-- 													<td>${forumVO.postTitle }</td> --%>
+<%-- 													<td>${forumVO.postContent }</td> --%>
+<%-- 													<td>${forumVO.postTime }</td> --%>
+<%-- 													<td>${forumVO.clicks }</td> --%>
+<%-- 													<td>${forumVO.status }</td> --%>
+<!-- 													<td> -->
+<!-- 														<FORM METHOD="post" -->
+<%-- 															ACTION="<%=request.getContextPath()%>/ForumServlet" --%>
+<!-- 															style="margin-bottom: 0px;"> -->
+<!-- 															<input type="submit" value="修改"> <input -->
+<%-- 																type="hidden" name="postID" value="${forumVO.postId}"> --%>
+<!-- 															<input type="hidden" name="action" -->
+<!-- 																value="getOne_For_Update_Forum"> -->
+<!-- 														</FORM> -->
+<!-- 													</td> -->
+<!-- 													<td> -->
+<!-- 														<FORM METHOD="post" -->
+<%-- 															ACTION="<%=request.getContextPath()%>/ForumServlet" --%>
+<!-- 															style="margin-bottom: 0px;"> -->
+<!-- 															<input type="submit" value="刪除"> <input -->
+<%-- 																type="hidden" name="postID" value="${forumVO.postId}"> --%>
+<!-- 															<input type="hidden" name="action" value="delete"> -->
+<!-- 														</FORM> -->
+<!-- 													</td> -->
+<!-- 												</tr> -->
+<%-- 											</c:forEach> --%>
+<!-- 										</tbody> -->
+<!-- 									</table> -->
+<!-- 									<input type="button" name="EMPregister" value="備用按鈕" -->
+<!-- 										text-align=center -->
+<!-- 										style="margin-right: 0%; width: 250px; float: right;" -->
+<!-- 										onclick="javascript:window.location.href='https://www.juksy.com/article/96554-%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%8D%B1%E9%9A%AA%E7%9A%84%E5%A5%B3%E4%BA%BA%EF%BC%81Dua+Lipa+%E6%80%A7%E6%84%9F%E5%8F%88%E8%BF%B7%E4%BA%BA%E7%9A%84%E9%AD%85%E5%8A%9B%E8%AA%B0%E6%93%8B%E5%BE%97%E4%BA%86%EF%BC%9F%E8%87%AA%E6%8B%8D%E7%A7%80%E3%80%8C%E9%9B%95%E5%88%BB%E8%85%B9%E8%82%8C%E3%80%8D%E5%85%A8%E9%9D%A0+15+%E5%88%86%E9%90%98%E5%B0%B1%E8%83%BD%E9%A4%8A%E6%88%90%EF%BD%9E'" /> -->
+<!-- 								</div> -->
+
+<!-- 								</tfoot> -->
+<!-- 								<div style="width: 100%; text-align: center"> -->
+<!-- 									<input style="display: inline-block; width: 150px" -->
+<!-- 										type="button" onclick="history.go(-1)" value="上一頁"></input> <input -->
+<!-- 										style="display: inline-block; width: 150px" type="button" -->
+<!-- 										onclick="history.forward()" value="下一頁"> -->
+<!-- 								</div> -->
+
+
+<!--                                     </div> -->
+
+<!--                                 </tfoot> -->
+<!--                                 <div style="width:100%;text-align:center"> -->
+<!--                                     <input style="display:inline-block;width:150px" type="button" -->
+<!--                                         onclick="history.go(-1)" value="上一頁"></input> -->
+<!--                                     <input style="display:inline-block;width:150px" type="button" -->
+<!--                                         onclick="history.forward()" value="下一頁"> -->
+<!--                                 </div> -->
+
+
+<!--                             </div> -->
+
+<!--                         </div> -->
+<!--                         /.card -->
+<!--                     </div> -->
+<!--                     /.col (left) -->
+<!--                     right column -->
+<!--                     <div class="col-md-6"></div> -->
+<!--                     /.col (right) -->
+<!--                 </div> -->
+<!--                 /.row -->
+<!--             </div> -->
+    </main>
+    <!-- End main -->
+
+    <footer class="revealed">
+      <div class="container">
+        <!-- End row -->
+        <div class="row">
+          <div class="col-md-12">
+            <div id="social_footer">
+              <p>© Pandora 2022</p>
+            </div>
+          </div>
+        </div>
+        <!-- End row -->
+      </div>
+      <!-- End container -->
+    </footer>
+    <!-- End footer -->
+
+    <div id="toTop"></div>
+    <!-- Back to top button -->
+
+    <!-- Search Menu -->
+    <div class="search-overlay-menu">
+      <span class="search-overlay-close"
+        ><i class="icon_set_1_icon-77"></i
+      ></span>
+      <form role="search" id="searchform" method="get">
+        <input value="" name="q" type="text" placeholder="Search..." />
+        <button type="submit"><i class="icon_set_1_icon-78"></i></button>
+      </form>
+    </div>
+    <!-- End Search Menu -->
+
+    <!-- Sign In Popup -->
+    <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+      <div class="small-dialog-header">
+        <h3>Sign In</h3>
+      </div>
+      <form>
+        <div class="sign-in-wrapper">
+          <a href="#0" class="social_bt facebook">Login with Facebook</a>
+          <a href="#0" class="social_bt google">Login with Google</a>
+          <div class="divider"><span>Or</span></div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" name="email" id="email" />
+            <i class="icon_mail_alt"></i>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="password"
+              id="password"
+              value=""
+            />
+            <i class="icon_lock_alt"></i>
+          </div>
+          <div class="clearfix add_bottom_15">
+            <div class="checkboxes float-start">
+              <label class="container_check"
+                >Remember me
+                <input type="checkbox" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="float-end">
+              <a id="forgot" href="javascript:void(0);">Forgot Password?</a>
+            </div>
+          </div>
+          <div class="text-center">
+            <input type="submit" value="Log In" class="btn_login" />
+          </div>
+          <div class="text-center">
+            Don’t have an account? <a href="javascript:void(0);">Sign up</a>
+          </div>
+          <div id="forgot_pw">
+            <div class="form-group">
+              <label>Please confirm login email below</label>
+              <input
+                type="email"
+                class="form-control"
+                name="email_forgot"
+                id="email_forgot"
+              />
+              <i class="icon_mail_alt"></i>
+            </div>
+            <p>
+              You will receive an email containing a link allowing you to reset
+              your password to a new preferred one.
+            </p>
+            <div class="text-center">
+              <input type="submit" value="Reset Password" class="btn_1" />
+            </div>
+          </div>
+        </div>
+      </form>
+      <!--form -->
+    </div>
+    <!-- /Sign In Popup -->
+
+    <!-- Common scripts -->
+    <script src="<%=request.getContextPath()%>/front-end/forum/js/jquery-3.6.0.min.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/forum/js/common_scripts_min.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/forum/js/functions.js"></script>
+
+    <!-- Specific scripts -->
+    <script>
+      $(function () {
+        $("input.date-pick").daterangepicker(
+          {
+            autoUpdateInput: true,
+            singleDatePicker: true,
+            autoApply: true,
+            minDate: new Date(),
+            showCustomRangeLabel: false,
+            locale: {
+              format: "MM-DD-YYYY",
+            },
+          },
+          function (start, end, label) {
+            console.log(
+              "New date range selected: " +
+                start.format("YYYY-MM-DD") +
+                " to " +
+                end.format("DD-MM-YYYY") +
+                " (predefined range: " +
+                label +
+                ")"
+            );
+          }
+        );
+      });
+    </script>
+    <script>
+      $("input.time-pick").timepicker({
+        minuteStep: 15,
+        showInpunts: false,
+      });
+    </script>
+
+    <script src="<%=request.getContextPath()%>/front-end/forum/js/jquery.ddslick.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/forum/css/style.css"></script>
+    <script src="<%=request.getContextPath()%>/front-end/forum/css/bootstrap.min.css "></script>
+    <script src="<%=request.getContextPath()%>/front-end/forum/css/vendors.css "></script>
+    
+    <script>
+      $("select.ddslick").each(function () {
+        $(this).ddslick({
+          showSelectedHTML: true,
+        });
+      });
+    </script>
+  </body>
 </html>

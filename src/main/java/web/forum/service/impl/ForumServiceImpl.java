@@ -22,7 +22,7 @@ public class ForumServiceImpl {
 	}
 
 	public ForumVO addForum(Integer postId, Integer memberId, String postTitle, String postContent,
-			LocalDateTime postTime, Integer clicks, String status, byte[] postPic) {
+			LocalDateTime postTime, Integer clicks, Integer status, byte[] postPic) {
 		ForumVO forumVO = new ForumVO();
 		forumVO.setPostId(postId);
 		forumVO.setMemberId(memberId);
@@ -30,14 +30,15 @@ public class ForumServiceImpl {
 		forumVO.setPostContent(postContent);
 		forumVO.setPostTime(postTime);
 		forumVO.setClicks(clicks);
-		forumVO.setStatus(status);
+		forumVO.setStatus(0);
 		forumVO.setPostPic(postPic);
+		
 		forumDAO.insert(forumVO);
 		return forumVO;
 	}
 
 	public ForumVO updateForum(Integer memberId, String postTitle, String postContent, LocalDateTime postTime,
-			Integer clicks, String status, byte[] postPic, Integer postId) {
+			Integer clicks, Integer status, byte[] postPic, Integer postId) {
 		ForumVO forumVO = new ForumVO();
 		forumVO.setMemberId(memberId);
 		forumVO.setPostTitle(postTitle);
@@ -50,8 +51,20 @@ public class ForumServiceImpl {
 		forumDAO.update(forumVO);
 		return forumVO;
 	}
+	public ForumVO updateForumReport(Integer postId,String reason) {
+		ForumVO forumVO = new ForumVO();
+		forumVO.setReason(reason);
+		forumVO.setPostId(postId);
+		forumDAO.updateForumReport(forumVO);
+		return forumVO;
+	}
+	public ForumVO updateForum(ForumVO forumVO) {
+		forumDAO.update(forumVO);
+		return forumVO;
+	}
 
 	public void deleteForum(Integer postId) {
+		new CommentServiceImpl().deleteCommentAll(postId);
 		forumDAO.delete(postId);
 	}
 

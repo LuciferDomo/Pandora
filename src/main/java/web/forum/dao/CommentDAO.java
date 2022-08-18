@@ -17,5 +17,5 @@ public interface CommentDAO {
 	List<CommentVO> getAll();
 	
 	CommentVO selectByPostId(Integer postId);
-
+	void deleteAll(Integer postID);
 }

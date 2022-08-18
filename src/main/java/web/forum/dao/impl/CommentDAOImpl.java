@@ -29,11 +29,12 @@ public class CommentDAOImpl implements CommentDAO {
 		}
 	}
 
-	private static final String INSERT_STMT = "INSERT INTO Comment (Post_ID,Member_ID,Comment_Content,Comment_Time,Status) VALUES (?, ?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO Comment (Post_ID,Member_ID,Comment_Content,Comment_Time,Status,Reason) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM Comment";
-	private static final String GET_ONE_STMT = "SELECT Post_ID,Member_ID,Comment_Content,Comment_Time,Status FROM forum where Comment_No = ?";
+	private static final String GET_ONE_STMT = "SELECT Comment_No,Post_ID,Member_ID,Comment_Content,Comment_Time,Status,Reason FROM Comment where Comment_No = ?";
 	private static final String DELETE = "DELETE FROM Comment where Comment_No = ?";
-	private static final String UPDATE = "UPDATE Comment set Member_ID = ?, Comment_Content = ?, Comment_Time = ?, Status = ? where Post_Id = ?";
+	private static final String DELETEALL = "DELETE FROM Comment where Post_ID = ?";
+	private static final String UPDATE = "UPDATE Comment set Member_ID = ?, Comment_Content = ?, Comment_Time = ?, Status = ? where Comment_No = ?";
 
 //			@Override
 	@Override
@@ -52,7 +53,8 @@ public class CommentDAOImpl implements CommentDAO {
 			pstmt.setString(3, commentVO.getCommentContent());
 			pstmt.setTimestamp(4,
 					commentVO.getCommentTime() != null ? Timestamp.valueOf(commentVO.getCommentTime()) : null);
-			pstmt.setString(5, commentVO.getStatus());
+			pstmt.setInt(5, commentVO.getStatus());
+			pstmt.setString(6, commentVO.getReason());
 
 			pstmt.executeUpdate();
 
@@ -91,14 +93,13 @@ public class CommentDAOImpl implements CommentDAO {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setInt(1, commentVO.getPostId());
-			pstmt.setInt(2, commentVO.getMemberId());
-			pstmt.setString(3, commentVO.getCommentContent());
-			pstmt.setTimestamp(4,
+			pstmt.setInt(1, commentVO.getMemberId());
+			pstmt.setString(2, commentVO.getCommentContent());
+			pstmt.setTimestamp(3,
 					commentVO.getCommentTime() != null ? Timestamp.valueOf(commentVO.getCommentTime()) : null);
-			pstmt.setString(5, commentVO.getStatus());
+			pstmt.setInt(4, commentVO.getStatus());
 
-			pstmt.setInt(6, commentVO.getCommentNo());
+			pstmt.setInt(5, commentVO.getCommentNo());
 
 			pstmt.executeUpdate();
 
@@ -163,7 +164,43 @@ public class CommentDAOImpl implements CommentDAO {
 		}
 
 	}
+	@Override
+	public void deleteAll(Integer postID) {
 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(DELETEALL);
+
+			pstmt.setInt(1, postID);
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+	}
 	@Override
 	public CommentVO findByPrimaryKey(Integer commentNo) {
 
@@ -190,7 +227,9 @@ public class CommentDAOImpl implements CommentDAO {
 				commentVO.setCommentContent(rs.getString("Comment_Content"));
 				commentVO.setCommentTime(rs.getTimestamp("Comment_Time").toLocalDateTime());
 
-				commentVO.setStatus(rs.getString("Status"));
+				commentVO.setStatus(rs.getInt("Status"));
+				
+				commentVO.setReason(rs.getString("Reason"));
 
 			}
 
@@ -249,7 +288,9 @@ public class CommentDAOImpl implements CommentDAO {
 				commentVO.setCommentContent(rs.getString("Comment_Content"));
 				commentVO.setCommentTime(rs.getTimestamp("Comment_Time").toLocalDateTime());
 
-				commentVO.setStatus(rs.getString("Status"));
+				commentVO.setStatus(rs.getInt("Status"));
+				commentVO.setReason(rs.getString("Reason"));
+				
 				list.add(commentVO); // Store the row in the list
 			}
 
@@ -301,7 +342,7 @@ public class CommentDAOImpl implements CommentDAO {
 					vo.setMemberId(rs.getInt("Member_ID"));
 					vo.setCommentContent(rs.getString("Comment_Content"));
 					vo.setCommentTime(rs.getTimestamp("Comment_Time").toLocalDateTime());
-					vo.setStatus(rs.getString("Status"));
+					vo.setStatus(rs.getInt("Status"));
 					vo.setEnglishFirstName(rs.getString("English_First_Name"));
 					return vo;
 				}
