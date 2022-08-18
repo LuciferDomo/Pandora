@@ -58,7 +58,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
           <div class="col-3">
             <div id="logo_home">
               <h1>
-                <a href="index7.html" title="Welcome to royal Pandora"
+                <a href="javascript:window.location.href='/pandora/PackagesServlet?action=homePage'" title="Welcome to royal Pandora"
                   >Welcome to royal Pandora</a
                 >
               </h1>
