@@ -207,7 +207,7 @@ pageEncoding="UTF-8"%>
 	              	</a>
               	</c:otherwise>
               </c:choose></li>
-                  <a href="wishlist.html" id="wishlist_link">連絡我們</a>
+                  <a href="javascript:window.location.href='/pandora/front-end/faq/faq.jsp'" id="wishlist_link">連絡我們</a>
                 </li>
               </ul>
             </div>
