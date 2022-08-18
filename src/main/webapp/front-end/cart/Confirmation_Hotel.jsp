@@ -1,5 +1,39 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%@ page import="java.util.*"%>
+<%@ page import="web.discount.service.impl.DiscountServiceImpl"%>
+<%@ page import="web.roomType.service.impl.RoomTypeServiceImpl"%>
+<%@ page import="web.member.service.impl.MemberServiceImpl"%>
+<%@ page import="web.packages.service.impl.PackagesServiceImpl"%>
+<%@ page import="web.discount.bean.*"%>
+<%@ page import="web.room.joinbean.*"%>
+<%@ page import="web.discount.bean.DiscountVO"%>
+<%@ page import="web.room.bean.RoomTypeVO"%>
+<%@ page import="web.member.bean.MemberVO"%>
+<%@ page import="web.packages.bean.PackagesVO"%>
+<%@ page import="java.text.*"%>
+<%@ page import="java.time.*"%>
+<%@ page import="java.math.*"%>
+
+<%
+	Integer totalNumberOfPeople = (Integer) session.getAttribute("totalNumberOfPeople");
+	PackagesVO packagesVO = (PackagesVO) session.getAttribute("packagesVO");
+	List<RoomTypeAndRoomListVO> seletedRoomInfoList = (List<RoomTypeAndRoomListVO>) session.getAttribute("seletedRoomInfoList");
+	Integer afterDiscountTotalPrice = (Integer) session.getAttribute("afterDiscountTotalPrice");
+	MemberVO memVO = (MemberVO) session.getAttribute("loginMember");
+	
+	// 計算行程天數
+	ZoneId defaultZoneId = ZoneId.systemDefault();
+	DateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+	Date startDate = Date.from(packagesVO.getDepartureTime().toLocalDate().atStartOfDay(defaultZoneId).toInstant());
+	Date endDate = Date.from(packagesVO.getArrivalTime().toLocalDate().atStartOfDay(defaultZoneId).toInstant());
+	long startTime = startDate.getTime();
+	long endTime = endDate.getTime();
+	int days = (int) ((endTime - startTime) / (1000 * 60 * 60 * 24));
+	
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,29 +49,29 @@
     <title>CITY TOURS - City tours and travel site template by Ansonika</title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href="Cart/html/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/Cart/html/img/favicon.ico" type="image/x-icon" />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
-      href="Cart/html/img/apple-touch-icon-57x57-precomposed.png"
+      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-57x57-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="72x72"
-      href="Cart/html/img/apple-touch-icon-72x72-precomposed.png"
+      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-72x72-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="114x114"
-      href="Cart/html/img/apple-touch-icon-114x114-precomposed.png"
+      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-114x114-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="144x144"
-      href="Cart/html/img/apple-touch-icon-144x144-precomposed.png"
+      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-144x144-precomposed.png"
     />
 
     <!-- GOOGLE WEB FONT -->
@@ -47,12 +81,12 @@
     />
 
     <!-- COMMON CSS -->
-    <link href="Cart/html/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Cart/html/css/style.css" rel="stylesheet" />
-    <link href="Cart/html/css/vendors.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/Cart/html/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/Cart/html/css/style.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/Cart/html/css/vendors.css" rel="stylesheet" />
 
     <!-- CUSTOM CSS -->
-    <link href="Cart/html/css/custom.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/Cart/html/css/custom.css" rel="stylesheet" />
 </head>
 <body>
 <div id="preloader">
@@ -79,8 +113,26 @@
             </div>
             <div class="col-6">
               <ul id="top_links">
-                <li><a href="Cart/html/#sign-in-dialog" id="access_link">登入</a></li>
-                <li><a href="Cart/html/wishlist.html" id="wishlist_link">聯絡我們</a></li>
+              <li>
+							  <c:if test="${loginMember != null}">
+								  <font>${loginMember.memberEnglishLastName}&nbsp${loginMember.memberEnglishFirstName}</font>
+							  </c:if>
+							</li>
+							<li>
+							<c:choose>
+							  <c:when test="${loginMember != null}">
+										<a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberSignOut">
+											登出<i class="icon-logout-1" id="logout"></i>
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberLogin">
+											登入<i class="icon-logout-1" id="logout"></i>
+										</a>
+									</c:otherwise>
+								   </c:choose>
+								   </li>
+                <li><a href="<%=request.getContextPath()%>/Cart/html/wishlist.html" id="wishlist_link">聯絡我們</a></li>
               </ul>
             </div>
           </div>
@@ -94,17 +146,17 @@
         <div class="row">
           <div class="col-3">
             <div id="logo">
-              <a href="Cart/html/index.html"
+              <a href="<%=request.getContextPath()%>/Cart/html/index.html"
                 ><img
-                  src="Cart/html/img/logo.png"
+                  src="<%=request.getContextPath()%>/Cart/html/img/logo.png"
                   width="160"
                   height="34"
                   alt="City tours"
                   class="logo_normal"
               /></a>
-              <a href="Cart/html/index.html"
+              <a href="<%=request.getContextPath()%>/Cart/html/index.html"
                 ><img
-                  src="Cart/html/img/logo_sticky.png"
+                  src="<%=request.getContextPath()%>/Cart/html/img/logo_sticky.png"
                   width="160"
                   height="34"
                   alt="City tours"
@@ -115,25 +167,25 @@
           <nav class="col-9">
             <a
               class="cmn-toggle-switch cmn-toggle-switch__htx open_close"
-              href="Cart/html/javascript:void(0);"
+              href="<%=request.getContextPath()%>/Cart/html/javascript:void(0);"
               ><span>Menu mobile</span></a
             >
             <div class="main-menu">
               <div id="header_menu">
                 <img
-                  src="Cart/html/img/logo_sticky.png"
+                  src="<%=request.getContextPath()%>/Cart/html/img/logo_sticky.png"
                   width="160"
                   height="34"
                   alt="City tours"
                 />
               </div>
-              <a href="Cart/html/#" class="open_close" id="close_in"
+              <a href="<%=request.getContextPath()%>/Cart/html/#" class="open_close" id="close_in"
                 ><i class="icon_set_1_icon-77"></i
               ></a>
               <ul>
                 <li class="submenu" style="margin: 0 0 0 75px">
                   <a
-                    href="Cart/html/javascript:void(0);"
+                    href="<%=request.getContextPath()%>/Cart/html/javascript:void(0);"
                     class="show-submenu"
                     style="width: 100px"
                     >預定行程
@@ -141,7 +193,7 @@
                 </li>
                 <li class="submenu">
                   <a
-                    href="Cart/html/javascript:void(0);"
+                    href="<%=request.getContextPath()%>/Cart/html/javascript:void(0);"
                     class="show-submenu"
                     style="width: 100px"
                     >郵輪介紹
@@ -149,7 +201,7 @@
                 </li>
                 <li class="submenu">
                   <a
-                    href="Cart/html/javascript:void(0);"
+                    href="<%=request.getContextPath()%>/Cart/html/javascript:void(0);"
                     class="show-submenu"
                     style="width: 100px"
                     >活動新訊
@@ -157,7 +209,7 @@
                 </li>
                 <li class="submenu">
                   <a
-                    href="Cart/html/javascript:void(0);"
+                    href="<%=request.getContextPath()%>/Cart/html/javascript:void(0);"
                     class="show-submenu"
                     style="width: 100px"
                     >旅遊資訊
@@ -165,26 +217,26 @@
                 </li>
                 <li class="submenu">
                   <a
-                    href="Cart/html/javascript:void(0);"
+                    href="<%=request.getContextPath()%>/Cart/html/javascript:void(0);"
                     class="show-submenu"
                     style="width: 100px"
                     >會員中心 <i class="icon-down-open-mini"></i
                   ></a>
                   <ul>
-                    <li><a href="Cart/html/all_restaurants_list.html">會員資訊 </a></li>
+                    <li><a href="<%=request.getContextPath()%>/Cart/html/all_restaurants_list.html">會員資訊 </a></li>
                     <li>
-                      <a href="Cart/html/all_restaurants_grid.html">會員資料修改</a>
+                      <a href="<%=request.getContextPath()%>/Cart/html/all_restaurants_grid.html">會員資料修改</a>
                     </li>
                     <li>
-                      <a href="Cart/html/all_restaurants_grid_masonry.html">密碼更改</a>
+                      <a href="<%=request.getContextPath()%>/Cart/html/all_restaurants_grid_masonry.html">密碼更改</a>
                     </li>
                     <li>
-                      <a href="Cart/html/all_restaurants_map_listing.html"
+                      <a href="<%=request.getContextPath()%>/Cart/html/all_restaurants_map_listing.html"
                         >訂單查詢修改</a
                       >
                     </li>
-                    <li><a href="Cart/html/single_restaurant.html">聊天室</a></li>
-                    <li><a href="Cart/html/payment_restaurant.html">討論區</a></li>
+                    <li><a href="<%=request.getContextPath()%>/Cart/html/single_restaurant.html">聊天室</a></li>
+                    <li><a href="<%=request.getContextPath()%>/Cart/html/payment_restaurant.html">討論區</a></li>
                   </ul>
                 </li>
               </ul>
@@ -192,47 +244,9 @@
             <!-- End main-menu -->
             <ul id="top_tools">
               <li>
-                <a href="Cart/html/javascript:void(0);" class="search-overlay-menu-btn"
+                <a href="<%=request.getContextPath()%>/Cart/html/javascript:void(0);" class="search-overlay-menu-btn"
                   ><i class="icon_search"></i
                 ></a>
-              </li>
-              <li>
-                <div class="dropdown dropdown-cart">
-                  <a href="Cart/html/#" data-bs-toggle="dropdown" class="cart_bt"
-                    ><i class="icon_bag_alt"></i><strong>3</strong></a
-                  >
-                  <ul class="dropdown-menu" id="cart_items">
-                    <li>
-                      <div class="image">
-                        <img src="Cart/html/img/thumb_cart_1.jpg" alt="image" />
-                      </div>
-                      <strong><a href="Cart/html/#">Louvre museum</a>1x $36.00 </strong>
-                      <a href="Cart/html/#" class="action"><i class="icon-trash"></i></a>
-                    </li>
-                    <li>
-                      <div class="image">
-                        <img src="Cart/html/img/thumb_cart_2.jpg" alt="image" />
-                      </div>
-                      <strong><a href="Cart/html/#">Versailles tour</a>2x $36.00 </strong>
-                      <a href="Cart/html/#" class="action"><i class="icon-trash"></i></a>
-                    </li>
-                    <li>
-                      <div class="image">
-                        <img src="Cart/html/img/thumb_cart_3.jpg" alt="image" />
-                      </div>
-                      <strong><a href="Cart/html/#">Versailles tour</a>1x $36.00 </strong>
-                      <a href="Cart/html/#" class="action"><i class="icon-trash"></i></a>
-                    </li>
-                    <li>
-                      <div>Total: <span>$120.00</span></div>
-                      <a href="Cart/html/cart.html" class="button_drop">Go to cart</a>
-                      <a href="Cart/html/payment.html" class="button_drop outline"
-                        >Check out</a
-                      >
-                    </li>
-                  </ul>
-                </div>
-                <!-- End dropdown-cart-->
               </li>
             </ul>
           </nav>
@@ -245,18 +259,18 @@
     <section
       id="hero_2"
       class="background-image"
-      data-background="url(img/slide_hero_2.jpg)"
+      style="background: url('https://picsum.photos/1903/800?random=5')"
     >
       <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
         <div class="intro_title">
           <h1>規劃您的行程</h1>
           <div class="bs-wizard row">
-            <div class="col-4 bs-wizard-step active">
+            <div class="col-4 bs-wizard-step disabled">
               <div class="text-center bs-wizard-stepnum">選定行程</div>
               <div class="progress">
                 <div class="progress-bar"></div>
               </div>
-              <a href="Cart/html/#" class="bs-wizard-dot"></a>
+              <a href="<%=request.getContextPath()%>/Cart/html/#" class="bs-wizard-dot"></a>
             </div>
 
             <div class="col-4 bs-wizard-step disabled">
@@ -264,15 +278,15 @@
               <div class="progress">
                 <div class="progress-bar"></div>
               </div>
-              <a href="Cart/html/payment_hotel.html" class="bs-wizard-dot"></a>
+              <a href="<%=request.getContextPath()%>/Cart/html/payment_hotel.html" class="bs-wizard-dot"></a>
             </div>
 
-            <div class="col-4 bs-wizard-step disabled">
+            <div class="col-4 bs-wizard-step active">
               <div class="text-center bs-wizard-stepnum">完成預定！</div>
               <div class="progress">
                 <div class="progress-bar"></div>
               </div>
-              <a href="Cart/html/confirmation_hotel.html" class="bs-wizard-dot"></a>
+              <a href="<%=request.getContextPath()%>/Cart/html/confirmation_hotel.html" class="bs-wizard-dot"></a>
             </div>
           </div>
           <!-- End bs-wizard -->
@@ -286,8 +300,8 @@
       <div id="position">
         <div class="container">
           <ul>
-            <li><a href="Cart/html/#">首頁</a></li>
-            <li><a href="Cart/html/#">Category</a></li>
+            <li><a href="<%=request.getContextPath()%>/Cart/html/#">首頁</a></li>
+            <li><a href="<%=request.getContextPath()%>/Cart/html/#">Category</a></li>
             <li>Page active</li>
           </ul>
         </div>
@@ -323,31 +337,29 @@
                     <td>
                       <strong>訂購人姓名</strong>
                     </td>
-                    <td>Jhon Doe</td>
+                    <td><%=memVO.getChineseName() %></td>
                   </tr>
                   <tr>
                     <td>
                       <strong>行程名稱</strong>
                     </td>
-                    <td></td>
+                    <td><%=packagesVO.getPackageName() %></td>
                   </tr>
                   <tr>
                     <td><strong>出發日期</strong></td>
-                    <td>
-                      <br />
-                    </td>
+                    <td><%=packagesVO.getRegistrationStartTime() %></td>
                   </tr>
                   <tr>
                     <td><strong>行程天數</strong></td>
-                    <td>1 double room</td>
+                    <td><%=days %></td>
                   </tr>
                   <tr>
-                    <td><strong>房型數量</strong></td>
-                    <td>2</td>
+                    <td><strong>房間數量</strong></td>
+                    <td><%=seletedRoomInfoList.size() %></td>
                   </tr>
                   <tr>
                     <td><strong>人數</strong></td>
-                    <td>2</td>
+                    <td><%=totalNumberOfPeople %></td>
                   </tr>
 
                   <tr>
@@ -360,7 +372,7 @@
                     <td>
                       <strong>總計</strong>
                     </td>
-                    <td>$154</td>
+                    <td>$<%=afterDiscountTotalPrice %></td>
                   </tr>
                 </tbody>
               </table>
@@ -378,7 +390,7 @@
                 在此之前，請您仔細過目左邊欄位內的訂購內容。確保您的行程如規劃一般。雖然已經將訂購明細寄至您登記的Email，您仍可以選下面按鈕至該頁面。也建議您列印一份留存。謝謝!
               </p>
               <hr />
-              <a class="btn_full_outline" href="Cart/html/invoice.html" target="_blank"
+              <a class="btn_full_outline" href="<%=request.getContextPath()%>/front-end/cart/Invoice.jsp" target="_blank"
                 >查看您的訂單明細</a
               >
             </div>
@@ -429,8 +441,8 @@
       </div>
       <form>
         <div class="sign-in-wrapper">
-          <a href="Cart/html/#0" class="social_bt facebook">Login with Facebook</a>
-          <a href="Cart/html/#0" class="social_bt google">Login with Google</a>
+          <a href="<%=request.getContextPath()%>/Cart/html/#0" class="social_bt facebook">Login with Facebook</a>
+          <a href="<%=request.getContextPath()%>/Cart/html/#0" class="social_bt google">Login with Google</a>
           <div class="divider"><span>Or</span></div>
           <div class="form-group">
             <label>Email</label>
@@ -457,14 +469,14 @@
               </label>
             </div>
             <div class="float-end">
-              <a id="forgot" href="Cart/html/javascript:void(0);">Forgot Password?</a>
+              <a id="forgot" href="<%=request.getContextPath()%>/Cart/html/javascript:void(0);">Forgot Password?</a>
             </div>
           </div>
           <div class="text-center">
             <input type="submit" value="Log In" class="btn_login" />
           </div>
           <div class="text-center">
-            Don’t have an account? <a href="Cart/html/javascript:void(0);">Sign up</a>
+            Don’t have an account? <a href="<%=request.getContextPath()%>/Cart/html/javascript:void(0);">Sign up</a>
           </div>
           <div id="forgot_pw">
             <div class="form-group">
@@ -492,8 +504,8 @@
     <!-- /Sign In Popup -->
 
     <!-- Jquery -->
-    <script src="Cart/html/js/jquery-3.6.0.min.js"></script>
-    <script src="Cart/html/js/common_scripts_min.js"></script>
-    <script src="Cart/html/js/functions.js"></script>
+    <script src="<%=request.getContextPath()%>/Cart/html/js/jquery-3.6.0.min.js"></script>
+    <script src="<%=request.getContextPath()%>/Cart/html/js/common_scripts_min.js"></script>
+    <script src="<%=request.getContextPath()%>/Cart/html/js/functions.js"></script>
 </body>
 </html>

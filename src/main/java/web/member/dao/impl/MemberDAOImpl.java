@@ -51,12 +51,12 @@ public class MemberDAOImpl implements MemberDAO {
 //			+ "Gender=?,Member_Birthday=?,Member_ID_No=?,Member_PhoneNumber=?,Member_Address=?,Member_Email=?,Member_Passport_No=?,Accumulated=?,"
 //			+ "Last_Update_Date=?,Member_Password=?,Registration_Time=? where Member_ID = ?";
 	private static final String UPDATESE                = "UPDATE Member set Member_ID=?,Member_Picture_ID=?,Discount_No=?,Chinese_Name=?,English_First_Name=?,English_Last_Name=?,"
-			+ "Gender=?,Member_Birthday=?,Member_ID_No=?,Member_PhoneNumber=?,Member_Address=?,Member_Email=?,Member_Passport_No=?,Accumulated=?,"
-			+ "Last_Update_Date=?,Member_Password=?,Registration_Time=? where Employee_ID = ?";
+			+ "Gender=?,Member_Birthday=?,Member_ID_No=?,Member_PhoneNumber=?,Member_Address=?,Member_Email=?,Member_Passport_No=?,Accumulated_Consumption=?,"
+			+ "Last_Update_Date=?,Member_Password=?,Registration_Time=? where Member_ID = ?";
 	
 	private static final String UPDATE_WithOutPictureSE = "UPDATE Member set Member_ID=?                    ,Discount_No=?,Chinese_Name=?,English_First_Name=?,English_Last_Name=?,"
-			+ "Gender=?,Member_Birthday=?,Member_ID_No=?,Member_PhoneNumber=?,Member_Address=?,Member_Email=?,Member_Passport_No=?,Accumulated=?,"
-			+ "Last_Update_Date=?,Member_Password=?,Registration_Time=? where Employee_ID = ?";
+			+ "Gender=?,Member_Birthday=?,Member_ID_No=?,Member_PhoneNumber=?,Member_Address=?,Member_Email=?,Member_Passport_No=?,Accumulated_Consumption=?,"
+			+ "Last_Update_Date=?,Member_Password=?,Registration_Time=? where Member_ID = ?";
 	@Override
 	public void updateSe(MemberVO memberVO) {
 
@@ -117,7 +117,6 @@ public class MemberDAOImpl implements MemberDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_WithOutPictureSE);
 			pstmt.setInt(1, memberVO.getMemberId());

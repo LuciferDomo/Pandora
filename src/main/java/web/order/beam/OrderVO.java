@@ -17,6 +17,26 @@ public class OrderVO implements java.io.Serializable {
 	private Integer totalNumberOfPeople;
 	private String status;
 	private LocalDateTime cancelationTime;
+	private LocalDateTime departureTime;
+	
+	public LocalDateTime getDepartureTime() {
+		return departureTime;
+	}
+
+	public void setDepartureTime(LocalDateTime departureTime) {
+		this.departureTime = departureTime;
+	}
+
+	public String getPackageName() {
+		return packageName;
+	}
+
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
+
+	private String packageName;
+
 	
 	public OrderVO() {
 		
