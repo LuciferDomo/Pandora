@@ -60,11 +60,7 @@
 
     <!-- CUSTOM CSS -->
     <link href="/pandora/front-end/faq/css/custom.css" rel="stylesheet" />
-    <style>
-      #wishlist_link::before {
-        content: "\e97a";
-      }
-    </style>
+    
   </head>
 
   <body>

@@ -54,9 +54,7 @@
     <!-- CUSTOM CSS -->
     <link href="<%=request.getContextPath()%>/front-end/customerService/css/custom.css" rel="stylesheet" />
     <style>
-      #wishlist_link::before {
-        content: "\e97a";
-      }
+      
       .statusOutput {
         background: #0078ae;
         text-align: center;

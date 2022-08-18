@@ -61,9 +61,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
     <!-- CUSTOM CSS -->
     <link href="<%=request.getContextPath() %>/front-end/chatroom/css/custom.css" rel="stylesheet" />
     <style>
-      #wishlist_link::before {
-        content: "\e97a";
-      }
+      
       .statusOutput {
         background: #0078ae;
         text-align: center;

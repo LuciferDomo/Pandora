@@ -71,11 +71,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       href="/pandora/front-end/cruiseIntroduction/css/custom.css"
       rel="stylesheet"
     />
-    <style>
-      #wishlist_link::before {
-        content: "\e97a";
-      }
-    </style>
+    
   </head>
 
   <body>

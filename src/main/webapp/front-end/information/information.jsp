@@ -55,11 +55,6 @@ pageEncoding="UTF-8"%>
 
     <!-- CUSTOM CSS -->
     <link href="/pandora/front-end/information/css/custom.css" rel="stylesheet" />
-    <style>
-      #wishlist_link::before {
-        content: "\e97a";
-      }
-    </style>
   </head>
 
   <body>
