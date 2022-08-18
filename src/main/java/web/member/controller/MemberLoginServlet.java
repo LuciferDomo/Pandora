@@ -56,7 +56,7 @@ public class MemberLoginServlet extends HttpServlet {
 			Map<String, String> errorMsgsMap = new LinkedHashMap<>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			req.setAttribute("errorMsgsMap", errorMsgsMap);
-			
+					
 			String email = req.getParameter("email");
 			String emailReg = "^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
 
@@ -72,45 +72,39 @@ public class MemberLoginServlet extends HttpServlet {
 				errorMsgs.add("密碼:請勿空白");
 				errorMsgsMap.put("password", "密碼:請勿空白");
 			}
-			
+					
 			MemberVO selectMemberVO = new MemberVO();
 			selectMemberVO.setMemberEmail(email);
 			selectMemberVO.setMemberPassword(password);
 			MemberService memberService = new MemberServiceImpl();
-			
+					
 			MemberVO memberVO = memberService.selectByEmailAndPassword(selectMemberVO);
+					
 			req.getSession().setAttribute("loginMember", memberVO);
 //			System.out.println(memberVO.toString());
-			
+					
 
 			if (memberVO != null) {//帳密有效時
 				HttpSession session = req.getSession();  //取得 session 物件
 				session.setAttribute("loginMember", memberVO);  //在session 內設定屬性(Attribute)，指已登入過的標示與值
-				
 				try {                                                        
-			         String location = (String) session.getAttribute("location");
-			         if (location != null) {
-			           session.removeAttribute("location");   //*工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
-			           resp.sendRedirect(location);            
-			           return;
-			         }
-			       }catch (Exception ignored) { }
-				
-				resp.sendRedirect(req.getContextPath()+"/front-end/Member/MemberHomePage.jsp"); 
-				
-//				String location = (String) session.getAttribute("location");  //來源網頁存入
-//				RequestDispatcher successView = req.getRequestDispatcher(location);
-//				resp.sendRedirect(location);//重導回原網頁
-				
-				
-				
-				
-				
-				
-//				String url = "/front-end/Member/MemberHomePage.jsp";             //網址寫死
-//				RequestDispatcher successView = req.getRequestDispatcher(url);
-//				successView.forward(req, resp);
-				return;
+		  	         String location = (String) session.getAttribute("location");
+		  	         	if (location != null) {
+		  	         		session.removeAttribute("location");   //*工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
+		  	         		resp.sendRedirect(location);            
+		  	         		return;
+		  	         	}
+					}catch (Exception ignored) { }
+				resp.sendRedirect(req.getContextPath()+"/PackagesServlet?action=homePage"); 
+						
+//			String location = (String) session.getAttribute("location");  //來源網頁存入
+//			RequestDispatcher successView = req.getRequestDispatcher(location);
+//			resp.sendRedirect(location);//重導回原網頁
+					
+//			String url = "/front-end/Member/MemberHomePage.jsp";             //網址寫死
+//			RequestDispatcher successView = req.getRequestDispatcher(url);
+//			successView.forward(req, resp);
+						return;
 			} else {
 				req.setAttribute("errorMsg", "帳號密碼錯誤");
 				RequestDispatcher failView = req.getRequestDispatcher("/front-end/Member/MemberLogin.jsp");
@@ -118,14 +112,14 @@ public class MemberLoginServlet extends HttpServlet {
 				return;
 			}
 		}
-		
+				
 //登出	
-		if ("MemberSignOut".equals(action)) {
-			String url = req.getContextPath() + "/front-end/Member/MemberHomePage.jsp";
-			req.getSession().invalidate();
-			resp.sendRedirect(url);
+			if ("MemberSignOut".equals(action)) {
+					String url = req.getContextPath() + "/PackagesServlet?action=homePage";
+					req.getSession().invalidate();
+					resp.sendRedirect(url);
 
-		}
+			}
 		
 //全部會員資料
 //		if ("MemberAllList".equals(action)) {

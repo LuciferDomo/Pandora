@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import web.member.bean.MemberVO;
 import web.member.service.MemberService;
@@ -35,13 +36,20 @@ public class MembersPwChangeServlet extends HttpServlet {
 			selectMemberVO.setMemberId(memberId);
 			selectMemberVO.setMemberPassword(password);
 			MemberVO memberBean = memberService.selectMemberIDPW(selectMemberVO);//查詢ID 密碼是否匹配
-			System.out.println(memberBean);
+			
+//			req.getSession().setAttribute("loginMember", memberBean);
 			if (memberBean != null) {
 				if (newPassword.equals(newPasswordRp)) {
-					MemberVO memberVO = memberService.updateMemberPW(memberId, newPasswordRp);
-					req.setAttribute("memberVO", memberVO);
+					memberService.updateMemberPW(memberId, newPasswordRp);
+					MemberVO memberBean2=memberService.getOneMember(memberId);
+					MemberVO memberBean3=memberService.selectByEmailAndPassword(memberBean2);
+					req.setAttribute("memberVO", memberBean3);
 					req.setAttribute("MemberPWupdateMsg", "密碼修改成功!!");
-					destUrl = "/front-end/Member/MemberHomePage.jsp";
+					HttpSession session = req.getSession();  //取得 session 物件
+					session.setAttribute("loginMember", memberBean3);
+					destUrl = req.getContextPath()+"/PackagesServlet?action=homePage";
+//					Redirect("/PackagesServlet?action=homePage");
+//					res.sendRedirect("/PackagesServlet?action=homePage");
 				} else {
 					req.setAttribute("warningMemberPWDismatchMsg", "兩次密碼輸入不一致，請重新填寫，謝謝!!");
 					destUrl = "/front-end/Member/MemberPasswordChange.jsp";
@@ -54,6 +62,7 @@ public class MembersPwChangeServlet extends HttpServlet {
 			req.setAttribute("warningMemberPWMsg", "不好意思!尚有必填欄位未填，請確實填寫，謝謝!!");
 			destUrl = "front-end/Member/MemberPasswordChange.jsp";
 		}
-		req.getRequestDispatcher(destUrl).forward(req, res);
+//		req.getRequestDispatcher(destUrl).forward(req, res);
+		res.sendRedirect(destUrl);
 	}
 }
