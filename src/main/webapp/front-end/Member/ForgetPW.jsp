@@ -10,7 +10,7 @@
       content="Citytours - Premium site template for city tours agencies, transfers and tickets."
     />
     <meta name="author" content="Ansonika" />
-    <title>登入</title>
+    <title>忘記密碼</title>
 
     <!-- Favicons-->
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
@@ -91,9 +91,7 @@
           </div>
           <div class="col-6">
             <ul id="top_links">
-              <a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberLogin">
-	              		登入<i class="icon-logout-1" id="logout"></i>
-	              	</a>
+              <li><a href="#sign-in-dialog" id="access_link">登入</a></li>
               <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
             </ul>
           </div>
@@ -227,27 +225,23 @@
                     width="160"
                     height="34"
                   />
-                  <h3>會員登入</h3>
+                  <h3>忘記密碼</h3>
                 </div>
                 <hr />
-                <form action="<%=request.getContextPath()%>/MemberLoginServlet" method="Post">
+                <form action="<%=request.getContextPath()%>/member/MemberForgetPWServlet" method="Post">
                   <div class="form-group">
-                    <label>帳號 (E-MAIL)</label>&emsp;<font class="text-danger" size="2">${errorMsgsMap["email"]}</font>
-                    <input name="email" type="email" class="form-control" placeholder="請輸入電子信箱"/>
+                    <label>請您輸入註冊時的E-mail，系統將發送臨時密碼
+                    <input name="memberEmail" type="email" class="form-control" placeholder="請輸入註冊的email"/>
                   </div>
-                  <div class="form-group">
-                    <label>密碼</label>&emsp;<font class="text-danger" size="2">${errorMsgsMap["password"]}</font>
-                    <input name="password" type="password" class="form-control" placeholder="請輸入密碼"/>
+                  <div>
+                  <button  name="action" value="forgetpw" type="submit" class="btn_full">確認</button>
+                  <!-- 修改失敗時↓ -->
+								<span style="color: red;">${failureMembersPWMsg}</span>
+								<!-- 確認送出email到會員信箱時↓ -->
+								<span style="color: red;">${MembersForgetMsg}</span>
+								<!-- 查無此註冊會員時↓ -->
+								<span style="color: red;">${warningMembersNullMsg}</span>
                   </div>
-                  <div class="row text-danger"  >
-                           <div class="text-left" id="idpsErr"> ${errorMsg}</div>                                         
-                  </div>
-                  <p class="small">
-                    <a href="<%=request.getContextPath()%>/front-end/Member/ForgetPW.jsp"">忘記密碼?</a>
-                  </p>
-                  
-                  <button  name="action" value="MemberLogin" type="submit" class="btn_full">登入</button>
-                  <a href="<%=request.getContextPath()%>/front-end/Member/MemberRegister.jsp" class="btn_full_outline">註冊</a>
                 </form>
               </div>
             </div>

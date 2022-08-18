@@ -2,6 +2,7 @@ package web.member.dao;
 
 import java.util.List;
 
+
 import web.member.bean.MemberVO;
 
 public interface MemberDAO {
@@ -27,4 +28,14 @@ public interface MemberDAO {
 	void updateWithOutPictureSe(MemberVO memberVO);
 	
 	void updateSe(MemberVO memberVO);
+	
+	MemberVO selectMemberIDPW(MemberVO memberVO);//
+	
+//	MemberVO selectMemberIDPW(String email, String password);
+	
+	void updateMemberPW(MemberVO memberBean);
+	
+	MemberVO selectMemberIDEmail(String email);
+	
+	
 }

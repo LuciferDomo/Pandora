@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+
 import web.member.bean.MemberVO;
 import web.member.dao.MemberDAO;
 
@@ -57,6 +58,12 @@ public class MemberDAOImpl implements MemberDAO {
 	private static final String UPDATE_WithOutPictureSE = "UPDATE Member set Member_ID=?                    ,Discount_No=?,Chinese_Name=?,English_First_Name=?,English_Last_Name=?,"
 			+ "Gender=?,Member_Birthday=?,Member_ID_No=?,Member_PhoneNumber=?,Member_Address=?,Member_Email=?,Member_Passport_No=?,Accumulated=?,"
 			+ "Last_Update_Date=?,Member_Password=?,Registration_Time=? where Employee_ID = ?";
+	private static final String GET_ID_PW = "SELECT Member_ID, Member_Password FROM Member WHERE Member_ID =?";
+	private static final String UPDATEPASSWORD = "UPDATE MEMBER SET Member_Password=? WHERE Member_ID=?";
+	private static final String GET_ID_EMAIL = "SELECT MEMBER_ID, Member_Email FROM MEMBER WHERE Member_Email =?";
+	
+	
+	
 	@Override
 	public void updateSe(MemberVO memberVO) {
 
@@ -302,6 +309,42 @@ public class MemberDAOImpl implements MemberDAO {
 
 	}
 	
+	@Override
+	public void updateMemberPW(MemberVO memberBean) {	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			 	
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATEPASSWORD);
+
+			pstmt.setString(1, memberBean.getMemberPassword());
+			pstmt.setInt(2, memberBean.getMemberId());
+			
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
 	
 	@Override
 	public List<MemberVO> getAll() {
@@ -447,7 +490,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 		try (Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn
-						.prepareStatement("select * from Member where Member_Email=? and Member_Password=?");) {
+						.prepareStatement("select m.*, c.Member_Level from Member m join Discount c on m.Discount_No = c.Discount_No where Member_Email=? and Member_Password=?");) {
 
 			pstmt.setString(1, memberVO.getMemberEmail());
 			pstmt.setString(2, memberVO.getMemberPassword()); // 1跟2 為第幾個問號
@@ -472,7 +515,7 @@ public class MemberDAOImpl implements MemberDAO {
 					resultMemberVO.setLastUpdateDate(rs.getTimestamp("Last_Update_Date").toLocalDateTime());
 					resultMemberVO.setRegistrationTime(rs.getTimestamp("Registration_Time").toLocalDateTime());
 					resultMemberVO.setMemberPassword(rs.getString("Member_Password"));
-				
+					resultMemberVO.setMemberLevel(rs.getString("Member_Level"));
 					return resultMemberVO;
 				}
 
@@ -484,7 +527,28 @@ public class MemberDAOImpl implements MemberDAO {
 
 		return null;
 	}
-
+	
+	@Override
+	public MemberVO selectMemberIDPW(MemberVO memberVO) {
+		try (Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn
+						.prepareStatement(GET_ID_PW);) {
+			pstmt.setInt(1, memberVO.getMemberId());
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					MemberVO resultMemberVO = new MemberVO();
+					resultMemberVO.setMemberId(rs.getInt("Member_Id"));
+					resultMemberVO.setMemberPassword(rs.getString("Member_Password"));
+				
+					return resultMemberVO;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}	
+	
 	@Override
 	public void delete(Integer memberId) {
 
@@ -526,7 +590,8 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public boolean isExistEmail(String memberEmail) {
 
-		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(EMAIL_CHECK);) {
+		try (Connection conn = ds.getConnection(); 
+			PreparedStatement pstmt = conn.prepareStatement(EMAIL_CHECK);) {
 			pstmt.setString(1, memberEmail);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -538,6 +603,74 @@ public class MemberDAOImpl implements MemberDAO {
 		}
 
 	}
+	
+	// 查詢MEMBER_ID BY EMAIL
+		@Override
+		public MemberVO selectMemberIDEmail(String email) {
+
+			MemberVO memberBean = null;
+
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(GET_ID_EMAIL);
+
+				pstmt.setString(1, email);
+
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					memberBean = new MemberVO();
+
+					memberBean.setMemberId(rs.getInt("MEMBER_ID"));
+					memberBean.setMemberEmail(rs.getString("Member_Email"));
+					
+				}
+
+				// Handle any driver errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. " + se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return memberBean;
+		}
+//	@Override
+//	public MemberVO selectMemberIDPW(String email, String password) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+	
+	
+	
+	
+	
+//	@Override
+//	public void updateMemberPW(Integer memberid, String password) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+	
+
+	
 	
 	
 //	@Override
@@ -595,5 +728,5 @@ public class MemberDAOImpl implements MemberDAO {
 //	}
 	
 	
-	
+
 }

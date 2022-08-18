@@ -3,11 +3,12 @@ package web.member.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import web.emp.bean.EmpVO;
+
 import web.member.bean.MemberVO;
 import web.member.dao.MemberDAO;
 import web.member.dao.impl.MemberDAOImpl;
 import web.member.service.MemberService;
+
 
 public class MemberServiceImpl implements MemberService{
 	MemberDAO dao = new MemberDAOImpl();
@@ -76,4 +77,29 @@ public class MemberServiceImpl implements MemberService{
 		
 		return memberVO;
 	}
+	
+	@Override
+	public MemberVO selectMemberIDPW(MemberVO memberVO) {
+		MemberVO resultMemberVO = dao.selectMemberIDPW(memberVO);
+		
+		return resultMemberVO;
+	}
+
+	public MemberVO updateMemberPW(Integer memberId,String password) {
+		
+		MemberVO memberVO = new MemberVO();
+		
+		memberVO.setMemberId(memberId);
+		memberVO.setMemberPassword(password);
+		
+		dao.updateMemberPW(memberVO);
+		return memberVO;
+		
+	}
+	
+	//查詢MEMBER_ID&EMAIL BY EMAIL
+	public MemberVO selectMemberIDEmail(String email) {
+		return dao.selectMemberIDEmail(email);
+	}
+	
 }

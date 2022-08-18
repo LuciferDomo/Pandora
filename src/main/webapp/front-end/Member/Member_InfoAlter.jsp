@@ -280,6 +280,19 @@
                     height="34"
                   />
                   <h3>會員資料修改</h3>
+                  <c:if test="${loginMember.memberPictureId != null}">
+                  	<div class="image">
+                       <img src="<%=request.getContextPath()%>/MemberImageServlet?action=memberImage"  name="action" class="img-circle elevation-2" alt="User Image" />
+                    </div>
+                  </c:if>
+                  <c:if test="${loginMember.memberPictureId == null}">
+	                  <img
+	                    src="<%=request.getContextPath()%>/front-end/Member/img/headshot.png"
+	                    alt="Image"
+	                    width="160"
+	                    height="160"
+	                  />
+                  </c:if>
                 </div>
                 <hr />
                 
@@ -354,35 +367,26 @@
                       </div>
                     </div>
                   </div>
-
-<!--                   <div id="twzipcode" class="form-row"> -->
+                  
+<!--                    <div id="twzipcode" class="form-row"> -->
 <!--                     <div class="form-group col-2"> -->
-<!--                       <label>地址</label> -->
-<!--                       <div class="address" data-role="county" data-style="form-control" data-name="county" data-value="台北市" ></div> -->
+                      <label>地址</label>
+<!--                       <div class="address" data-role="county" data-style="form-control" data-name="county" data-value=""></div> -->
 <!--                     </div> -->
 <!--                     <div class="form-group col-2"> -->
-<!--                       <div -->
-<!--                         class="address" -->
-<!--                         data-role="district" -->
-<!--                         data-style="form-control" -->
-<!--                         data-name="district" -->
-<!--                         data-value="中正區" -->
-<!--                       ></div> -->
+<!--                       <div class="address" data-role="district" data-style="form-control" data-name="district" data-value=""></div> -->
 <!--                     </div> -->
 <!--                     <div class="form-group col-2"> -->
-<!--                       <div -->
-<!--                         data-role="zipcode" -->
-<!--                         data-style="form-control" -->
-<!--                         data-name="zipcode" -->
-<!--                         data-value="100" -->
-<!--                       ></div> -->
+<!--                       <div data-role="zipcode" data-style="form-control" data-name="zipcode" data-value=""></div> -->
 <!--                     </div> -->
 <!--                   </div> -->
                   <div class="form-group">
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="居住地址" name="memberAddress"
-                      value="${loginMember.memberAddress}"/>
-					<font class="text-danger">${errorMsgsMap["memberAddress"]}</font>
+                    <input type="text" class="form-control" name="memberAddress" value="${loginMember.memberAddress}">
+                    <font class="text-danger">${errorMsgsMap["memberAddress"]}</font>
                   </div>
+                  
+                  
+                  
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
@@ -436,6 +440,7 @@
     <script src="<%=request.getContextPath()%>/front-end/Member/js/jquery-3.6.0.min.js"></script>
     <script src="<%=request.getContextPath()%>/front-end/Member/js/common_scripts_min.js"></script>
     <script src="<%=request.getContextPath()%>/front-end/Member/js/functions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
     <script src="<%=request.getContextPath()%>/front-end/Member/https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
     <!-- Specific scripts -->
     <script src="<%=request.getContextPath()%>/front-end/Member/js/pw_strenght.js"></script>

@@ -2,7 +2,6 @@ package web.member.service;
 
 import java.util.List;
 
-
 import web.member.bean.MemberVO;
 
 public interface MemberService {
@@ -22,4 +21,10 @@ public interface MemberService {
 	void insertMember(MemberVO memberVO);
 	
 	MemberVO updateMemberSe(MemberVO memberVO);
+	
+	MemberVO selectMemberIDPW(MemberVO memberVO);
+	
+	MemberVO updateMemberPW(Integer memberid,String password);
+	
+	MemberVO selectMemberIDEmail(String email);
 }

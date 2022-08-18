@@ -18,14 +18,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.servlet.jsp.PageContext;
 
 import org.hibernate.internal.build.AllowSysOut;
+import org.springframework.remoting.soap.SoapFaultException;
 
 import web.emp.bean.EmpVO;
 import web.emp.service.impl.EmpServiceImpl;
 import web.member.bean.MemberVO;
+import web.member.dao.MemberDAO;
 import web.member.dao.impl.MemberDAOImpl;
 import web.member.service.MemberService;
 import web.member.service.impl.MemberServiceImpl;
@@ -48,10 +51,28 @@ public class MemberLoginServlet extends HttpServlet {
 		String action = req.getParameter("action");
 //登入
 		if ("MemberLogin".equals(action)) {
-
+			resp.setContentType("image/jpeg");
+			List<String> errorMsgs = new LinkedList<String>();
+			Map<String, String> errorMsgsMap = new LinkedHashMap<>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			req.setAttribute("errorMsgsMap", errorMsgsMap);
+			
 			String email = req.getParameter("email");
-			String password = req.getParameter("password");
+			String emailReg = "^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
 
+			if (email == null || email.trim().length() == 0) {
+				errorMsgs.add("Email: 請勿空白");
+				errorMsgsMap.put("email", "Email: 請勿空白");
+			} else if (!email.trim().matches(emailReg)) {
+				errorMsgs.add("Email: 格式輸入錯誤");
+				errorMsgsMap.put("email", "Email: 格式輸入錯誤");
+			}
+			String password = req.getParameter("password");
+			if (password == null ||password.trim().length() == 0) {
+				errorMsgs.add("密碼:請勿空白");
+				errorMsgsMap.put("password", "密碼:請勿空白");
+			}
+			
 			MemberVO selectMemberVO = new MemberVO();
 			selectMemberVO.setMemberEmail(email);
 			selectMemberVO.setMemberPassword(password);
@@ -62,10 +83,33 @@ public class MemberLoginServlet extends HttpServlet {
 //			System.out.println(memberVO.toString());
 			
 
-			if (memberVO != null) {
-				String url = "/front-end/Member/MemberHomePage.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, resp);
+			if (memberVO != null) {//帳密有效時
+				HttpSession session = req.getSession();  //取得 session 物件
+				session.setAttribute("loginMember", memberVO);  //在session 內設定屬性(Attribute)，指已登入過的標示與值
+				
+				try {                                                        
+			         String location = (String) session.getAttribute("location");
+			         if (location != null) {
+			           session.removeAttribute("location");   //*工作2: 看看有無來源網頁 (-->如有來源網頁:則重導至來源網頁)
+			           resp.sendRedirect(location);            
+			           return;
+			         }
+			       }catch (Exception ignored) { }
+				
+				resp.sendRedirect(req.getContextPath()+"/front-end/Member/MemberHomePage.jsp"); 
+				
+//				String location = (String) session.getAttribute("location");  //來源網頁存入
+//				RequestDispatcher successView = req.getRequestDispatcher(location);
+//				resp.sendRedirect(location);//重導回原網頁
+				
+				
+				
+				
+				
+				
+//				String url = "/front-end/Member/MemberHomePage.jsp";             //網址寫死
+//				RequestDispatcher successView = req.getRequestDispatcher(url);
+//				successView.forward(req, resp);
 				return;
 			} else {
 				req.setAttribute("errorMsg", "帳號密碼錯誤");
@@ -188,6 +232,9 @@ public class MemberLoginServlet extends HttpServlet {
 //				errorMsgsMap.put("gender", "人都會有性別!");
 //			}
 			
+//			String county = req.getParameter("county");
+//			String district = req.getParameter("district");
+//			String zipcode = req.getParameter("zipcode");
 			String memberAddress = req.getParameter("memberAddress");
 			if (memberAddress == null || memberAddress.trim().length() == 0) {
 				errorMsgs.add("地址:請勿空白");
@@ -241,8 +288,8 @@ System.out.println("err");
 	/*************************** 2.開始修改資料 ***************************************/
 			memberVO = memberSvc.updateMember(memberVO);
 			MemberVO memberVO2 = memberSvc.getOneMember(memberId);
-//			MemberVO memberVO2=new MemberDAOImpl().findByPrimaryKey(memberId);
-			req.getSession().setAttribute("loginMember", memberVO2);
+			MemberVO memberVO3=memberSvc.selectByEmailAndPassword(memberVO2);
+			req.getSession().setAttribute("loginMember", memberVO3);
 	/*************************** 3.完成,準備轉交(Send the Success view) ***********/	
 			req.setAttribute("memberVO", memberVO); // 資料庫update成功後,正確的的empVO物件,存入req
 			RequestDispatcher successView = req.getRequestDispatcher("/front-end/Member/Member_Info.jsp");
@@ -340,6 +387,10 @@ System.out.println("err");
 				errorMsgsMap.put("gender", "人都會有性別!");
 			}
 			
+			
+			String county = req.getParameter("county");
+			String district = req.getParameter("district");
+			String zipcode = req.getParameter("zipcode");
 			String memberAddress = req.getParameter("memberAddress");
 			if (memberAddress == null || memberAddress.trim().length() == 0) {
 				errorMsgs.add("地址:請勿空白");
@@ -393,7 +444,7 @@ System.out.println("err");
 			memberVO.setMemberIdNo(memberIdNo);
 			memberVO.setMemberPhoneNumber(memberPhoneNumber);
 			memberVO.setGender(gender);
-			memberVO.setMemberAddress(memberAddress);
+			memberVO.setMemberAddress((county) + (district) + (zipcode) + (memberAddress));
 			memberVO.setMemberEmail(memberEmail);
 			memberVO.setMemberPassword(memberPassword);
 
@@ -401,8 +452,7 @@ System.out.println("err");
 			if (!errorMsgs.isEmpty() || !errorMsgsMap.isEmpty()) {
 
 				req.setAttribute("memberVO", memberVO); // 含有輸入格式錯誤的empVO物件,也存入req
-
-				RequestDispatcher failureView = req.getRequestDispatcher("<%=request.getContextPath()%>/front-end/Member/MemberRegister.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/Member/MemberRegister.jsp");
 				failureView.forward(req, resp);
 				return;
 			}
@@ -412,11 +462,23 @@ System.out.println("err");
 			
 			memberSvc.addMember(memberVO);
 	/*************************** 3.完成,準備轉交(Send the Success view) ***********/		
-			RequestDispatcher successView = req.getRequestDispatcher("<%=request.getContextPath()%>/front-end/Member/MemberLogin.jsp");
+			RequestDispatcher successView = req.getRequestDispatcher("/front-end/Member/MemberLogin.jsp");
 			successView.forward(req, resp);
 			}		
-	}
+			
 
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+	}
 }
+
 
 	
