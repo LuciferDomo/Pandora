@@ -17,15 +17,13 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img
-          src="<%=request.getContextPath()%>/images/girlimg.jpg"
-          class="img-circle elevation-2"
-          alt="User Image"
-        />
-      </div>
-      <div class="info">
-        <a href="#" class="d-block">Lucifer Morningstar</a>
-      </div>
+                        <img src="<%=request.getContextPath()%>/EMPImageServlet?action=usesrImage"  name="action"  class="img-circle elevation-2" alt="User Image" />
+                    </div>
+                    <div class="info">
+                          <input name="Userlogin" type="hidden">
+                         <a href="#" class="d-block">${loginUser.englishFirstName}&nbsp${loginUser.englishLastName}</a>
+                      
+                    </div>
     </div>
 
     <!-- Sidebar Menu -->
