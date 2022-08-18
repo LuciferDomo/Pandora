@@ -25,7 +25,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Theme style -->/Pandora/src/main/webapp/back-end/port/port.jsp
+    <!-- Theme style -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/back-end/port/css/adminlte.css" />
     <style>
         .content{
