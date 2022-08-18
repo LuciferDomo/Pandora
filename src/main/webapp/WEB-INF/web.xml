@@ -19,13 +19,13 @@
 	</servlet-mapping>
 
 	<!-- filter -->
-<!-- 	<filter> -->
-<!-- 		<filter-name>LoginFilter</filter-name> -->
-<!-- 		<filter-class>web.filter.LoginFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>LoginFilter</filter-name> -->
-<!-- 		<url-pattern>/front-end/cart/Cart_Hotel.jsp</url-pattern> -->
-<!-- 	</filter-mapping> -->
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>web.filter.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/front-end/cart/Cart_Hotel.jsp</url-pattern>
+	</filter-mapping>
 
 </web-app>
