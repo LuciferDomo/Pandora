@@ -70,7 +70,7 @@ public class PackagesBackEndServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		System.out.println(action);
+		
 
 		if ("getAllPackage".equals(action)) {
 			System.out.println("hi大聰明我在:getAllPackage");
@@ -119,11 +119,7 @@ public class PackagesBackEndServlet extends HttpServlet {
 			}
 			String endTime[] = req.getParameterValues("endTime");
 
-			System.out.println("安安我在這" + portOfCallNo[0]);
-			System.out.println("安安我在這" + portOfCallNo[portOfCallNo.length - 1]);
-			System.out.println("安安我在這" + cruiseLine);
-			System.out.println("開始在這" + startTime[0]);
-			System.out.println("三小" + packageName);
+		
 			PackagesVO packagesVO = new PackagesVO();
 			packagesVO.setPackageImages(packageImages);
 			packagesVO.setPackageName(packageName);
@@ -169,7 +165,7 @@ public class PackagesBackEndServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			resp.setContentType("application/json;charset=utf-8");
 			resp.setCharacterEncoding("UTF-8");
-			System.out.println("我在updateOption");
+			
 			PrintWriter out = resp.getWriter();
 			Map<String, String[]> map = req.getParameterMap();
 
@@ -190,8 +186,7 @@ public class PackagesBackEndServlet extends HttpServlet {
 			List<String> portOfCallSequenceList = portNameList.stream().map(vo -> vo.getPortOfCallSequence().toString())
 					.collect(Collectors.toList());
 
-			System.out.println(portOfCallNoList);
-			System.out.println(portNameNoList);
+		
 			optionMap.put("portsOfCallListNoList", portsOfCallListNoList);
 			optionMap.put("cruiseLinesNoList", cruiseLinesNoList);
 			optionMap.put("portOfCallNoList", portOfCallNoList);
@@ -235,7 +230,8 @@ public class PackagesBackEndServlet extends HttpServlet {
 			List<String> duration = packagesList.stream().map(vo -> vo.getDuration().toString()).distinct()
 					.collect(Collectors.toList());
 
-			System.out.println("天數:" + duration);
+
+
 
 			optionMap.put("packageNoList", packageNoList);
 			optionMap.put("departureDistinct", departureDistinct);
@@ -258,13 +254,11 @@ public class PackagesBackEndServlet extends HttpServlet {
 			out.print(gson.toJson(optionMap));
 			out.flush();
 
-//			out.print(gson.toJson(departureDistinct));
-//			System.out.println(gson.toJson(departureDistinct));
-//			out.flush();
+
 		}
 
 		if ("getOnePackageDetail".equals(action)) {
-			System.out.println("hi傻逼我在:getOnePackageDetail");
+	
 			Integer packageNo = Integer.valueOf(req.getParameter("packageNo"));
 			System.out.println(packageNo);
 			PackageDetailService packageDetailService = new PackageDetailServiceImpl();

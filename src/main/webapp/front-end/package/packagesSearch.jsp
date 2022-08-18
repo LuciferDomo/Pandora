@@ -446,7 +446,7 @@
      <script>
   $(function (){
 	  $("#departureID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		    var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",											   				
@@ -518,7 +518,7 @@
 	  }); //change departure event
 	  
 	  $("#destinationID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		  var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",				  
@@ -600,7 +600,7 @@
 	  
 	  
 	  $("#departureTimeID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		  var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",				  	
@@ -678,7 +678,7 @@
 	  
 	
 	  $("#durationID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		  var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",				  	
@@ -746,7 +746,7 @@
     <script>
     $(function () {
     	$('#clearBtn').click(function(){
-    		alert("HI");
+//     		alert("HI");
     		var request = $.ajax({
    			  url: "<%=request.getContextPath()%>/PackagesServlet",
    			  method: "POST",
