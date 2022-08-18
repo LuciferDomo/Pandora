@@ -63,7 +63,25 @@
           </div>
           <div class="col-6">
             <ul id="top_links">
-              <li><a href="#sign-in-dialog" id="access_link">登入</a></li>
+               <li>
+               <c:if test="${loginMember != null}">
+                 <font>${loginMember.memberEnglishLastName}&nbsp${loginMember.memberEnglishFirstName}</font>  
+                </c:if>
+              </li>
+              <li>
+              <c:choose>
+               <c:when test="${loginMember != null}">
+                <a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberSignOut">
+                 登出<i class="icon-logout-1" id="logout"></i>
+                </a>
+               </c:when>
+               <c:otherwise>
+                <a href="<%=request.getContextPath()%>/front-end/Member/MemberLogin.jsp">
+                 登入<i class="icon-logout-1" id="logout"></i>
+                </a>
+               </c:otherwise>
+              </c:choose>
+              </li>
               <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
             </ul>
           </div>
@@ -138,37 +156,7 @@
           <!-- End main-menu -->
           <ul id="top_tools">
             <li>
-              <div class="dropdown dropdown-cart">
-                <a href="#" data-bs-toggle="dropdown" class="cart_bt"><i class="icon_bag_alt"></i><strong>8</strong></a>
-                <ul class="dropdown-menu" id="cart_items">
-                  <li>
-                    <div class="image">
-                      <img src="img/thumb_cart_1.jpg" alt="image" />
-                    </div>
-                    <strong><a href="#">Louvre museum</a>1x $36.00 </strong>
-                    <a href="#" class="action"><i class="icon-trash"></i></a>
-                  </li>
-                  <li>
-                    <div class="image">
-                      <img src="img/thumb_cart_2.jpg" alt="image" />
-                    </div>
-                    <strong><a href="#">Versailles tour</a>2x $36.00 </strong>
-                    <a href="#" class="action"><i class="icon-trash"></i></a>
-                  </li>
-                  <li>
-                    <div class="image">
-                      <img src="img/thumb_cart_3.jpg" alt="image" />
-                    </div>
-                    <strong><a href="#">Versailles tour</a>1x $36.00 </strong>
-                    <a href="#" class="action"><i class="icon-trash"></i></a>
-                  </li>
-                  <li>
-                    <div>合計: <span>$120.00</span></div>
-                    <a href="cart.html" class="button_drop">前往購物車</a>
-                    <a href="payment.html" class="button_drop outline">退出</a>
-                  </li>
-                </ul>
-              </div>
+             
               <!-- End dropdown-cart-->
             </li>
           </ul>
@@ -186,8 +174,8 @@
   <!-- End hero -->
   </br>
   <div class="container margin_15"style="text-align:right;margin: top 1px" >
-			<form method="get" id="reservationnow1" action="https://www.google.com/">
-                    <input name="packages" type="hidden" value="1">
+			<form method="POST" id="reservationnow1" action="<%=request.getContextPath()%>/Cart_Hotel.jsp">
+                    <input name="packageNoOrder" type="hidden" value="${packagesVO.packageNo}">
                     <button class="btn btn-primary btn-sm" type="submit" 
                     	 style="width:300px;height:40px;background-color: #d8691e;border:white">立即預定</button>
              </form>
@@ -199,14 +187,14 @@
             
         <div class="card-header" style="background-color: rgb(112, 150, 189) ;">
           <h4 class="card-title" style="color:white">
-            南方澳洲探險家之旅
+            ${packagesVO.packageName}
           </h4>
          </div> 
 	 
          <div class="row" style="border: 1px solid #ddd;margin: 0; padding: 0;">
           <div class="col-4" style="border: 1px solid #ddd;">
-            <img class="img-fluid" style="display:block; margin:auto;max-width:100%; min-height: 100%;;"
-              src="https://picsum.photos/1296/533?random=2" alt="圖片遺失">
+            <img class="img-fluid"  style="display:block; margin:auto;max-width:100%; min-height: 100%;;"
+              src="<%=request.getContextPath()%>/CruiseLineServlet?action=getImage&cruiseLineNo=${cruiseLineVO.cruiseLineNo}" alt="圖片遺失">
           </div>
           
        
@@ -228,21 +216,21 @@
                 抵達時間
               </div>
             </div>
-           <c:forEach var="packagesDetailVO" items="${packagesDetailList}" varStatus="packageStatus"> 
+           <c:forEach var="portsOfCallDateVO" items="${portsOfCallDateVOList}" varStatus="packageStatus"> 
             <div class="row" style="border: 1px solid #ddd;margin: 0; padding: 0;">
               <div class="col-2"
                 style="border: 1px solid #ddd;text-align:center;margin: 0; padding: 0;min-height:27px ;">
                第 ${packageStatus.count}個停靠港口
               </div>
               <div class="col-4" style="border: 1px solid #ddd;margin: 0; padding: 0;">
-               ${packagesDetailVO.portName}
+               ${packagesService.getPortName(portsOfCallDateVO.portOfCallNo)}
               </div>
               <div class="col-3" style="border: 1px solid #ddd;margin: 0; padding: 0;min-height:25px">
-                ${packagesDetailVO.departureTime.format(dateTimeFormat)}
+                ${portsOfCallDateVO.departureTime.format(dateTimeFormat)}
               </div>
               <div class="col-3"
                 style="border: 1px solid #ddd;text-align:center;margin: 0; padding: 0;min-height:27px ;">
-                ${packagesDetailVO.arrivalTime.format(dateTimeFormat)}
+                ${portsOfCallDateVO.arrivalTime.format(dateTimeFormat)}
               </div>
             </div>
           </c:forEach>

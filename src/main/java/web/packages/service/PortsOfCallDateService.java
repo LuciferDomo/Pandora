@@ -7,5 +7,9 @@ import web.packages.bean.PortsOfCallDateVO;
 public interface PortsOfCallDateService {
 	
 	List<PortsOfCallDateVO> getAll();
+	
+	PortsOfCallDateVO insertPortsOfCallDate(PortsOfCallDateVO portsOfCallDateVO);	
+	
+	List<PortsOfCallDateVO> getByPackageNo(Integer packageNo);
 
 }

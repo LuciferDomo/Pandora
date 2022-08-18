@@ -1,7 +1,21 @@
+<%@ page import="web.packages.dao.impl.PackagesDAOImpl" %>
+<%@ page import="web.packages.service.impl.PackagesServiceImpl"%>
+<%@ page import="web.packages.service.PackagesService"%>
+<%@ page import="web.packages.bean.PackagesVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page  import="java.time.format.DateTimeFormatter" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*"%>
+<%	
+	PackagesDAOImpl packagesDAO = new PackagesDAOImpl();
+	List<PackagesVO> packagesList = packagesDAO.getALLList();
+	pageContext.setAttribute("packagesList", packagesList);
+	request.setAttribute("dateTimeFormat", DateTimeFormatter.ofPattern("yyyy年MM月dd日HH點mm分"));
+%>
+
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -369,8 +383,9 @@
                                             </tr>
                                         </thead>
                                      
-                                        <tbody>     
-                                         <c:forEach var="PackageVO" items="${packagesList}">                                                                          
+                                        <tbody>  
+                          <%@ include file="page1.file" %>                  
+                                         <c:forEach var="PackageVO" items="${packagesList}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">                                                                          
                                             <tr>
                                                 <td>${PackageVO.packageNo}</td>
                                                 <td>${PackageVO.packageName}</td>
@@ -387,7 +402,7 @@
                                                  <input type="submit" value="編輯"  style="width:100%;height:100%;color:#fff;background-color:#007bff;border-color:#fff">
                                                  <input type="hidden" name="packageNo" value="$PackageVO.packageNo}">
 			    				 				 <input type="hidden" name="action"	value="EMPGetOneForUpdate">
-                                               
+                                               	<input type="hidden" name="loginUser" value="${loginUser}">
                                                </form>
                                                 </td>
                                             </tr>          
@@ -395,23 +410,23 @@
                                         </tbody>
                                      
                                     </table>
-                                    
+                                   
                                      <a href="<%=request.getContextPath()%>/PackagesBackEndServlet?action=packageADD" class="nav-link">
                                         <input type="button" name="packageADD"  value="新增行程" text-align=center style="margin-right: 0%;width:250px;float: right;">
                                     </a>
                                     
                                 </div>
-
+						  
                                 </tfoot>
-                                <div style="width:100%;text-align:center">
-                                    <input style="display:inline-block;width:150px" type="button"
-                                        onclick="history.go(-1)" value="上一頁"></input>
-                                    <input style="display:inline-block;width:150px" type="button"
-                                        onclick="history.forward()" value="下一頁">
-                                </div>
-
-
+                                
+<!--                                 <div style="width:100%;text-align:center"> -->
+<!--                                     <input style="display:inline-block;width:150px" type="button" -->
+<!--                                         onclick="history.go(-1)" value="上一頁"></input> -->
+<!--                                     <input style="display:inline-block;width:150px" type="button" -->
+<!--                                         onclick="history.forward()" value="下一頁"> -->
+<!--                                 </div> -->
                             </div>
+                            <%@ include file="page2.file" %>
 
                         </div>
                         <!-- /.card -->

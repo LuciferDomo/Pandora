@@ -1,9 +1,22 @@
+<%@ page import="web.packages.dao.impl.PackagesDAOImpl" %>
+<%@ page import="web.packages.service.impl.PackagesServiceImpl"%>
+<%@ page import="web.packages.service.PackagesService"%>
+<%@ page import="web.packages.bean.PackagesVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page  import="java.time.format.DateTimeFormatter" %>   
+<%@ page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page import="java.util.*"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<%	
+	PackagesDAOImpl packagesDAO = new PackagesDAOImpl();
+	Map<String, String[]> map = request.getParameterMap();
+	List<PackagesVO> packagesListA = packagesDAO.getAll(map);
+	pageContext.setAttribute("packagesListA", packagesListA);
+	request.setAttribute("dateTimeFormat", DateTimeFormatter.ofPattern("yyyy年MM月dd日HH點mm分"));
+%>
 
 
 
@@ -67,7 +80,25 @@
           </div>
           <div class="col-6">
             <ul id="top_links">
-              <li><a href="#sign-in-dialog" id="access_link">登入</a></li>
+               <li>
+               <c:if test="${loginMember != null}">
+                 <font>${loginMember.memberEnglishLastName}&nbsp${loginMember.memberEnglishFirstName}</font>  
+                </c:if>
+              </li>
+              <li>
+              <c:choose>
+               <c:when test="${loginMember != null}">
+                <a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberSignOut">
+                 登出<i class="icon-logout-1" id="logout"></i>
+                </a>
+               </c:when>
+               <c:otherwise>
+                <a href="<%=request.getContextPath()%>/front-end/Member/MemberLogin.jsp">
+                 登入<i class="icon-logout-1" id="logout"></i>
+                </a>
+               </c:otherwise>
+              </c:choose>
+              </li>
               <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
             </ul>
           </div>
@@ -142,37 +173,7 @@
           <!-- End main-menu -->
           <ul id="top_tools">
             <li>
-              <div class="dropdown dropdown-cart">
-                <a href="#" data-bs-toggle="dropdown" class="cart_bt"><i class="icon_bag_alt"></i><strong>8</strong></a>
-                <ul class="dropdown-menu" id="cart_items">
-                  <li>
-                    <div class="image">
-                      <img src="img/thumb_cart_1.jpg" alt="image" />
-                    </div>
-                    <strong><a href="#">Louvre museum</a>1x $36.00 </strong>
-                    <a href="#" class="action"><i class="icon-trash"></i></a>
-                  </li>
-                  <li>
-                    <div class="image">
-                      <img src="img/thumb_cart_2.jpg" alt="image" />
-                    </div>
-                    <strong><a href="#">Versailles tour</a>2x $36.00 </strong>
-                    <a href="#" class="action"><i class="icon-trash"></i></a>
-                  </li>
-                  <li>
-                    <div class="image">
-                      <img src="img/thumb_cart_3.jpg" alt="image" />
-                    </div>
-                    <strong><a href="#">Versailles tour</a>1x $36.00 </strong>
-                    <a href="#" class="action"><i class="icon-trash"></i></a>
-                  </li>
-                  <li>
-                    <div>合計: <span>$120.00</span></div>
-                    <a href="cart.html" class="button_drop">前往購物車</a>
-                    <a href="payment.html" class="button_drop outline">退出</a>
-                  </li>
-                </ul>
-              </div>
+              
               <!-- End dropdown-cart-->
             </li>
           </ul>
@@ -182,7 +183,7 @@
     <!-- container -->
   </header>
   <!-- End Header -->
-<form action="<%=request.getContextPath()%>/PackagesServlet" method="Post">
+<form action="<%=request.getContextPath()%>/PackagesServlet" method="GET">
   <section id="search_container" style="background: url('https://picsum.photos/1903/800?random=5')">
     <div id="search">
       <ul class="nav nav-tabs">
@@ -284,14 +285,14 @@
             我們致力規劃您的美好旅程，每次的旅遊，不僅帶來回憶，更是身心靈的滿足。
           </p>
         </div>
-
-        <c:forEach var="packageItem" items="${packagesList}" >
+	<%@ include file="page1.file" %>   
+        <c:forEach var="packageItem" items="${packagesListA}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
         <div class="row">
           <div class="col-lg-12 col-md-6 wow zoomIn" data-wow-delay="0.1s">
             <div class="tour_container">
               <div class="img_container">
                 <a href="single_tour.html">
-                  <img src="https://picsum.photos/1296/533?random=1" class="img-fluid" alt="Image" />
+                  <img src="<%=request.getContextPath()%>/PackageImageServlet?action=packageImages&packageNo=${packageItem.packageNo}" class="img-fluid" alt="Image" style="width:100%;height:600px" />
                   <div class="short_info">
                     <i class="icon_set_1_icon-8"></i>共計:${packageItem.duration} 天 &ensp;&ensp;啟航時間:${packageItem.departureTime} &ensp;&ensp;結束時間:${packageItem.arrivalTime}<span class="price"><sup>
 				
@@ -325,17 +326,11 @@
               </div>
             </div>
           </c:forEach>  
+         <%@ include file="page2.file" %>   
             <!-- End col -->
 
                     <!-- End row -->
-                    <div class="col-lg-12 col-md-6 wow zoomIn" data-wow-delay="0.4s">
-                      <p class="text-center nopadding">
-                        <a href="#" class="btn_1 medium"><i class="icon-eye-7"></i>上一頁(10)
-                        </a>
-                        <a href="#" class="btn_1 medium"><i class="icon-eye-7"></i>下一頁(10)
-                        </a>
-                      </p>
-                    </div>
+                
 
                   </div>
                   <!-- End container -->
@@ -439,7 +434,7 @@
      <script>
   $(function (){
 	  $("#departureID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		    var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",											   				
@@ -511,7 +506,7 @@
 	  }); //change departure event
 	  
 	  $("#destinationID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		  var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",				  
@@ -593,7 +588,7 @@
 	  
 	  
 	  $("#departureTimeID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		  var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",				  	
@@ -671,7 +666,7 @@
 	  
 	
 	  $("#durationID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		  var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",				  	
@@ -739,7 +734,7 @@
     <script>
     $(function () {
     	$('#clearBtn').click(function(){
-    		alert("HI");
+//     		alert("HI");
     		var request = $.ajax({
    			  url: "<%=request.getContextPath()%>/PackagesServlet",
    			  method: "POST",

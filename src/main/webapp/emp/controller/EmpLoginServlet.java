@@ -18,8 +18,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.servlet.jsp.PageContext;
+
+import com.mysql.cj.Session;
 
 import web.emp.bean.EmpVO;
 import web.emp.service.EmpService;
@@ -43,33 +46,33 @@ public class EmpLoginServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 
-		if ("EMPLogin".equals(action)) {
-
-			String email = req.getParameter("email");
-			String password = req.getParameter("password");
-
-			System.out.println("email:" + email);
-			System.out.println("password:" + password);
-
-			EmpVO slectEmpVO = new EmpVO();
-			slectEmpVO.setEmail(email);
-			slectEmpVO.setPassword(password);
-			EmpService empService = new EmpServiceImpl();
-			EmpVO empVO = empService.selectByEmailAndPassword(slectEmpVO);
-			req.getSession().setAttribute("loginUser", empVO);
-
-			if (empVO != null) {
-				String url = "back-end/emp/EMP_HomePage.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, resp);
-				return;
-			} else {
-				req.setAttribute("errorMsg", "帳號密碼錯誤");
-				RequestDispatcher failView = req.getRequestDispatcher("back-end/emp/EMP_login.jsp");
-				failView.forward(req, resp);
-				return;
-			}
-		}
+//		if ("EMPLogin".equals(action)) {
+//
+//			String email = req.getParameter("email");
+//			String password = req.getParameter("password");
+//
+//			System.out.println("email:" + email);
+//			System.out.println("password:" + password);
+//
+//			EmpVO slectEmpVO = new EmpVO();
+//			slectEmpVO.setEmail(email);
+//			slectEmpVO.setPassword(password);
+//			EmpService empService = new EmpServiceImpl();
+//			EmpVO empVO = empService.selectByEmailAndPassword(slectEmpVO);
+//			req.getSession().setAttribute("loginUser", empVO);
+//
+//			if (empVO != null) {
+//				String url = "back-end/emp/EMP_HomePage.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);
+//				successView.forward(req, resp);
+//				return;
+//			} else {
+//				req.setAttribute("errorMsg", "帳號密碼錯誤");
+//				RequestDispatcher failView = req.getRequestDispatcher("back-end/emp/EMP_login.jsp");
+//				failView.forward(req, resp);
+//				return;
+//			}
+//		}
 
 		if ("EMPSignOut".equals(action)) {
 			String url = req.getContextPath() + "/back-end/emp/EMP_login.jsp";
@@ -82,11 +85,21 @@ public class EmpLoginServlet extends HttpServlet {
 
 			EmpService empSerive = new EmpServiceImpl();
 			List<EmpVO> empAllList = empSerive.getAll();
+			EmpVO empVOLoginUser =(EmpVO)req.getSession().getAttribute("loginUser");
+			String jobLevel = empVOLoginUser.getJobLevels();
 			req.setAttribute("empAllList", empAllList);
-			RequestDispatcher successView = req.getRequestDispatcher("back-end/emp/EMP_InfoAll.jsp");
-			successView.forward(req, resp);
-			return;
+			
+			if("Manger".equals(jobLevel)) {
+				RequestDispatcher successView = req.getRequestDispatcher("back-end/emp/EMP_InfoAll.jsp");
+				successView.forward(req, resp);
+				return;
+			}else {
+				RequestDispatcher successView = req.getRequestDispatcher("back-end/emp/EMP_InfoAll.jsp");
+				successView.forward(req, resp);
+			}
+			
 		}
+		
 		if ("LoginUserForUpdate".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -103,8 +116,12 @@ public class EmpLoginServlet extends HttpServlet {
 
 
 		if ("EMPGetOneForUpdate".equals(action)) {
+			System.out.println(action);
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
+			
+			System.out.println(session.getAttribute("loginUser"));
 			Integer employeeId = Integer.valueOf(req.getParameter("employeeId"));
 			EmpServiceImpl empService = new EmpServiceImpl();
 			EmpVO empVOupdate = empService.getOneEmp(employeeId);
@@ -194,13 +211,6 @@ public class EmpLoginServlet extends HttpServlet {
 				errorMsgs.add("Email: 格式輸入錯誤");
 				errorMsgsMap.put("email", "Email: 格式輸入錯誤");
 			}
-//			try {
-//				if (empSvc.isExistEmail(email)) {
-//					errorMsgsMap.put("email", "帳號已存在");
-//				}
-//			} catch (Exception e) {
-//				errorMsgsMap.put("email", "帳號已存在");
-//			}
 
 			LocalDate startDate = null;
 			String startDateString = req.getParameter("startDate");
@@ -232,9 +242,11 @@ public class EmpLoginServlet extends HttpServlet {
 			String empCellphoneNo = req.getParameter("empCellphoneNo");
 			String empCellphoneNoReg = "^[0-9]{10}$";
 			if (empCellphoneNo == null || empCellphoneNo.trim().length() == 0) {
-				errorMsgs.add("地址:請勿空白");
+				errorMsgs.add("手機:請勿空白");
+				errorMsgsMap.put("empCellphoneNo", "手機:請勿空白");
 			} else if (!empCellphoneNo.trim().matches(empCellphoneNoReg)) {
 				errorMsgs.add("手機號碼:請輸入10碼的數字 ");
+				errorMsgsMap.put("empCellphoneNo", "手機號碼:請輸入10碼的數字");
 			}
 			LocalDateTime lastModificationDate = LocalDateTime.now();
 			LocalDateTime loginTime = null;
@@ -264,11 +276,22 @@ public class EmpLoginServlet extends HttpServlet {
 				failureView.forward(req, resp);
 				return;
 			}
-
-			empVO = empService.updateEmp(empVO);
+			HttpSession loginUserSession = req.getSession();	
+			
+//			System.out.println("登入者:"+loginUser.getEmail());
+			EmpVO updateEmpVO=empService.updateEmp(empVO, loginUserSession);
+			
+			System.out.println("被修改者:"+empVO.getEmail());
+			
+			
+//			if(loginUser.getEmail()==empVO.getEmail()) {
+//				req.getSession().setAttribute("loginUser", empVO);
+//			}
+			
 			req.setAttribute("empAllList", empService.getAll());
+			
 			String url = "back-end/emp/EMP_InfoAll.jsp";
-			RequestDispatcher successView = req.getRequestDispatcher(url);// 編輯成功重載 EMP_GetOneEdiotrByManger.jsp
+			RequestDispatcher successView = req.getRequestDispatcher("/EmpLoginServlet?action=EMPAllList");// 編輯成功重載 EMP_GetOneEdiotrByManger.jsp
 			successView.forward(req, resp);
 
 		}
@@ -286,6 +309,8 @@ public class EmpLoginServlet extends HttpServlet {
 
 			String englishFirstName = req.getParameter("englishFirstName");
 			String englishFirstNameReg = "[A-Za-z]{1,50}";
+			
+			System.out.println("測試阿"+englishFirstName);
 			if (englishFirstName == null || englishFirstName.trim().length() == 0) {
 				errorMsgs.add("英文姓名: 請勿空白");
 				errorMsgsMap.put("englishFirstName", "英文姓名: 請勿空白");

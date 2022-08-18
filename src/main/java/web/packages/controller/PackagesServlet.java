@@ -18,11 +18,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.protobuf.Timestamp;
+import com.mysql.cj.Session;
 import com.mysql.cj.x.protobuf.MysqlxCrud.UpdateOperation;
 
 import web.cruiseline.bean.CruiseLineVO;
@@ -33,11 +35,14 @@ import web.emp.service.EmpService;
 import web.emp.service.impl.EmpServiceImpl;
 import web.packages.bean.PackageDetailVO;
 import web.packages.bean.PackagesVO;
+import web.packages.bean.PortsOfCallDateVO;
 import web.packages.service.PackageDetailService;
 import web.packages.service.PackagesService;
+import web.packages.service.PortsOfCallDateService;
 import web.packages.service.PortsOfCallListService;
 import web.packages.service.impl.PackageDetailServiceImpl;
 import web.packages.service.impl.PackagesServiceImpl;
+import web.packages.service.impl.PortsOfCallDateServiceImpl;
 import web.packages.service.impl.PortsOfCallListServiceImpl;
 
 @WebServlet("/PackagesServlet")
@@ -84,11 +89,8 @@ public class PackagesServlet extends HttpServlet {
 			req.setAttribute("packagesList", packagesList);
 			req.setAttribute("Duration", duration);
 			req.setAttribute("count", count);
-			System.out.println(departureDistinct);
-			System.err.println(destinationDistinct);
-			System.out.println(departureTimeDistinct);
 
-//			System.out.println(duration);
+
 			RequestDispatcher successView = req.getRequestDispatcher("/front-end/package/homePage.jsp"); // 成功轉交listEmps_ByCompositeQuery.jsp
 			successView.forward(req, resp);
 		}
@@ -149,21 +151,19 @@ public class PackagesServlet extends HttpServlet {
 
 			Integer count = packagesList.toArray().length;
 
-			System.out.println("Servlet:listPackagesByCompositeQuery");
-			System.out.println(departureDistinct);
-			System.out.println(departureTimeDistinct);
-			System.out.println(duration);
-			req.setAttribute("portsOfCallListMap", portsOfCallListMap);
-			req.setAttribute("departureDistinct", departureDistinct);
-			req.setAttribute("destinationDistinct", destinationDistinct);
-			req.setAttribute("departureTimeDistinct", departureTimeDistinct);
-			req.setAttribute("packagesList", packagesList);
-			req.setAttribute("Duration", duration);
+//			System.out.println("Servlet:listPackagesByCompositeQuery");
+		
+			req.getSession().setAttribute("portsOfCallListMap", portsOfCallListMap);
+			req.getSession().setAttribute("departureDistinct", departureDistinct);
+			req.getSession().setAttribute("destinationDistinct", destinationDistinct);
+			req.getSession().setAttribute("departureTimeDistinct", departureTimeDistinct);
+			req.getSession().setAttribute("packagesList", packagesList);
+			req.getSession().setAttribute("Duration", duration);
 			req.setAttribute("cruiseLineNoList", cruiseLineNoList);
-			req.setAttribute("count", count);
+			req.getSession().setAttribute("count", count);
 //			req.setAttribute("listPackagesByCompositeQuery",packagesService);
 
-//			System.out.println(count);
+
 			RequestDispatcher successView = req.getRequestDispatcher("/front-end/package/packagesSearch.jsp"); // 成功轉交listEmps_ByCompositeQuery.jsp
 			successView.forward(req, resp);
 		}
@@ -198,7 +198,7 @@ public class PackagesServlet extends HttpServlet {
 					.collect(Collectors.toList());
 			List<String> duration = packagesList.stream().map(vo -> vo.getDuration().toString()).distinct()
 					.collect(Collectors.toList());
-			System.out.println("天數:" + duration);
+//			System.out.println("天數:" + duration);
 
 			optionMap.put("packageNoList", packageNoList);
 			optionMap.put("departureDistinct", departureDistinct);
@@ -227,13 +227,30 @@ public class PackagesServlet extends HttpServlet {
 		}
 		
 		if("getOnePackageDetail".equals(action)) {
-			System.out.println("hi傻逼我在:getOnePackageDetail");
+			
 			Integer packageNo = Integer.valueOf(req.getParameter("packageNo"));
-			System.out.println(packageNo);
+			PackagesService packagesService = new PackagesServiceImpl();
+			CruiseLineServiceImpl cruiseLineService = new CruiseLineServiceImpl();
+			
 			PackageDetailService packageDetailService = new PackageDetailServiceImpl();
 			List<PackageDetailVO> packagesDetailList= packageDetailService.getOnePackageDetail(packageNo);
-			req.setAttribute("packagesDetailList", packagesDetailList);
+			PackagesVO packagesVO = packagesService.getOnePackage(packageNo);
+			
+			PortsOfCallDateService portsOfCallDateService = new PortsOfCallDateServiceImpl();
+			List<PortsOfCallDateVO> portsOfCallDateVOList = portsOfCallDateService.getByPackageNo(packageNo);
+			CruiseLineVO cruiseLineVO = cruiseLineService.selectCruiseNo(packagesVO.getCruiseLineNo());
+			
+		
+			req.setAttribute("portsOfCallDateVOList", portsOfCallDateVOList);
+			req.setAttribute("cruiseLineVO", cruiseLineVO);
+			req.setAttribute("packagesService",packagesService);
+			req.getSession().setAttribute("packagesVO", packagesVO);			
+//			System.out.println(req.getSession().getAttribute("packagesVO"));
+			req.setAttribute("packagesDetailList", packagesDetailList);					
 			req.setAttribute("dateTimeFormat",DateTimeFormatter.ofPattern("yyyy年MM月dd日HH點mm分"));
+			
+			
+			
 			RequestDispatcher successView = req.getRequestDispatcher("/front-end/package/packageDetail.jsp"); 
 			successView.forward(req, resp);	
 			

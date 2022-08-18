@@ -64,7 +64,25 @@
           </div>
           <div class="col-6">
             <ul id="top_links">
-              <li><a href="#sign-in-dialog" id="access_link">登入</a></li>
+             <li>
+               <c:if test="${loginMember != null}">
+                 <font>${loginMember.memberEnglishLastName}&nbsp${loginMember.memberEnglishFirstName}</font>  
+                </c:if>
+              </li>
+              <li>
+              <c:choose>
+               <c:when test="${loginMember != null}">
+                <a href="<%=request.getContextPath()%>/MemberLoginServlet?action=MemberSignOut">
+                 登出<i class="icon-logout-1" id="logout"></i>
+                </a>
+               </c:when>
+               <c:otherwise>
+                <a href="<%=request.getContextPath()%>/front-end/Member/MemberLogin.jsp">
+                 登入<i class="icon-logout-1" id="logout"></i>
+                </a>
+               </c:otherwise>
+              </c:choose>
+              </li>
               <li><a href="wishlist.html" id="wishlist_link">聯絡我們</a></li>
             </ul>
           </div>
@@ -139,37 +157,7 @@
           <!-- End main-menu -->
           <ul id="top_tools">
             <li>
-              <div class="dropdown dropdown-cart">
-                <a href="#" data-bs-toggle="dropdown" class="cart_bt"><i class="icon_bag_alt"></i><strong>8</strong></a>
-                <ul class="dropdown-menu" id="cart_items">
-                  <li>
-                    <div class="image">
-                      <img src="img/thumb_cart_1.jpg" alt="image" />
-                    </div>
-                    <strong><a href="#">Louvre museum</a>1x $36.00 </strong>
-                    <a href="#" class="action"><i class="icon-trash"></i></a>
-                  </li>
-                  <li>
-                    <div class="image">
-                      <img src="img/thumb_cart_2.jpg" alt="image" />
-                    </div>
-                    <strong><a href="#">Versailles tour</a>2x $36.00 </strong>
-                    <a href="#" class="action"><i class="icon-trash"></i></a>
-                  </li>
-                  <li>
-                    <div class="image">
-                      <img src="img/thumb_cart_3.jpg" alt="image" />
-                    </div>
-                    <strong><a href="#">Versailles tour</a>1x $36.00 </strong>
-                    <a href="#" class="action"><i class="icon-trash"></i></a>
-                  </li>
-                  <li>
-                    <div>合計: <span>$120.00</span></div>
-                    <a href="cart.html" class="button_drop">前往購物車</a>
-                    <a href="payment.html" class="button_drop outline">退出</a>
-                  </li>
-                </ul>
-              </div>
+              
               <!-- End dropdown-cart-->
             </li>
           </ul>
@@ -179,7 +167,7 @@
     <!-- container -->
   </header>
   <!-- End Header -->
- <form action="<%=request.getContextPath()%>/PackagesServlet" method="Post">
+ <form action="<%=request.getContextPath()%>/PackagesServlet" method="GET">
   <section id="search_container" style="background: url('https://picsum.photos/1903/800?random=5')">
     
    
@@ -430,7 +418,7 @@
   <script>
   $(function (){
 	  $("#departureID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		    var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",											   				
@@ -502,7 +490,7 @@
 	  }); //change departure event
 	  
 	  $("#destinationID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		  var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",				  
@@ -584,7 +572,7 @@
 	  
 	  
 	  $("#departureTimeID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		  var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",				  	
@@ -662,7 +650,7 @@
 	  
 	
 	  $("#durationID").change(function(){
-		  alert($( this ).val())
+// 		  alert($( this ).val())
 		  var request=$.ajax({
 			url: "<%=request.getContextPath()%>/PackagesServlet",
 		 	method:"POST",				  	
@@ -730,7 +718,7 @@
      <script>
     $(function () {
     	$('#clearBtn').click(function(){
-    		alert("HI");
+//     		alert("HI");
     		var request = $.ajax({
    			  url: "<%=request.getContextPath()%>/PackagesServlet",
    			  method: "POST",
