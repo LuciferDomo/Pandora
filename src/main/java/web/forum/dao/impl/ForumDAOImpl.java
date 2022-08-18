@@ -30,18 +30,18 @@ public class ForumDAOImpl implements ForumDAO {
 	}
 
 	private static final String INSERT_STMT = 
-			"INSERT INTO Forum (Member_ID,Post_Title,Post_Content,Post_Time,Clicks,Status,Post_Pic) VALUES (?, ?, ?, ?, ?, ? ,?)";
+			"INSERT INTO Forum (Member_ID,Post_Title,Post_Content,Post_Time,Clicks,Status,Post_Pic,Reason) VALUES (?, ?, ?, ?, ?, ? ,? ,?)";
 		private static final String GET_ALL_STMT = 
-			"SELECT * FROM forum";
+			"SELECT * FROM forum ORDER BY Post_Time desc";
 		private static final String GET_ONE_STMT = 
-			"SELECT Post_Id,Member_ID,Post_Title,Post_Content,Post_Time,Clicks,Status,Post_Pic FROM forum where Post_Id = ?";
+			"SELECT Post_Id,Member_ID,Post_Title,Post_Content,Post_Time,Clicks,Status,Post_Pic,Reason FROM forum where Post_Id = ?";
 		private static final String DELETE = 
 			"DELETE FROM forum where Post_Id = ?";
 		private static final String UPDATE = 
 			"UPDATE forum set Member_ID = ?, Post_Title = ?, Post_Content = ?, Post_Time = ?, Clicks = ?, Status = ? ,Post_Pic = ? where Post_Id = ?";
 		private static final String UPDATE_WithOutPicture = 
 			"UPDATE forum set Member_ID=?, Post_Title=?, Post_Content=?, Post_Time=?, Clicks=?, Status=?           where Post_Id = ?";
-
+		private static final String UPDATE_FROUM_REPORT = "UPDATE Forum SET Status=1,Reason=? WHERE Post_ID = ?";
 	
 	
 	@Override
@@ -60,8 +60,9 @@ public class ForumDAOImpl implements ForumDAO {
 			pstmt.setString(3, forumVO.getPostContent());
 			pstmt.setTimestamp(4, forumVO.getPostTime() != null ? Timestamp.valueOf(forumVO.getPostTime()) : null);
 			pstmt.setInt(5, forumVO.getClicks());
-			pstmt.setString(6, forumVO.getStatus());
+			pstmt.setInt(6, forumVO.getStatus());
 			pstmt.setBytes(7, forumVO.getPostPic());
+			pstmt.setString(8, forumVO.getReason());
 
 			pstmt.executeUpdate();
 
@@ -107,9 +108,10 @@ public class ForumDAOImpl implements ForumDAO {
 			pstmt.setString(3, forumVO.getPostContent());
 			pstmt.setTimestamp(4, forumVO.getPostTime() != null ? Timestamp.valueOf(forumVO.getPostTime()) : null);
 			pstmt.setInt(5, forumVO.getClicks());
-			pstmt.setString(6, forumVO.getStatus());
+			pstmt.setInt(6, forumVO.getStatus());
 			pstmt.setBytes(7, forumVO.getPostPic());
 			pstmt.setInt(8,forumVO.getPostId());
+			
 
 			pstmt.executeUpdate();
 
@@ -153,7 +155,7 @@ public class ForumDAOImpl implements ForumDAO {
 			pstmt.setString(3, forumVO.getPostContent());
 			pstmt.setTimestamp(4, forumVO.getPostTime() != null ? Timestamp.valueOf(forumVO.getPostTime()) : null);
 			pstmt.setInt(5, forumVO.getClicks());
-			pstmt.setString(6, forumVO.getStatus());
+			pstmt.setInt(6, forumVO.getStatus());
 			pstmt.setInt(7,forumVO.getPostId());
 			pstmt.setBytes(8, forumVO.getPostPic());
 			
@@ -251,8 +253,9 @@ public class ForumDAOImpl implements ForumDAO {
 				forumVO.setPostContent(rs.getString("Post_Content"));
 				forumVO.setPostTime(rs.getTimestamp("Post_Time").toLocalDateTime());
 				forumVO.setClicks(rs.getInt("Clicks"));
-				forumVO.setStatus(rs.getString("Status"));
+				forumVO.setStatus(rs.getInt("Status"));
 				forumVO.setPostPic(rs.getBytes("Post_Pic"));
+				forumVO.setReason(rs.getString("Reason"));
 			}
 
 			// Handle any driver errors
@@ -311,8 +314,9 @@ public class ForumDAOImpl implements ForumDAO {
 				forumVO.setPostContent(rs.getString("Post_Content"));
 				forumVO.setPostTime(rs.getTimestamp("Post_Time").toLocalDateTime());
 				forumVO.setClicks(rs.getInt("Clicks"));
-				forumVO.setStatus(rs.getString("Status"));
+				forumVO.setStatus(rs.getInt("Status"));
 				forumVO.setPostPic(rs.getBytes("Post_Pic"));
+				forumVO.setReason(rs.getString("Reason"));
 				list.add(forumVO); // Store the row in the list
 			}
 
@@ -346,5 +350,43 @@ public class ForumDAOImpl implements ForumDAO {
 		}
 		return list;
 	}
+	@Override
+public void updateForumReport(ForumVO forumVO) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
 
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_FROUM_REPORT);
+
+			pstmt.setString(1, forumVO.getReason());
+			pstmt.setInt(2, forumVO.getPostId());
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+
+	}
 }

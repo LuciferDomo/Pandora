@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%@page import="web.forum.service.impl.ForumServiceImpl"%>
+<%@page import="web.forum.service.impl.CommentServiceImpl"%>
+
 <%@page import="web.forum.bean.ForumVO"%>
+<%@page import="web.forum.bean.CommentVO"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -11,6 +14,10 @@
     ForumServiceImpl forumSvc = new ForumServiceImpl();
     List<ForumVO> list = forumSvc.getAll();
     pageContext.setAttribute("list",list);
+    
+    CommentServiceImpl comSvc = new CommentServiceImpl();
+    List<CommentVO> list2 = comSvc.getAll();
+    pageContext.setAttribute("list2", list2);
 %>
 
 
@@ -287,132 +294,220 @@
                 </div>
     
     <div class="page-content mb-50">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
-                            <div class="shop-product-fillter mb-50">
-                                <div class="totall-product">
-                                    <h2>
-                                        <img class="w-36px mr-10" src="assets/imgs/theme/icons/category-1.svg" alt="" />
-                                        最新文章
-                                    </h2>
-                                </div>
-<!--                                 <div class="sort-by-product-area"> -->
-<!--                                     <div class="sort-by-cover mr-10"> -->
-<!--                                         <div class="sort-by-product-wrap"> -->
-<!--                                             <div class="sort-by"> -->
-<!--                                                 <span><i class="fi-rs-apps"></i>Show:</span> -->
-<!--                                             </div> -->
-<!--                                             <div class="sort-by-dropdown-wrap"> -->
-<!--                                                 <span> 50 <i class="fi-rs-angle-small-down"></i></span> -->
-<!--                                             </div> -->
-<!--                                         </div> -->
-<!--                                         <div class="sort-by-dropdown"> -->
-<!--                                             <ul> -->
-<!--                                                 <li><a class="active" href="#">3</a></li> -->
-<!--                                                 <li><a href="#">5</a></li> -->
-<!--                                                 <li><a href="#">7</a></li> -->
-<!--                                                 <li><a href="#">10</a></li> -->
-<!--                                                 <li><a href="#">All</a></li> -->
-<!--                                             </ul> -->
-<!--                                         </div> -->
-                                    </div>
-<!--                                     <div class="sort-by-cover"> -->
-<!--                                         <div class="sort-by-product-wrap"> -->
-<!--                                             <div class="sort-by"> -->
-<!--                                                 <span><i class="fi-rs-apps-sort"></i>Sort:</span> -->
-<!--                                             </div> -->
-<!--                                             <div class="sort-by-dropdown-wrap"> -->
-<!--                                                 <span>Featured <i class="fi-rs-angle-small-down"></i></span> -->
-<!--                                             </div> -->
-<!--                                         </div> -->
-<!--                                         <div class="sort-by-dropdown"> -->
-<!--                                             <ul> -->
-<!--                                                 <li><a class="active" href="#">Featured</a></li> -->
-<!--                                                 <li><a href="#">Newest</a></li> -->
-<!--                                                 <li><a href="#">Most comments</a></li> -->
-<!--                                                 <li><a href="#">Release Date</a></li> -->
-<!--                                             </ul> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-                                </div>
-                            </div>
-                            <div class="loop-grid loop-big">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 m-auto">
+                        <div class="single-page pt-50 pr-30">
+                            <div class="single-header style-2">
                                 <div class="row">
-                                
-                                <c:forEach items="${list}" var="forumVO">
-									
-                                    <article class="first-post mb-30 hover-up animated" style="visibility: visible">
-                                        <div class="position-relative overflow-hidden">
-                                            <div class="post-thumb border-radius-15">
-                                                 <a href="<%=request.getContextPath()%>/ForumServlet?action=getOne_For_Display&postId=${forumVO.postId}">            
-                                                 	<img class="border-radius-15" src="<%= request.getContextPath() %>/GetPic?action=forumVOUpdate&postId=${forumVO.postId}" alt="" />
-<%--                                                 	<c:forEach var="forumVO" items="${list2}"> --%>
-<%--                    										 <c:if test="${forumVO.postId==forumVO.postPic}"> --%>
-<%--                <img class="border-radius-15" src="<%= request.getContextPath() %>/GetPic?postId=${forumVO.postId}" alt="" /> --%>
-	                 									
-<%--                    										 </c:if> --%>
-<%--                 									</c:forEach> --%>
-                									
+                                    <div class="col-xl-10 col-lg-12 m-auto">
+<!--                                         <h6 class="mb-10"><a href="#">Recipes</a></h6> -->
+                                        <h2 class="mb-10">${forumVO.postTitle}</h2>
+                                        <div class="single-header-meta">
+                                            <div class="entry-meta meta-1 font-xs mt-15 mb-15">
+                                                <a class="author-avatar" href="<%=request.getContextPath()%>/ForumServlet?action=getMem_For_Display&memberId=${forumVO.memberId}">
+                                                    <img class="img-circle" src="assets/imgs/blog/author-1.png" alt="">
                                                 </a>
+<%--                                                 <span class="post-by">By <a href="<%=request.getContextPath()%>/MemBlogArtServlet?action=getMem_For_Display&memberId=${memBlogArtVO.memberId}"><%=membersVOinfo.getName()%></a></span> --%>
+                                                <span class="post-on has-dot">${forumVO.postTime}</span>
+                                            </div>
+                                            <div class="social-icons single-share">
+                                                <ul class="text-grey-5 d-inline-block">
+                                                    <li class="mr-5"><img class="bookmark" src="assets/imgs/theme/icons/icon-bookmark.svg" alt=""><a class="saved" href="#" >收藏此文章</a></li>
+                                                    <li class="he-5"><img src="assets/imgs/theme/icons/icon-heart-2.svg" alt=""><a class="liked" href="#" >按讚</a></li>
+                                                </ul>
                                             </div>
                                         </div>
-                                        <div class="entry-content">
-                                            <h2 class="post-title mb-20">
-                                                <a href="<%=request.getContextPath()%>/ForumServlet?action=getOne_For_Display&postId=${forumVO.postId}">${forumVO.postTitle}</a>
-                                            </h2>
-                                            <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                                            <p class="post-exerpt font-medium text-muted mb-30">${forumVO.postContent}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <figure class="single-thumbnail">
+                                <img src="<%= request.getContextPath() %>/GetPic?postPic=${forumVO.postId}" alt="">
+                            </figure>
+                            <div class="single-content">
+                                <div class="row">
+                                    <div class="col-xl-10 col-lg-12 m-auto">
+                                    
+                                    <p style="white-space: pre-wrap;">${forumVO.postContent}</p>
+                             
+<!--                                         <p class="single-excerpt">Helping everyone live happier, healthier lives at home through their kitchen. Kitchn is a daily food magazine on the Web celebrating life in the kitchen through home cooking and kitchen intelligence.</p> -->
+<!--                                         <p>We've reviewed and ranked all of the best smartwatches on the market right now, and we've made a definitive list of the top 10 devices you can buy today. One of the 10 picks below may just be your perfect next smartwatch.</p> -->
+<!--                                         <p>Those top-end wearables span from the Apple Watch to Fitbits, Garmin watches to Tizen-sporting Samsung watches. There's also Wear OS which is Google's own wearable operating system in the vein of Apple's watchOS - you’ll see it show up in a lot of these devices.</p> -->
+<!--                                         <h5 class="mt-50">Lorem ipsum dolor sit amet cons</h5> -->
+<!--                                         <p>Throughout our review process, we look at the design, features, battery life, spec, price and more for each smartwatch, rank it against the competition and enter it into the list you'll find below.</p> -->
+<!--                                         <img class="mb-30" src="assets/imgs/blog/blog-21.png" alt=""> -->
+<!--                                         <p>Tortor, lobortis semper viverra ac, molestie tortor laoreet amet euismod et diam quis aliquam consequat porttitor integer a nisl, in faucibus nunc et aenean turpis dui dignissim nec scelerisque ullamcorper eu neque, augue quam quis lacus pretium eros est amet turpis nunc in turpis massa et eget facilisis ante molestie penatibus dolor volutpat, porta pellentesque scelerisque at ornare dui tincidunt cras feugiat tempor lectus</p> -->
+<!--                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet id enim, libero sit. Est donec lobortis cursus amet, cras elementum libero convallis feugiat. Nulla faucibus facilisi tincidunt a arcu, sem donec sed sed. Tincidunt morbi scelerisque lectus non. At leo mauris, vel augue. Facilisi diam consequat amet, commodo lorem nisl, odio malesuada cras. Tempus lectus sed libero viverra ut. Facilisi rhoncus elit sit sit.</p> -->
+                                        <!--Entry bottom-->
+                                        <div class="entry-bottom mt-50 mb-30">
+                                            <div class="tags w-50 w-sm-100">
+<!--                                                 <a href="blog-category-big.html" rel="tag" class="hover-up btn btn-sm btn-rounded mr-10">deer</a> -->
+<!--                                                 <a href="blog-category-big.html" rel="tag" class="hover-up btn btn-sm btn-rounded mr-10">nature</a> -->
+<!--                                                 <a href="blog-category-big.html" rel="tag" class="hover-up btn btn-sm btn-rounded mr-10">conserve</a> -->
                                             </div>
-                                            <div class="mb-20 entry-meta meta-2">
-                                                <div class="entry-meta meta-1 mb-30">
-                                                    <div class="font-sm">
-                                                        <span
-                                                            ><span class="mr-10 text-muted"><i class="fi-rs-eye"></i></span>11k</span
-                                                        >
-                                                        <span class="ml-30"
-                                                            ><span class="mr-10 text-muted"><i class="fi-rs-comment-alt"></i></span>1k</span
-                                                        >
-                                                        <span class="ml-30"
-                                                            ><span class="mr-10 text-muted"><i class="fi-rs-share"></i></span>18k</span
-                                                        >
-                                                    </div>
+<!--                                             <div class="social-icons single-share"> -->
+<!--                                                 <ul class="text-grey-5 d-inline-block"> -->
+<!--                                                     <li><strong class="mr-10">Share this:</strong></li> -->
+<!--                                                     <li class="social-facebook"><a href="#"><img src="assets/imgs/theme/icons/icon-facebook.svg" alt=""></a></li> -->
+<!--                                                     <li class="social-twitter"> <a href="#"><img src="assets/imgs/theme/icons/icon-twitter.svg" alt=""></a></li> -->
+<!--                                                     <li class="social-instagram"><a href="#"><img src="assets/imgs/theme/icons/icon-instagram.svg" alt=""></a></li> -->
+<!--                                                     <li class="social-linkedin"><a href="#"><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt=""></a></li> -->
+<!--                                                 </ul> -->
+<!--                                             </div> -->
+                                        </div>
+                                        <!--Author box-->
+                                        <div class="author-bio p-30 mt-50 border-radius-15 bg-white">
+                                            <div class="author-image mb-30">
+                                            
+                                            ${dataMap.forum.postTitle}
+                                            
+                                            <br>
+                                            
+                                            <img src="/pandora/GetPic?action=forumVOUpdate&postId=${dataMap.forum.postId}">
+                                            
+                                            <br>
+                                            
+                                            ${dataMap.forum.postContent}
+                                            
+<!--                                             <div class="breadcrumb"> -->
+<!--                                     <a href="forumAdd.jsp" rel="nofollow"><i class="fi-rs-home mr-5"></i>發表文章</a> -->
+<!--                                     <span></span>  -->
+<!--                                 </div> -->
+                                            
+                                                <a href="<%=request.getContextPath()%>//ForumServlet?action=getMem_For_Display&memberId=${forumVO.memberId}"><img src="assets/imgs/blog/author-1.png" alt="" class="avatar"></a>
+                                                <div class="author-infor">
+<%--                                                     <h5 class="mb-5"><%=membersVOinfo.getName()%></h5> --%>
+                                                    <p class="mb-0 text-muted font-xs">
+                                                        <span class="mr-10">306 posts</span>
+                                                        <span class="has-dot">Since 2012</span>
+                                                    </p>
+                                                    
+                                                    
+                                    
+                                                    
                                                 </div>
-                                                <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/ForumServlet" style="margin-bottom: 0px;">
-                                                <input type="hidden" name="artid"  value="${forumVO.postId}">
-                                                <input type="hidden" name="action" value="getOne_For_Display">
-                                                <button type="submit" class="btn btn-sm"><i class="fi-rs-arrow-right ml-10"></i>更多...</button>
-                                                </FORM>
+                                                
+                                                
                                                 
                                             </div>
+                                            
+                                            <div class="breadcrumb">
+                                            <FORM METHOD="post"
+																ACTION="<%=request.getContextPath()%>/ForumServlet"
+																style="margin-bottom: 0px;">
+																<input type="submit" value="檢舉"> <input
+																	type="hidden" name="postID" value="${dataMap.forum.postId}">
+																<input type="hidden" name="action" value="reportForumBefore">
+															</FORM>
+                                    <span></span> 
+                                </div>
+                                            
+                                            <div class="author-des">
+<%--                                                 <p><%=membersVOinfo.getIntro()%></p> --%>
+                                            </div>
                                         </div>
-                                    </article>
-                                   
-                                    </c:forEach>
+                                        <!--Comment form-->
+                                        <div class="comment-form">
+                                            
+<!--                                                 <input type="hidden" name="action" value="insert"> -->
+                                        
+                                            <h3 class="mb-15 text-center mb-30">留言內容</h3>
+                                            <div class="row">
+                                                <div class="col-lg-9 col-md-12  m-auto">
+                                                    <form class="form-contact comment_form mb-50" action="<%=request.getContextPath() %>/ForumServlet" id="postId" method="post">                                          
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+<%--                                                                     <input type="hidden" name="commentNo" value="<%=forumVO.getPostId%>"> --%>
+<%--                                                                     <input type="hidden" name="reMemberId" value="<%=membersVO.getMemberid()%>"> --%>
+                                                                    <input type="hidden" name="action" value="insert2">
+                                                                    <input type="hidden" name="memberId" value="2">
+                                                                    <input type="hidden" name="postId" value="${dataMap.forum.postId}">
+                                                                    <input type="hidden" name="title" value="${dataMap.forum.postTitle}">
+<%--                                                                     <input type="hidden" name="content" value="${dataMap.forum.postContent}"> --%>
+                                                                    <textarea class="form-control w-100" name="content" id="content" cols="30" rows="9" placeholder="請輸入留言內容"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group">
+                                                            <button type="submit" class="button button-contactForm">送出留言</button>
+                                                        </div>
+                                                    </form>
+<%-- 							                        ${dataMap.forum.postId} --%>
+<%-- 													${dataMap.forum.memberId} --%>
+<%-- 													${dataMap.forum.postTitle} --%>
+<%-- 													${dataMap.forum.postContent} --%>
+<%-- 													${dataMap.forum.postTime} --%>
+<%-- 													${dataMap.forum.clicks} --%>
+<%-- 													${dataMap.forum.status} --%>
+<%-- 													<img alt="" src="${dataMap.forum.postPic}"> --%>
+<%-- 													<img src="/pandora/GetPic?action=forumVOUpdate&postId=${dataMap.forum.postId}"> --%>
+<%--                                                     ${dataMap.forum} --%>
+
+                                                    <div class="comments-area">
+                                                        <h3 class="mb-30">留言：</h3>
+<%--                                                         ${dataMap.comment.commentContent} --%>
+                                                        
+<%--                                                         ${dataMap.comment.englishFirstName} --%>
+                                                        <c:forEach var="commentVO" items="${list2}">
+                                                        <c:if test="${commentVO.postId ==  dataMap.comment.postId}">
+                                                        <div class="comment-list   m-auto">
+                                                        
+<%--                                                         <img src="/pandora/GetPic?action=forumVOUpdate&postId=${dataMap.forum.postId}"> --%>
+                                                        
+                                                            <div class=" single-comment justify-content-between d-flex mb-30">
+                                                            <div class="user justify-content-between d-flex">
+<!--                                                                 <div class="thumb" style="width:150px;"> -->
+<!--                                                                     <img src="assets/imgs/blog/author-2.png" alt=""> -->
+<!--                                                                     TODO:member名稱要用id進資料庫找出來 -->
+<!--                                                                 </div> -->
+<!--                                                                 <div class="desc"> -->
+<!--                                                                     <div class="justify-content-between mb-10"> -->
+                                                                        
+<!--                                                                         <div class="d-flex align-items-center"> -->
+<!--                                                                         <div style="display:block;"> -->
+<%--                                                                         <p class="mb-10">${memReplyVO.re}</p> --%>
+<!--                                                                         </div> -->
+<%-- <%--                                                                         <fmt:formatDate value="${memReplyVO.time}" var="formattedDate" type="date" pattern="yyyy/MM/dd HH:mm:ss"/> --%> 
+<%--                                                                             <span class="font-xs text-muted">${memReplyVO.time}</span> --%>
+                                                                        
+<!--                                                                         </div> -->
+                                                                        
+                                                                        
+<!--                                                                     </div> -->
+                                                                    
+<!--                                                                 </div> -->
+                                                                    <div class="desc">
+                                                                    <div class="d-flex justify-content-between mb-10">
+                                                                        <div class="d-flex ">
+<%--                                                                             <span class="font-xs text-muted">${commentVO.commentTime} </span> --%>
+                                                                            <span class="font-xs ">${commentVO.commentContent}  ${dataMap.comment.englishFirstName}</span>
+                                                                        </div>
+                                                                        <div class="d-inline-block">
+                                                                            
+                                                                        </div>
+                                                                    </div>
+<%--                                                                     <p class="mb-10"> ${commentTime.commentContent}</p> --%>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                        </c:if>
+                                                        </c:forEach>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-<!--                             <div class="pagination-area mt-15 mb-sm-5 mb-lg-0"> -->
-<!--                                 <nav aria-label="Page navigation example"> -->
-<!--                                     <ul class="pagination justify-content-start"> -->
-<!--                                         <li class="page-item"> -->
-<%--                                             <a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage-1%>"><i class="fi-rs-arrow-small-left"></i></a> --%>
-<!--                                         </li> -->
-<%--                                         <%if (pageNumber>1) {%> --%>
-                                        
-<%--                                         <%for (int i=1; i<=pageNumber; i++){%> --%>
-<%--                                         <li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage=i%>"><%=i%></a></li> --%>
-<%--                                         <%}%>  --%>
-<%--                                         <%}%> --%>
-<!--                                         <li class="page-item"> -->
-<%--                                             <a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage+1%>"><i class="fi-rs-arrow-small-right"></i></a> --%>
-<!--                                         </li> -->
-<!--                                     </ul> -->
-<!--                                 </nav> -->
-<!--                             </div> -->
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
     
     
 <!--     <br> -->

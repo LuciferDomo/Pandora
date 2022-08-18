@@ -1,30 +1,34 @@
 package web.forum.bean;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
-public class CommentVO implements java.io.Serializable {
-	
+public class CommentVO implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Integer commentNo;
 	private Integer postId;
 	private Integer memberId;
 	private String commentContent;
 	private LocalDateTime commentTime;
-	private String status;
+	private Integer status;
+	private String reason;
 	
-	@Override
-	public String toString() {
-		return "CommentVO [commentNo=" + commentNo + ", postId=" + postId + ", memberId=" + memberId + ", commentContent="
-				+ commentContent + ", commentTime=" + commentTime + ", status=" + status + "]";
-	}
-	
-	public CommentVO() {
+	private String englishFirstName;
 
+	public CommentVO() {
 	}
-	
-	
-	
-	
+
+	public CommentVO(Integer commentNo, Integer postId, Integer memberId, String commentContent,
+			LocalDateTime commentTime, Integer status, String reason) {
+		super();
+		this.commentNo = commentNo;
+		this.postId = postId;
+		this.memberId = memberId;
+		this.commentContent = commentContent;
+		this.commentTime = commentTime;
+		this.status = status;
+		this.reason = reason;
+	}
 
 	public Integer getCommentNo() {
 		return commentNo;
@@ -66,26 +70,27 @@ public class CommentVO implements java.io.Serializable {
 		this.commentTime = commentTime;
 	}
 
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public CommentVO(Integer commentNo, Integer postId, Integer memberId, String commentContent,
-			LocalDateTime commentTime, String status) {
-		super();
-		this.commentNo = commentNo;
-		this.postId = postId;
-		this.memberId = memberId;
-		this.commentContent = commentContent;
-		this.commentTime = commentTime;
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 	
-	
-	
+	public String getReason() {
+		return reason;
+	}
 
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getEnglishFirstName() {
+		return englishFirstName;
+	}
+
+	public void setEnglishFirstName(String englishFirstName) {
+		this.englishFirstName = englishFirstName;
+	}
 }
