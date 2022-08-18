@@ -308,18 +308,17 @@
                   &ensp;&ensp;航線:${portsOfCallListMap.get(packageItem.packageNo)}
                 </h3>
                 <h3 style="display:inline-block;width:300px">
-                  <form method="get" id="reservationnow1" action="https://www.google.com/">
-                    <input name="packages" type="hidden" value="1">
-                    <button class="btn btn-primary btn-sm" type="submit" onclick="對應謀個function"
-                      style="width:300px;height:30px;">立即預定</button>
-                  </form>
-
+                	<form method="POST" id="reservationnow1" action="<%=request.getContextPath()%>/front-end/cart/Cart_Hotel.jsp">
+                    <input name="packageNoOrder" type="hidden" value="${packagesVO.packageNo}">
+                    <button class="btn btn-primary btn-sm" type="submit" 
+                    	 style="width:300px;height:35px;background-color: #d8691e;border:white">立即預定</button>
+             </form>
                 </h3>
                 <h3 style="display:inline-block;width:300px">
                    <form action="<%=request.getContextPath()%>/PackagesServlet" method="Post">
                    	<input type="hidden" name="packageNo" value="${packageItem.packageNo}">
                     <button class="btn btn-primary btn-sm" type="submit" name="action" value="getOnePackageDetail"
-                      style="width:300px;height:30px;">了解航線詳情</button>
+                      style="width:300px;height:35px;">了解航線詳情</button>
                   </form>
                 </h3>
 
