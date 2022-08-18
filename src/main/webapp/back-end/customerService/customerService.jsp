@@ -402,11 +402,11 @@ pageEncoding="UTF-8"%>
       <!-- /.content-wrapper -->
     </div>
     <!-- jQuery -->
-    <script src="<%=request.getContextPath()%>/plugins/jquery/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/customerService/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
-    <script src="<%=request.getContextPath()%>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/customerService/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="<%=request.getContextPath()%>/js/adminlte.js"></script>
+    <script src="<%=request.getContextPath()%>/back-end/customerService/js/adminlte.js"></script>
     <script>
       //exporte les données sélectionnées
       var $table = $("#table");
@@ -450,8 +450,8 @@ pageEncoding="UTF-8"%>
         function sendName() {
           var userName = inputUserName.value.trim();
           if (userName === "") {
-        	  //記住改中文
-            alert("Input a user name");
+        	  
+            alert("請輸入名稱");
             inputUserName.focus();
             return;
           } else {

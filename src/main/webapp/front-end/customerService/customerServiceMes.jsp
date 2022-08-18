@@ -12,32 +12,32 @@
       content="Citytours - Premium site template for city tours agencies, transfers and tickets."
     />
     <meta name="author" content="Ansonika" />
-    <title>CITY TOURS - City tours and travel site template by Ansonika</title>
+    <title>ROYAL CLASS PANDORA</title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href="<%=request.getContextPath()%>/Cart/html/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/front-end/customerService/img/favicon.ico" type="image/x-icon" />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
-      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-57x57-precomposed.png"
+      href="<%=request.getContextPath()%>/front-end/customerService/img/apple-touch-icon-57x57-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="72x72"
-      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-72x72-precomposed.png"
+      href="<%=request.getContextPath()%>/customerService/img/apple-touch-icon-72x72-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="114x114"
-      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-114x114-precomposed.png"
+      href="<%=request.getContextPath()%>/front-end/customerService/img/apple-touch-icon-114x114-precomposed.png"
     />
     <link
       rel="apple-touch-icon"
       type="image/x-icon"
       sizes="144x144"
-      href="<%=request.getContextPath()%>/Cart/html/img/apple-touch-icon-144x144-precomposed.png"
+      href="<%=request.getContextPath()%>/front-end/customerService/img/apple-touch-icon-144x144-precomposed.png"
     />
 
     <!-- GOOGLE WEB FONT -->
@@ -47,12 +47,12 @@
     />
 
     <!-- COMMON CSS -->
-    <link href="<%=request.getContextPath()%>/Cart/html/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="<%=request.getContextPath()%>/Cart/html/css/style.css" rel="stylesheet" />
-    <link href="<%=request.getContextPath()%>/Cart/html/css/vendors.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/front-end/customerService/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/front-end/customerService/css/style.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/front-end/customerService/css/vendors.css" rel="stylesheet" />
 
     <!-- CUSTOM CSS -->
-    <link href="<%=request.getContextPath()%>/Cart/html/css/custom.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/front-end/customerService/css/custom.css" rel="stylesheet" />
     <style>
       #wishlist_link::before {
         content: "\e97a";
@@ -203,7 +203,7 @@
             <div class="main-menu">
               <div id="header_menu">
                 <img
-                  src="<%=request.getContextPath()%>/Cart/html/img/logo.png"
+                  src="<%=request.getContextPath()%>/front-end/customerService/img/logo.png"
                   width="160"
                   height="34"
                   alt="City tours"
@@ -288,21 +288,21 @@
                   <ul class="dropdown-menu" id="cart_items">
                     <li>
                       <div class="image">
-                        <img src="<%=request.getContextPath()%>/Cart/html/img/thumb_cart_1.jpg" alt="image" />
+                        <img src="<%=request.getContextPath()%>/front-end/customerService/img/thumb_cart_1.jpg" alt="image" />
                       </div>
                       <strong><a href="#">Louvre museum</a>1x $36.00 </strong>
                       <a href="#" class="action"><i class="icon-trash"></i></a>
                     </li>
                     <li>
                       <div class="image">
-                        <img src="<%=request.getContextPath()%>/Cart/html/img/thumb_cart_2.jpg" alt="image" />
+                        <img src="<%=request.getContextPath()%>/front-end/customerService/img/thumb_cart_2.jpg" alt="image" />
                       </div>
                       <strong><a href="#">Versailles tour</a>2x $36.00 </strong>
                       <a href="#" class="action"><i class="icon-trash"></i></a>
                     </li>
                     <li>
                       <div class="image">
-                        <img src="<%=request.getContextPath()%>/Cart/html/img/thumb_cart_3.jpg" alt="image" />
+                        <img src="<%=request.getContextPath()%>/front-end/customerService/img/thumb_cart_3.jpg" alt="image" />
                       </div>
                       <strong><a href="#">Versailles tour</a>1x $36.00 </strong>
                       <a href="#" class="action"><i class="icon-trash"></i></a>
@@ -379,14 +379,14 @@
                       type="button"
                       id="connect"
                       class="button"
-                      value="連結"
+                      value="連線"
                       onclick="connect();"
                     />
                     <input
                       type="button"
                       id="disconnect"
                       class="button"
-                      value="斷網"
+                      value="離線"
                       onclick="disconnect();"
                     />
                   </div>
@@ -505,9 +505,10 @@
     <!-- /Sign In Popup -->
 
     <!-- Common scripts -->
-    <script src="<%=request.getContextPath()%>/Cart/html/js/jquery-3.6.0.min.js"></script>
-    <script src="<%=request.getContextPath()%>/Cart/html/js/common_scripts_min.js"></script>
-    <script src="<%=request.getContextPath()%>/Cart/html/js/functions.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/customerService/js/jquery-3.6.0.min.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/chatroom/js/common_scripts_min.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/customerService/js/functions.js"></script>
+    <script src="<%=request.getContextPath()%>/front-end/customerService/js/moment.min.js"></script>
     <script>var MyPoint = "/FriendWS/${userName}";
         var host = window.location.host;
         var path = window.location.pathname;
@@ -573,19 +574,20 @@
             var friend = statusOutput.textContent;
             var message = inputMessage.value.trim();
             if (friend === "" ||  true != /manager/i.test(friend)) {
-            	//記住改中文
-    			alert("非服務時間,請致電");
+            	
+    			alert("非服務時間，請致電");
             
             } else if (message === "") {
-            	//記住改中文
-                alert("請輸入訊息");
+            	
+                alert("請輸入訊息...");
                 inputMessage.focus();
             } else {
                 var jsonObj = {
                     "type" : "chat",
                     "sender" : self,
                     "receiver" : "manager",
-                    "message" : message
+                    "message" : message  + " " + moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
+                    "status": 1,
                 };
                 webSocket.send(JSON.stringify(jsonObj));
                 inputMessage.value = "";
@@ -612,7 +614,7 @@
                         "type" : "history",
                         "sender" : self,
                         "receiver" : friend,
-                        "message" : ""
+                        "message" : ""+ moment(new Date()).format("YYYY-MM-DD hh:mm:ss"),
                     };
                 webSocket.send(JSON.stringify(jsonObj));
             });
