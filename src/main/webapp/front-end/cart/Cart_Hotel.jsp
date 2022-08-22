@@ -20,8 +20,8 @@
 <%	
 	// 測試用行程
 	PackagesServiceImpl packagesService = new PackagesServiceImpl();
-	PackagesVO packagesVOaa= (PackagesVO) request.getSession().getAttribute("packagesVO");
-	PackagesVO packagesVO = packagesService.getOnePackage(packagesVOaa.getPackageNo());
+	PackagesVO packagesVO= (PackagesVO) request.getSession().getAttribute("packagesVO");
+	PackagesVO packagesVOaa = packagesService.getOnePackage(packagesVO.getPackageNo());
 
 	
 	

@@ -68,7 +68,7 @@
         <!-- Main Sidebar Container 主側邊欄-->
         <aside id="sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="#" class="brand-link">
+            <a href="<%=request.getContextPath()%>/back-end/emp/EMP_HomePage.jsp" class="brand-link">
                 <img src="images/LOGo.png" alt="PANDORA Logo" class="brand-image img-circle elevation-3"
                     style="opacity: 0.8" />
                 <pre></pre>
@@ -84,7 +84,7 @@
                     </div>
                     <div class="info">
                     
-                 <form method="Post" action="<%=request.getContextPath()%>/EmpLoginServlet?action=LoginUserForUpdate" name="loginUser">
+                 <form method="Post" action="<%=request.getContextPath()%>/EmpLoginServlet?action=LoginUserForUpdate" name="loginUser" enctype="multipart/form-data">
                    <a href="<%=request.getContextPath()%>/EmpLoginServlet?action=LoginUserForUpdate"  class="d-block" type="submit">${loginUser.englishFirstName}&nbsp${loginUser.englishLastName}</a>
 							                
                 </form>
@@ -122,23 +122,23 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-address-card"></i>
-                                <p>
-                                    會員管理
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>會員資料管理</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                         <li class="nav-item">
+          <a href="" class="nav-link">
+            <i class="fa-solid fa-address-card"></i>
+            <p>
+              會員管理
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<%=request.getContextPath()%>/back-end/member/MemberAllList.jsp" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>會員資料管理</p>
+              </a>
+            </li>
+          </ul>
+        </li>
 
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link">
@@ -156,113 +156,68 @@
                                         <p>行程資訊管理</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>郵輪管理</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>航線管理</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>停靠點管理</p>
-                                    </a>
-                                </li>
+                                           <li class="nav-item">
+              <a href="<%=request.getContextPath()%>/back-end/ship/ships.jsp" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>郵輪管理</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<%=request.getContextPath()%>/back-end/cruiseline/cruiseline.jsp" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>航線管理</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<%=request.getContextPath()%>/back-end/port/port.jsp" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>停靠點管理</p>
+              </a>
+            </li>
 
 
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-house-chimney-user"></i>
-                                <p>
-                                    房間管理<i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>房間狀態查詢</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>房間資訊管理</p>
-                                    </a>
-                                </li>
+        <li class="nav-item">
+          <a  class="nav-link">
+            <i class="fa-solid fa-comments"></i>
+            <p>
+              聊天室管理
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<%=request.getContextPath()%>/back-end/customerService/customerService.jsp" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>
+                  客服聊天室
+                </p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fa-solid fa-list"></i>
+            <p>討論區管理<i class="right fas fa-angle-left"></i></p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<%=request.getContextPath()%>/back-end/forum/forumReason.jsp" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>檢舉管理</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
 
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-comments"></i>
-                                <p>
-                                    聊天室管理
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                            客服聊天室<span class="right badge badge-danger">New</span>
-                                        </p>
-                                    </a>
-                                </li>
-
-
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa-solid fa-list"></i>
-                                <p>
-                                    討論區管理<i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>文章管理</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>留言管理</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>檢舉管理</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        
-
-
-                            </ul>
-                        </li>
-
-
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
-            </div>
-            <!-- /.sidebar -->
-        </aside>
         <!-- Content Wrapper. Contains page content 主頁面欄位-->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -357,7 +312,7 @@
                                                 <td>${PackageVO.registrationDeadTime}</td>
                                               
                                                 <td>
-                                                <form method="Post" action="<%=request.getContextPath()%>/EmpLoginServlet">	
+                                                <form method="Post" action="<%=request.getContextPath()%>/EmpLoginServlet" enctype="multipart/form-data">	
                                                  <input type="submit" value="編輯"  style="width:100%;height:100%;color:#fff;background-color:#007bff;border-color:#fff">
                                                  <input type="hidden" name="packageNo" value="$PackageVO.packageNo}">
 			    				 				 <input type="hidden" name="action"	value="EMPGetOneForUpdate">

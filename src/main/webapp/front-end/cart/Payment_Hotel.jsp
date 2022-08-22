@@ -607,6 +607,7 @@
 		
 		$('#sendOrder').on('click', function() {
 			let mainOrdererInfo = {};
+			alert("WTF");
 			for(let inputIndex = 0; inputIndex < $('#passenger_info input, #passenger_info select').length; inputIndex++){
 				mainOrdererInfo[$('#passenger_info input, #passenger_info select')[inputIndex].getAttribute('name')] = $('#passenger_info input, #passenger_info select')[inputIndex].value;
 			}
